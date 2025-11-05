@@ -304,6 +304,24 @@ ECOv002_L2T_LSTE_24498_003_18TUM_20221031T150810_0710_01_LST.tif
 8)  Consolidate all necessary variables to final columns and create any
     standardized variables if needed
 
+Potential final geodataframe variables before statistical modeling:
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| Column Name | Data Type | Description / Source |
+| GEOID | string | Identifier: The unique ID for the Census Block Group. Used to join all data. |
+| geometry | geometry | Spatial Data: The polygon shape of the block group. Inherited from pygris. |
+| violent_crime_count | integer | Dependent Variable: The outcome to be modeled. The total count of violent crimes (e.g., Aggravated Assault, Robbery) from OpenDataPhilly that fall within the block group polygon. |
+| pop_total | integer | Offset/Normalization: The total population of the block group. Used to create the log_pop offset. |
+| log_pop | float | Offset Variable: The natural log of pop_total. This is used in the model to analyze the rate of crime, not just the raw count. |
+| lst_mean | float | Key Predictor: The mean Land Surface Temperature (LST) value (in Kelvin) for the block group, derived from the ECOSTRESS raster composite. |
+| tree_canopy_pct | float | Key Predictor: The percentage of the block group's area covered by tree canopy, derived from the PASDA Land Cover raster. |
+| building_pct_cover | float | Control Variable (Built Form): The percentage of the block group's area covered by building footprints, derived from the OpenDataPhilly vector data. |
+| pct_poverty | float | Control Variable (Social): Percentage of the population below the poverty line. Derived from ACS data. |
+| pct_non_white | float | Control Variable (Social): Percentage of the population not identifying as "White, not Hispanic." Derived from ACS data. |
+| pct_age_65_plus | float | Control Variable (Social): Percentage of the population aged 65 or older. Derived from ACS data. |
+| pct_living_alone | float | Control Variable (Social): Percentage of households with an individual living alone (proxy for social isolation). Derived from ACS data. |
+
 ### Third Part: Statistical Modeling
 
 9)  Test spatial autocorrelation in dependent variable using pysal
