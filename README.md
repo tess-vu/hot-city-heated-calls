@@ -1,4 +1,9 @@
-# NightViolence
-Nighttime heat and street-level violence.
+# NIGHT TIME HEAT & VIOLENCE IN PHILADELPHIA
 
-Predict late-night violent-incident risk at street-segment scale on nights when ECOSTRESS overpasses Philly, and quantify how nighttime land surface temperature (LST) relates to risk.
+How do satellite-derived heat (LST) and urban greening (tree canopy or LSTE) interact to influence violent crime counts at the block group level in Philadelphia, after controlling for socio-demographic vulnerability and built-environment density?
+
+- Hypothesis 1: Higher LST associated with higher rates of violent crime.
+
+- Hypothesis 2: Higher tree canopy or LSTE percentage associated with lower rates of violent crime.
+
+- Hypothesis 3: Crime-mitigating effect of tree canopy will be most pronounced in the hottest areas.
