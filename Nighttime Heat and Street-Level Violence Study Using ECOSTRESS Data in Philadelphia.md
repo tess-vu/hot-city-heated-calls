@@ -459,8 +459,6 @@ congregation
 -   Target cooling interventions (tree planting, cool surfaces) in
     high-LST corridors
 
--   Enhance police presence during heat events
-
 -   Design heat action plans incorporating violence prevention
 
 **Limitations**
