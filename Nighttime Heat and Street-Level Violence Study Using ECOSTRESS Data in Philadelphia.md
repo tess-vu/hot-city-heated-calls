@@ -327,12 +327,14 @@ Potential final geodataframe variables before statistical modeling:
 9)  Test spatial autocorrelation in dependent variable using pysal
     library
 
-10) Model using statsmodels for Poisson or Negative Binomial
+10) Predictive model using statsmodels for Poisson or Negative Binomial
 
-11) Could also do a spatial regression to see about the residuals and do
+11) SHAP implementation
+
+12) Could also do a spatial regression to see about the residuals and do
     lag or error or GWR for visualization? Optional
 
-12) Could try a small section or two of block groups with high and low
+13) Could try a small section or two of block groups with high and low
     crime for street-level segmentation? Optional
 
 ## POTENTIAL LIBRARIES / TOOLS
