@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Load a introduction page on initial visit
-    const initialLink = navPanel.querySelector('a[data-page="_01_introduction"]');
+    const initialLink = navPanel.querySelector('a[data-page="01_introduction"]');
     if (initialLink) {
         initialLink.click(); // Programmatically click the first link
     }
