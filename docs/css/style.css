@@ -26,13 +26,13 @@ html, body {
       padding calculations intuitive 
     */
     box-sizing: border-box;
-    cursor: url("cursor/red-melt/red_mid.cur"), auto;
+    cursor: url("cursor/red_mid.cur"), auto;
 }
 
 a:hover,
 button:hover,
 .hoverable:hover {
-  cursor: url("cursor/red-melt/red_long.cur"), pointer;
+  cursor: url("cursor/red_long.cur"), pointer;
 }
 
 *, *:before, *:after {
