@@ -1,6 +1,6 @@
 # NIGHT TIME HEAT & VIOLENCE IN PHILADELPHIA
 
-How do satellite-derived heat (LST) and urban greening (tree canopy or LSTE) interact to influence violent crime counts at the block group level in Philadelphia, after controlling for socio-demographic vulnerability and built-environment density?
+How do satellite-derived heat (ECOSTRESS LST) and urban greening (tree canopy) interact to influence violent crime counts at the block group level in Philadelphia, after controlling for socio-demographic vulnerability and built-environment density?
 
 - Hypothesis 1: Higher LST associated with higher rates of violent crime.
 
