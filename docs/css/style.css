@@ -6,9 +6,8 @@
  * Font Options:
  * - Sono: Modern, clean sans-serif (for h1, h2, h3)
  * - Aleo: Geometric sans-serif (for h4, h5, h6)
- * - Merriweather: Classic serif for body text (11px)
  */
-
+ 
 /* 
  * 1. Global Reset & Viewport Lock
  * This is the most critical step for independent scrolling.
@@ -16,6 +15,7 @@
  * and prevent the <body> itself from scrolling.
  */
 html, body {
+    cursor: none;
     margin: 0;
     padding: 0;
     height: 100vh; /* Use 100dvh for better mobile/tablet handling */
@@ -26,13 +26,17 @@ html, body {
       padding calculations intuitive 
     */
     box-sizing: border-box;
-    cursor: url("cursor/red_mid.cur"), auto;
+    cursor: url("cursor/red_mid.cur"), auto !important;
+}
+
+a, button, .hoverable {
+  cursor: url("cursor/red_mid.cur"), auto;
 }
 
 a:hover,
 button:hover,
 .hoverable:hover {
-  cursor: url("cursor/red_long.cur"), pointer;
+  cursor: url("cursor/red_long.cur"), url("cursor/red_mid.cur"), auto !important;
 }
 
 *, *:before, *:after {
