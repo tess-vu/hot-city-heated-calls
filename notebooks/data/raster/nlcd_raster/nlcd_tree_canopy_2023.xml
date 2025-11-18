@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="en">
+   <Esri>
+      <CreaDate>20250401</CreaDate>
+      <CreaTime>09321400</CreaTime>
+      <ArcGISFormat>1.0</ArcGISFormat>
+      <ArcGISstyle>ISO 19139 Metadata Implementation Specification</ArcGISstyle>
+      <SyncOnce>FALSE</SyncOnce>
+      <DataProperties>
+         <itemProps>
+            <itemName Sync="TRUE">nlcd_tcc_conus_wgs84_v2023-5_20230101_20231231.tif</itemName>
+            <itemLocation>
+               <linkage Sync="TRUE">file://nlcd_tcc_conus_wgs84_v2023-5_20230101_20231231.tif</linkage>
+               <protocol Sync="TRUE">Local Area Network</protocol>
+            </itemLocation>
+            <nativeExtBox>
+               <westBL Sync="TRUE">-127.97721826351116</westBL>
+               <eastBL Sync="TRUE">-74.1453579514207</eastBL>
+               <southBL Sync="TRUE">22.977993592129742</southBL>
+               <northBL Sync="TRUE">47.98333795564639</northBL>
+               <exTypeCode Sync="TRUE">1</exTypeCode>
+            </nativeExtBox>
+            <imsContentType Sync="TRUE" export="False">002</imsContentType>
+         </itemProps>
+         <coordRef>
+            PROJCS["Albers_Conical_Equal_Area",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["latitude_of_center",23],PARAMETER["longitude_of_center",-96],PARAMETER["standard_parallel_1",29.5],PARAMETER["standard_parallel_2",45.5],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH]]
+         </coordRef>
+         <RasterProperties>
+            <General>
+              <NumberofDimensions>2</NumberofDimensions>
+              <CellGeometry>Area</CellGeometry>
+              <AttributeDescription Sync="TRUE">Percent tree canopy cover</AttributeDescription>
+              <ContentType>Image</ContentType>
+              <BandMinValue Sync="TRUE">0.0</BandMinValue>
+              <BandMaxValue Sync="TRUE">254.0</BandMaxValue>
+              <BandUnits Sync="TRUE"> Percent</BandUnits>
+              <BandBitsPerValue Sync="TRUE">8</BandBitsPerValue>
+              <NumberDimensions Sync="TRUE">2</NumberDimensions>
+              <CellGeometry>Area</CellGeometry>
+              <ContentType Sync="TRUE">Image</ContentType>
+              <HasColormap Sync="TRUE">TRUE</HasColormap>
+              <CompressionType Sync="TRUE">DEFLATE</CompressionType>
+              <NumBands Sync="TRUE">1</NumBands>
+              <Format Sync="TRUE">GTiff</Format>
+              <HasPyramids Sync="TRUE">TRUE</HasPyramids>
+              <SourceType Sync="TRUE">discrete</SourceType>
+              <PixelType Sync="TRUE">Byte</PixelType>
+              <NoDataValue Sync="TRUE">255</NoDataValue>
+            </General>
+         </RasterProperties>
+      </DataProperties>
+      <SyncDate>20250401</SyncDate>
+      <SyncTime>09321400</SyncTime>
+      <ModDate>20250401</ModDate>
+      <ModTime>12010700</ModTime>
+      <scaleRange>
+         <minScale>150000000</minScale>
+         <maxScale>5000</maxScale>
+      </scaleRange>
+      <ArcGISProfile>FGDC</ArcGISProfile>
+   </Esri>
+   <mdLang>
+      <languageCode value="eng" />
+      <countryCode value="USA" Sync="TRUE" />
+   </mdLang>
+   <mdChar>
+      <CharSetCd value="004" />
+   </mdChar>
+   <mdHrLv>
+      <ScopeCd value="005" />
+   </mdHrLv>
+   <mdContact>
+      <rpIndName></rpIndName>
+      <rpOrgName>U.S. Geological Survey</rpOrgName>
+      <rpPosName>Customer Services Representative</rpPosName>
+      <rpCntInfo>
+         <cntPhone>
+            <voiceNum tddtty="">605-594-6151</voiceNum>
+            <faxNum>605-594-6589</faxNum>
+         </cntPhone>
+         <cntAddress addressType="both">
+            <delPoint>125 S. State Street, Suite 7105</delPoint>
+            <city>Salt Lake City</city>
+            <adminArea>UT</adminArea>
+            <country>US</country>
+            <eMailAdd>sm.fs.tcc@usda.gov</eMailAdd>
+            <postCode>84138</postCode>
+         </cntAddress>
+         <cntHours>0800 - 1600 MT, M – F</cntHours>
+      </rpCntInfo>
+      <role>
+         <RoleCd value="007" />
+      </role>
+   </mdContact>
+   <mdDateSt Sync="TRUE">20250401</mdDateSt>
+   <mdStanName>ArcGIS Metadata</mdStanName>
+   <mdStanVer>1.0</mdStanVer>
+   <distInfo>
+      <distributor>
+         <distorCont>
+            <rpIndName></rpIndName>
+            <rpOrgName>U.S. Geological Survey</rpOrgName>
+            <rpPosName>Customer Services Representative</rpPosName>
+            <rpCntInfo>
+               <cntPhone>
+                  <voiceNum tddtty="">605-594-6151</voiceNum>
+                  <faxNum>605-594-6589</faxNum>
+               </cntPhone>
+               <cntAddress addressType="both">
+                  <delPoint>125 S. State Street, Suite 7105</delPoint>
+                  <city>Salt Lake City</city>
+                  <adminArea>UT</adminArea>
+                  <country>US</country>
+                  <eMailAdd>sm.fs.tcc@usda.gov</eMailAdd>
+                  <postCode>84138</postCode>
+               </cntAddress>
+               <cntHours>0800 - 1600 MT, M – F</cntHours>
+            </rpCntInfo>
+            <role>
+               <RoleCd value="005" />
+            </role>
+         </distorCont>
+         <distorTran>
+            <onLineSrc>
+               <orDesc>Downloadable data</orDesc>
+               ONLINE_LINKAGES
+            </onLineSrc>
+         </distorTran>
+      </distributor>
+      <distFormat>
+         <formatName Sync="TRUE">Raster Dataset</formatName>
+      </distFormat>
+   </distInfo>
+   <dataIdInfo>
+      <idCitation>
+         <resTitle Sync="FALSE">NLCD CONUS 2023 Tree Canopy Cover</resTitle>
+         <date>
+            <pubDate>20250401</pubDate>
+         </date>
+         <resEd>v2023-5</resEd>
+         <presForm>
+            <PresFormCd value="005" />
+         </presForm>
+         <presForm>
+            <fgdcGeoform>raster digital data</fgdcGeoform>
+         </presForm>
+         <datasetSeries>
+            <seriesName>NLCD Tree Canopy Cover</seriesName>
+            <issId>none</issId>
+         </datasetSeries>
+         <collTitle>NLCD Tree Canopy Cover</collTitle>
+         <citRespParty>
+            <rpIndName></rpIndName>
+            <rpOrgName>U.S. Geological Survey</rpOrgName>
+            <rpPosName>Customer Services Representative</rpPosName>
+            <rpCntInfo>
+               <cntPhone>
+                  <voiceNum tddtty="">605-594-6151</voiceNum>
+                  <faxNum>605-594-6589</faxNum>
+               </cntPhone>
+               <cntAddress addressType="both">
+                  <delPoint>125 S. State Street, Suite 7105</delPoint>
+                  <city>Salt Lake City</city>
+                  <adminArea>UT</adminArea>
+                  <country>US</country>
+                  <eMailAdd>sm.fs.tcc@usda.gov</eMailAdd>
+                  <postCode>84138</postCode>
+               </cntAddress>
+               <cntHours>0800 - 1600 CT, M - F (-6h VST/-5h CDT GMT)</cntHours>
+            </rpCntInfo>
+            <role>
+               <RoleCd value="006" />
+            </role>
+            <displayName></displayName>
+         </citRespParty>
+      </idCitation>
+      <idAbs>The USDA Forest Service (USFS) builds two versions of percent tree canopy cover data, in order to serve needs of multiple user communities. These datasets encompass conterminous United States (CONUS), Coastal Alaska, Hawaii, and Puerto Rico and U.S. Virgin Islands (PRUSVI). The two versions of data within the v2023-5 TCC product suite include: The initial model outputs referred to as the Science data; And a modified version built for the National Land Cover Database and referred to as NLCD data. The NLCD product suite includes data for years 1985 through 2023. The NCLD data are processed to mask TCC from non-treed features such as water and non-tree crops, and to reduce interannual noise and smooth the NLCD time series. TCC pixel values range from 0 to 100 percent. The non-processing area is represented by value 254, and the background is represented by the value 255. The Science and NLCD tree canopy cover data are accessible for multiple user communities, through multiple channels and platforms. For information on the Science data and processing steps see the Science metadata. Information on the NLCD data and processing steps are included here. <br /><br />Data Download and Methods Documents: <br /><br /> - https://data.fs.usda.gov/geodata/rastergateway/treecanopycover/ </idAbs>
+      <idPurp>The goal of this project is to provide CONUS and OCONUS with complete, current and consistent public domain tree canopy cover information.</idPurp>
+      <idCredit>Funding for this project was provided by the U.S. Forest Service (USFS). RedCastle Resources produced the dataset under contract to the USFS Field Services and Innovation Center Geospatial Office (FSIC-GO).</idCredit>
+      <idPoC>
+         <rpIndName></rpIndName>
+         <rpOrgName>U.S. Geological Survey</rpOrgName>
+         <rpPosName>Customer Services Representative</rpPosName>
+         <rpCntInfo>
+            <cntPhone>
+               <voiceNum tddtty="">605-594-6151</voiceNum>
+               <faxNum>605-594-6589</faxNum>
+            </cntPhone>
+            <cntAddress addressType="both">
+               <delPoint>125 S. State Street, Suite 7105</delPoint>
+               <city>Salt Lake City</city>
+               <adminArea>UT</adminArea>
+               <country>US</country>
+               <eMailAdd>sm.fs.tcc@usda.gov</eMailAdd>
+               <postCode>84138</postCode>
+            </cntAddress>
+            <cntHours>0800 - 1600 CT, M - F (-6h VST/-5h CDT GMT)</cntHours>
+         </rpCntInfo>
+         <role>
+            <RoleCd value="007" />
+         </role>
+      </idPoC>
+      <resMaint>
+         <maintFreq>
+            <MaintFreqCd value="009" />
+         </maintFreq>
+      </resMaint>
+      <placeKeys>
+         			<keyword>U.S.</keyword>
+			<keyword>USA</keyword>
+			<keyword>United States of America</keyword>
+			<keyword>Lower 48</keyword>
+			<keyword>Conterminous United States</keyword>
+			<keyword>CONUS</keyword>
+			<keyword>United States of America</keyword>
+      </placeKeys>
+      <themeKeys>			<keyword>Tree Density</keyword>
+			<keyword>Digital Spatial Data</keyword>
+			<keyword>Tree Canopy Cover</keyword>
+			<keyword>Continuous</keyword>
+			<keyword>Percent Tree Canopy</keyword>
+			<keyword>Remote Sensing</keyword>
+			<keyword>GIS</keyword>
+			<keyword>Landsat</keyword>
+			<keyword>Sentinel-2</keyword>
+			<keyword>LandTrendr</keyword></themeKeys>
+      <themeKeys>
+         <thesaName>
+            <resTitle>NGDA Portfolio Themes</resTitle>
+         </thesaName>
+         			<keyword>NGDA</keyword>
+			<keyword>National Geospatial Data Asset</keyword>
+      </themeKeys>
+      <themeKeys>
+         <thesaName>
+            <resTitle>ISO 19115 Category</resTitle>
+         </thesaName>
+         			<keyword>BaseMaps</keyword>
+			<keyword>EarthCover</keyword>
+			<keyword>Imagery</keyword>
+			<keyword>Environment</keyword>
+      </themeKeys>
+      <searchKeys>			<keyword>BaseMaps</keyword>
+			<keyword>EarthCover</keyword>
+			<keyword>Imagery</keyword>
+			<keyword>Digital Spatial Data</keyword>
+			<keyword>Continuous</keyword>
+			<keyword>NGDA</keyword>
+			<keyword>Remote Sensing</keyword>
+			<keyword>National Geospatial Data Asset</keyword>
+			<keyword>Percent Tree Canopy</keyword>
+			<keyword>Environment</keyword>
+			<keyword>GIS</keyword></searchKeys>
+      <resConst>
+         <LegConsts>
+            <useLimit>The USDA Forest Service makes no warranty, expressed or implied, including the warranties of merchantability and fitness for a particular purpose, nor assumes any legal liability or responsibility for the accuracy, reliability, completeness or utility of these geospatial data, or for the improper or incorrect use of these geospatial data. These geospatial data and related maps or graphics are not legal documents and are not intended to be used as such. The data and maps may not be used to determine title, ownership, legal descriptions or boundaries, legal jurisdiction, or restrictions that may be in place on either public or private land. Tree Canopy Cover changes may or may not be depicted on the data and maps, and land users should exercise due caution. The data are dynamic and may change over time. The user is responsible to verify the limitations of the geospatial data and to use the data accordingly.</useLimit>
+         </LegConsts>
+      </resConst>
+      <resConst>
+         <SecConsts>
+            <class>
+               <ClasscationCd value="001" />
+            </class>
+            <classSys>none</classSys>
+            <handDesc>n/a</handDesc>
+         </SecConsts>
+      </resConst>
+      <resConst>
+         <Consts>
+            <useLimit>These data were collected using funding from the U.S. Government and can be used without additional permissions or fees. If you use these data in a publication, presentation, or other research product please use the following citation:<br /><br />USDA Forest Service. 2025. USFS NLCD Percent Tree Canopy CONUS v2023-5. Salt Lake City, UT.</useLimit>
+         </Consts>
+      </resConst>
+      <dataLang>
+         <languageCode value="eng" />
+         <countryCode value="USA" Sync="TRUE" />
+      </dataLang>
+      <suppInfo>Corner Coordinates (center of pixel, meters): upper left: -2361585.0 (X), 3177435.0 (Y); lower right: 2263815.0 (X), 259065.0 (Y).</suppInfo>
+      <dataChar>
+         <CharSetCd value="004" />
+      </dataChar>
+      <envirDesc Sync="TRUE">Google Earth Engine v.1.4.6; GDAL 3.4.3</envirDesc>
+      <spatRpType>
+         <SpatRepTypCd value="002" Sync="TRUE" />
+      </spatRpType>
+      <idStatus>
+         <ProgCd value="001" />
+      </idStatus>
+      <dataExt>
+         <exDesc>The Multi-Resolution Land Characteristics continental United States study area without Alaska</exDesc>
+         <geoEle>
+            <GeoBndBox esriExtentType="search">
+               <exTypeCode>1</exTypeCode>
+               <westBL>-127.97721826351116</westBL>
+               <eastBL>-74.1453579514207</eastBL>
+               <southBL>22.977993592129742</southBL>
+               <northBL>47.98333795564639</northBL>
+            </GeoBndBox>
+         </geoEle>
+         <tempEle>
+            <TempExtent>
+               <exTemp>
+                  <TM_Period>
+                     <tmBegin>20230601</tmBegin>
+                     <tmEnd>20230901</tmEnd>
+                  </TM_Period>
+               </exTemp>
+            </TempExtent>
+         </tempEle>
+      </dataExt>
+      <tpCat>
+         <TopicCatCd value="007" />
+      </tpCat>
+      <tpCat>
+         <TopicCatCd value="010" />
+      </tpCat>
+   </dataIdInfo>
+   <mdConst>
+      <LegConsts>
+         <accessConsts>
+            <RestrictCd value="008" />
+         </accessConsts>
+         <othConsts>The USDA Forest Service makes no warranty, expressed or implied, including the warranties of merchantability and fitness for a particular purpose, nor assumes any legal liability or responsibility for the accuracy, reliability, completeness or utility of these geospatial data, or for the improper or incorrect use of these geospatial data. These geospatial data and related maps or graphics are not legal documents and are not intended to be used as such. The data and maps may not be used to determine title, ownership, legal descriptions or boundaries, legal jurisdiction, or restrictions that may be in place on either public or private land. Tree Canopy Cover changes may or may not be depicted on the data and maps, and land users should exercise due caution. The data are dynamic and may change over time. The user is responsible to verify the limitations of the geospatial data and to use the data accordingly.</othConsts>
+      </LegConsts>
+   </mdConst>
+   <dqInfo>
+      <dqScope>
+         <scpLvl>
+            <ScopeCd value="005" />
+         </scpLvl>
+      </dqScope>
+      <dataLineage>
+         <prcStep>
+	<stepDesc>The USFS Forest Inventory and Analysis (FIA) program photo-interpreted percent tree canopy cover (TCC) response data. Photointerpretation (PI) measured TCC using a custom ArcGIS plug-in tool (Goeking et al., 2012) from 105-point grids placed in 90x90 squares centered on USFS FIA plot design. A total of 55,242 PI plots were used in TCC modeling.<br /><br />Goeking, S.A., Liknes, G.C., Lindblom, E., Chase, J., Jacobs, D.M., and Benton, R. (2012). A GIS-based tool for estimating tree canopy cover on fixed-radius plots using high-resolution aerial imagery. In: R. Morin, S. Randall, G.C. Liknes (Comps.), Moving from status to trends: Forest Inventory and Analysis (FIA) symposium 2012 December 4-6, Baltimore MD (pp. 237-241). (General Technical Report NRS-P-105). U.S. Department of Agriculture, Forest Service, Northern Research Station. Newtown Square, PA. https://www.fs.fed.us/nrs/pubs/gtr/gtr_nrs-p-105.pdf</stepDesc>
+	<stepRat> Photo-interpreted Canopy Cover (FIA)</stepRat>
+	<stepDateTm> 20120101</stepDateTm>
+</prcStep><prcStep>
+	<stepDesc>Creation of Digital Elevation Model (DEM) derivatives. A CONUS-wide terrain dataset used as a predictor layer was provided by the USGS 3D Elevation Program (U.S. Geological Survey, 2019). Slope, the components of slope, aspect, and the sine and cosine of aspect were calculated for each pixel following industry standards.<br /><br />U.S. Geological Survey. (2019). USGS 3D Elevation Program Digital Elevation Model, accessed August 2022 at https://developers.google.com/earth-engine/datasets/catalog/USGS_3DEP_10m</stepDesc>
+	<stepRat> Digital Elevation Model (DEM)</stepRat>
+	<stepDateTm>20220901</stepDateTm>
+</prcStep><prcStep>
+	<stepDesc>Creation of cropland data layer (CDL) binary mask. The annual binary agriculture data were produced by classifying all non-tree CDL crops as agriculture and everything else as non-agriculture.<br /><br />USDA National Agricultural Statistics Service Cropland Data Layer. (2024). Published crop-specific data layer [Online]. Available at https://nassgeodata.gmu.edu/CropScape/ (accessed 2024. USDA-NASS, Washington, DC.</stepDesc>
+	<stepRat> USDA National Agricultural Statistics Service Cropland Data Layer</stepRat>
+	<stepDateTm>20241201</stepDateTm>
+</prcStep><prcStep>
+	<stepDesc>Two sets of annual medoid composites were created. Set 1 does not include any Landsat 7 data occurring after 2002. Set 2 includes all available Landsat 7 data through 2015. To generate annual composites Landsat and Sentinel 2 imagery were collected from 1984-2024 from Julian day 153-273 for 1984-2015, and Julian day 182-244 for 2016-2024. Landsat 7 imagery were used from 1999-2002, and not used after 2002 due to scan line correction failure in 2003. For Landsat image collections, the CFmask cloud masking algorithm, an implementation of Fmask 2.0 was applied (Zhu and Woodcock 2012; Foga et al., 2017), and the cloudScore algorithm (Chastain et al., 2019). For Sentinel-2 data, the s2Cloudless algorithm was used to mask clouds (Zupanc, 2017). We used the Temporal Dark Outlier Mask (TDOM) method to mask cloud shadows in both Landsat and Sentinel-2 (Chastain et al., 2019). For each year, the annual geometric medoid was computed to summarize the data into a single annual composite for each of the 54 tiles that span CONUS.<br /><br />Chastain, R., Housman, I., Goldstein, J., Finco, M., and Tenneson, K. (2019). Empirical cross sensor comparison of Sentinel-2A and 2B MSI, Landsat-8 OLI, and Landsat-7 ETM top of atmosphere spectral characteristics over the conterminous United States. In Remote Sensing of Environment (Vol. 221, pp. 274-285). https://doi.org/10.1016/j.rse.2018.11.012<br /><br />Foga, S., Scaramuzza, P.L., Guo, S., Zhu, Z., Dilley, R.D., Beckmann, T., Schmidt, G.L., Dwyer, J.L., Hughes, M.J., and Laue, B. (2017). Cloud detection algorithm comparison and validation for operational Landsat data products. In Remote Sensing of Environment (Vol. 194, pp. 379-390). http://doi.org/10.1016/j.rse.2017.03.026.<br /><br />Zhu, Z., and Woodcock, C.E. (2012). Object-based cloud and cloud shadow detection in Landsat imagery, Remote Sensing of Environment, 118, pp. 83-94.<br /><br />Zupanc, A. (2017) Improving Cloud Detection With Machine Learning. Online: https://medium.com/sentinel-hub/improvingcloud-detection-with-machine-learningc09dc5d7cf13. Accessed 20 November 2022.</stepDesc>
+	<stepRat> Annual Landsat-Sentinel2 image composites</stepRat>
+	<stepDateTm>20221001</stepDateTm>
+</prcStep><prcStep>
+	<stepDesc>The Landsat-based detection of Trends in Disturbance and Recovery (LandTrendr) temporal segmentation algorithm was applied to the two sets of composite time series in Google Earth Engine (GEE) (Kennedy et al., 2018; Cohen et al., 2018). The resulting two sets of LandTrendr time-series fitted values were used as independent predictor variables in random forest models (Breiman 2001). Stripping artifacts were observed in preliminary modeling of TCC when LandTrendr set 2 visible bands - derived from composite set 2 data that includes all Landsat 7 data through 2015 - were included as predictor layers. To avoid stripping artifacts the visible bands from LandTrendr set 2 fitted values were not used in modeling.<br /><br />Breiman, L. (2001). Random forests. Machine learning (Vol. 45, pp. 15-32). https://doi.org/10.1023/A:1010933404324<br /><br />Cohen, W.B., Yang, Z., Healey, S.P., Kennedy, R.E., and  Gorelick, N. (2018). A LandTrendr multispectral ensemble for forest disturbance detection, Remote Sensing of Environment (Vol. 205, pp. 131-140). https://doi.org/10.1016/j.rse.2017.11.015<br /><br />Kennedy, R., Yang, Z., Gorelick, N., Braaten, J., Cavalcante, L., Cohen, W., and Healey, S. (2018). Implementation of the LandTrendr Algorithm on Google Earth Engine. In Remote Sensing (Vol. 10, Issue 5, p. 691). https://doi.org/10.3390/rs10050691</stepDesc>
+	<stepRat> Annual LandTrendr Fitted Images</stepRat>
+	<stepDateTm>20221001</stepDateTm>
+</prcStep><prcStep>
+	<stepDesc>Creation of the National Land Cover Database (NLCD) TCC dataset (main process). The NLCD dataset is generated from the FS Science product for years 1985 through 2023. For CONUS, 54 tiles were used in a 5x5 moving window where model calibration data was gathered from the moving windows and random forest models were created. The random forest models were applied to the center tiles. The final dataset is a mosaic of TCC values for all the moving window tiles.<br /><br />Six major steps were employed to map TCC and produce the NLCD product: 1) collection of reference data, 2) acquisition and/or creation of predictor layers, 3) calibration of random forest regression models for each mapping area using response data and predictor layers, 4) application of those models to predict per-pixel TCC across the entire mapping area, 5) a series of data quality filtering steps to generate the NCLD TCC product, and 6) exporting NLCD images from Google Earth Engine (GEE) to local computers for further post-processing that includes the creation of the CONUS-wide mosaic. The methodology is described further below, in the technical methods document (Housman et al., 2025), and in an upcoming manuscript in preparation (Heyer et al., in preparation). For the NLCD product, additional post-processing steps were performed.<br /><br />Step 1: Reference data, consisting of estimated TCC at each of the 63,010 FIA plot locations, were generated via aerial image interpretation of high spatial resolution images collected and supplied by the U.S. Forest Service Forest Inventory and Analysis (FIA) program. The spatial distribution of the sample points follows the FIA systematic grid (Brand et al. 2000). Low quality FIA PI observations were removed for a total of 55,242 FIA plots used in modeling<br /><br />Step 2: Predictor layers include two sets of LandTrendr fitted images spectral derivatives. Set 1 (no Landsat 7 data after 2002) includes all optical bands and indices. Set 2 (includes all Landsat 7 data through 2015) excludes Landsat 7 visible bands to avoid stripping artifacts. Other predictor layers include a binary agriculture layer (1=agriculture, 0 = non-agriculture), elevation data, and terrain derivatives (slope, aspect, sine of aspect, cosine of aspect). The processes for creating the derived layers are described separately (see related Process Steps).<br /><br />Step 3: For each 480 km x 480 km moving window tile, we produced a random forest model from 2011 response and predictor data that fell over a 5x5 tile neighborhood for that tile. Models were generated locally using the random forest regression algorithm "sklearn.ensemble.RandomForestRegressor" from the Scikit-Learn package in python (Pedregosa et al. 2011).<br /><br />Step 4: In Google Earth Engine (GEE), models were applied to each tile for CONUS, producing a 2-layered Science image. The first layer was the random forest mean predicted TCC value and the second layer was the standard error (SE), which is the per-pixel standard error of the random forest regression predictions from the individual regression trees. In addition to the model output, a statistic that normalized the expected error, which we refer to as tau (Coulston et al., 2016), was calculated for each processing area. The tau statistics can be used to mask erroneous pixels as described in Coulston et al. (2016). The tau statistics are provided in the supplemental metadata.<br /><br />Step 5: The NLCD TCC product was generated from the Science TCC product following a series of post-processing steps in GEE, including masking non-treed features, and processes to reduce interannual noise and smooth the NLCD time series. We mask non-treed pixels with three masks: an agriculture mask created from the National Land Cover Dataset (NLCD) cultivated crops and pasture hay classes (USGS, 2024) and annual Crop Data Layer tree crop classes (USDA CDL, 2024), a water mask created from the NLCD water class (USGS, 2024), and a tree mask created from the Landscape Change Monitoring System (LCMS) Land Cover tree classes (USDA FS, 2025). The tree mask is the three-year moving window mode of the LCMS Land Cover tree class time series. Next, we generated a separate urban tree mask to avoid masking highly fragmented tree cover common over urban areas. The urban tree mask includes the TIGER U.S. Census Block 2024 data (U.S. Census Bureau, 2024) and NLCD developed classes (USGS, 2024) to separate urban TCC from non-urban TCC, the LCMS tree mask, and a statistic that normalizes the expected error to threshold urban TCC values, which we refer to as tau (Coulston et al., 2016). We calculated tau for each CONUS 5x5 tile moving window processing area. The tau statistic at the 90 to 86 percent confidence level (or quantile) was used to threshold the TCC values in high density urban areas, and the tau statistic at the 88 to 85 percent confidence level (or quantile) was used to threshold the TCC values in low density urban areas. If a TCC value subtracted from the tau multiplied by the standard error value was less than 0, the TCC value was changed to 0.<br /><br />Following masking, we removed small interannual changes from the annual TCC timeseries to reduce noise and smooth the time series.  A small interannual change is defined as a TCC change less than an increase or decrease of 10 percent compared to a TCC baseline value. The TCC baseline is the 1985 TCC value, or first available TCC value. For each year following the baseline, on a pixel-wise basis TCC values are updated to a new baseline value if an increase or decrease of 10 percent TCC occurs relative to the previous years TCC baseline value. If no increase or decrease greater than 10 percent TCC occurs, then the TCC baseline value is caried through to the next year in the timeseries.<br /><br />Next, we applied two additional post-processing steps to further reduce interannual noise. Interannual noise persisted in the TCC time series because of the order of operations between the masking and removal of small interannual changes. We applied an algorithm that identified one year positive or negative TCC spikes greater than 10 percent, removed spikes, and carried the previous years TCC value through to the spike year. Finally, we updated TCC values to 0 when the baseline TCC value was less than 10 percent, the majority of annual TCC predictions were 0, and TCC did not exceed 10 percent following a 0 percent TCC prediction in the timeseries. The result of the GEE post-processing steps is the NLCD TCC v2023-5 product.<br /><br />Step 6: Following model application and GEE post-processing steps, the NLCD TCC images were exported from GEE to local computers for local post-processing. During local post-processing mosaics were created, cloud optimized GeoTIFFs (COGs) were generated, statistics were calculated, pyramid layers were built, and color ramps were applied to each NLCD TCC image. For each NLCD TCC image, the non-area processing value is 254, and the background value is 255.<br /><br />Brand, G.J., Nelson, M.D., Wendt, D.G., and Nimerfro, K.K. (2000). The hexagon/panel system for selecting FIA plots under an annual inventory. In: McRoberts, R.E.; Reams, G.A.; Van Deusen, P.C., eds. Proceedings of the First Annual Forest Inventory and Analysis Symposium; Gen. Tech. Rep. NC-213. St. Paul, MN: U.S. Department of Agriculture, Forest Service, North Central Research Station: 8-13<br /><br />Breiman, L. (2001). Random forests. Machine Learning (Vol. 45, pp. 5-32)<br /><br />Coulston, J.W., Blinn, C.E., Thomas, V.A., and Wynne, R.H. (2016). Approximating prediction uncertainty for random forest regression models. Photogrammetric Engineering and Remote Sensing (Vol. 82, Issue 3, pp. 189-197)<br /><br />Heyer, J., Schleeweis, K., Ruefenacht, B., Housman, I., Megown, K., and Bogle, M. (2023). A time invariant modeling approach to produce annual tree-canopy cover for the conterminous United States. Salt Lake City, UT: U.S. Department of Agriculture, Forest Service, Geospatial Technology and Applications Center. [Manuscript in Preparation]<br /><br />Housman, I.W.; Bogle, S; Heyer, J.P.; Heyer, J.P.; Megown, K.; Reischmann, J.; Ruefenacht, B.; Ryerson, D.; Schleeweis, K.; 2025. National Land Cover Database Tree Canopy Cover Methods v2023.5. FSIC-GO-10268-RPT1. Salt Lake City, UT: U.S. Department of Agriculture, Forest Service, Field Services and Innovation Center Geospatial Office. 24 p.<br /><br />Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J., Passos, A., Cournapeau, D., Brucher, M., Perrot, M. and Duchesnay, E. (2011). Scikit-learn: Machine Learning in Python. In Journal of Machine Learning Research (Vol. 12, pp. 2825-2830)<br /><br />USDA Forest Service. 2025. USFS Landscape Change Monitoring System Conterminous United States version 2024-10. Salt Lake City, Utah<br /><br />U.S. Geological Survey (USGS), 2024, Annual NLCD Collection 1 Science Products: U.S. Geological Survey data release, https://doi.org/10.5066/P94UXNTS.<br /><br />U.S. Census Bureau, Geography Division. (2024). TIGER/Line Shapefiles, 2024: Urban Areas. U.S. Department of Commerce, U.S. Census Bureau. Retrieved January 01, 2025, from https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html<br /><br />USDA National Agricultural Statistics Service Cropland Data Layer. (2024). Published crop-specific data layer [Online]. Available at https://nassgeodata.gmu.edu/CropScape/ (accessed 2024. USDA-NASS, Washington, DC.</stepDesc>
+	<stepRat> Annual NLCD Tree Canopy Cover Images</stepRat>
+	<stepDateTm>20230201</stepDateTm>
+</prcStep>
+      </dataLineage>
+      <report type="DQConcConsis" dimension="">
+	<measDesc>All years are modeled separately. As such, measurements from one year to another are not inherently dependent on other years</measDesc>
+	<evalMethDesc>See the data quality report for methods</evalMethDesc>
+</report>
+      <report type="DQCompOm" dimension="">
+         <measDesc>Data extend across the lower 48 conterminous United States</measDesc>
+      </report>
+      <report type="DQQuanAttAcc" dimension="">
+         <measDesc>Model performance metrics including mean of squared residuals and percent variability explained were obtained from the random forest regression model (Breiman, 2001; R Core Team 2024) used to derive tree canopy cover estimates. The maximum mean of squared residuals was 193.6 and the minimum was 90.6. The maximum percent variability explained was 90.1 and the minimum was 60.3. Additionally, 500 random forest trees were used to derive a tree canopy cover prediction for each pixel. Standard errors were calculated for each pixel using the estimates from the 500 trees. The standard errors provide information on the certainty of TCC predictions. We conducted an independent error assessment over the 2011 NLCD TCC v2023.5 map output. Thirty percent of our response data was withheld from model calibration to be used to assess error. In order to account for inconsistencies between the FIA plot location density between different states, along with plots that we did not use due to quality assurance measures, we estimated the area weight of each plot by computing Thiessen polygons for each plot centroid. In order to avoid extremely large weights for edge plots, any plot on the edge assumed the average of the weight of neighboring non-edge plots polygon weights. We then computed the weighted root mean squared error (RMSE) and mean absolute error (MAE) using the reference TCC value as the truth, and the final NLCD TCC 2011 map value as the predicted value.</measDesc>
+         <measResult>
+            <ConResult>
+               <conSpec>
+                  <date>
+                     <createDate>20250401</createDate>
+                     <pubDate>20250401</pubDate>
+                     <reviseDate>20250401</reviseDate>
+                  </date>
+               </conSpec>
+               <conExpl> For CONUS the weighted map RMSE is 12.92% and the MAE is 8.22%.</conExpl>
+               <conPass>1</conPass>
+            </ConResult>
+         </measResult>
+      </report>
+   </dqInfo>
+   <spatRepInfo>
+      <Georect>
+         <axisDimension type="001">
+            <dimSize Sync="TRUE">154180</dimSize>
+            <dimResol>
+               <value Sync="TRUE" uom="m">30.0</value>
+            </dimResol>
+         </axisDimension>
+         <axisDimension type="002">
+            <dimSize Sync="TRUE">97279</dimSize>
+            <dimResol>
+               <value Sync="TRUE" uom="m">30.0</value>
+            </dimResol>
+         </axisDimension>
+         <cellGeo>
+            <CellGeoCd Sync="TRUE" value="002" />
+         </cellGeo>
+         <numDims Sync="TRUE">2</numDims>
+         <tranParaAv Sync="TRUE">1</tranParaAv>
+         <chkPtAv Sync="TRUE">0</chkPtAv>
+         <cornerPts>
+            <pos Sync="TRUE">-2361585.0 259065.0</pos>
+         </cornerPts>
+         <cornerPts>
+            <pos Sync="TRUE">-2361585.0 3177435.0</pos>
+         </cornerPts>
+         <cornerPts>
+            <pos Sync="TRUE">2263815.0 3177435.0</pos>
+         </cornerPts>
+         <cornerPts>
+            <pos Sync="TRUE">2263815.0 259065.0</pos>
+         </cornerPts>
+         <centerPt>
+            <pos Sync="TRUE">-48885.0 1718250.0</pos>
+         </centerPt>
+         <ptInPixel>
+            <PixOrientCd Sync="TRUE" value="001" />
+         </ptInPixel>
+      </Georect>
+   </spatRepInfo>
+   <contInfo>
+      <ImgDesc>
+         <covDim>
+            <Band>
+               <valUnit>
+                  <UOM type="length" gmlID="" />
+               </valUnit>
+               <dimDescrp Sync="TRUE">Percent tree canopy cover</dimDescrp>
+               <maxVal Sync="TRUE">254.0</maxVal>
+               <minVal Sync="TRUE">0.0</minVal>
+               <bitsPerVal Sync="TRUE">8</bitsPerVal>
+            </Band>
+         </covDim>
+         <contentTyp>
+            <ContentTypCd Sync="TRUE" value="002" />
+         </contentTyp>
+         <attDesc>Percent tree canopy cover</attDesc>
+         <trianInd>False</trianInd>
+         <radCalDatAv>False</radCalDatAv>
+         <camCalInAv>False</camCalInAv>
+         <filmDistInAv>False</filmDistInAv>
+         <lensDistInAv>False</lensDistInAv>
+      </ImgDesc>
+   </contInfo>
+   <eainfo>
+      <detailed>
+         <enttyp>
+            <enttypl>nlcd_tcc_conus_wgs84_v2023-5_20230101_20231231.tif</enttypl>
+            <enttypd>Percent tree canopy cover</enttypd>
+         </enttyp>
+         <attr>
+           <attrlabl Sync="TRUE"> OID</attrlabl>
+           <attrdef Sync="TRUE"> ObjectID Field</attrdef>
+           <attrtype Sync="TRUE"> Short integer</attrtype>
+           <attwidth Sync="TRUE"> 1 byte</attwidth>
+           <atprecis Sync="TRUE"> 3</atprecis>
+           <attscale Sync="TRUE"> 0</attscale>
+         </attr>
+         <attr>
+           <attrlabl Sync="TRUE"> Value</attrlabl>
+           <attrdef Sync="TRUE">Percent tree canopy cover</attrdef>
+           <attrtype Sync="TRUE"> Short integer</attrtype>
+           <attwidth Sync="TRUE"> 1 byte</attwidth>
+           <atprecis Sync="TRUE"> 3</atprecis>
+           <attscale Sync="TRUE"> 0</attscale>
+         </attr>
+         <attr>
+           <attrlabl Sync="TRUE"> Blue</attrlabl>
+           <attrdef Sync="TRUE"> Total number of pixels per classification</attrdef>
+           <attrtype Sync="TRUE"> Long integer</attrtype>
+           <attwidth Sync="TRUE"> 8 bytes</attwidth>
+           <atprecis Sync="TRUE"> 10</atprecis>
+           <attscale Sync="TRUE"> 0</attscale>
+         </attr>
+         <attr>
+           <attrlabl Sync="TRUE"> Green</attrlabl>
+           <attrdef Sync="TRUE"> Color ramp red value</attrdef>
+           <attrtype Sync="TRUE"> Short integer</attrtype>
+           <attwidth Sync="TRUE"> 1 byte</attwidth>
+           <atprecis Sync="TRUE"> 3</atprecis>
+           <attscale Sync="TRUE"> 0</attscale>
+         </attr>
+         <attr>
+           <attrlabl Sync="TRUE"> Red</attrlabl>
+           <attrdef Sync="TRUE"> Color ramp green value</attrdef>
+           <attrtype Sync="TRUE"> Short integer</attrtype>
+           <attwidth Sync="TRUE"> 1 byte</attwidth>
+           <atprecis Sync="TRUE"> 3</atprecis>
+           <attscale Sync="TRUE"> 0</attscale>
+         </attr>
+         <attr>
+           <attrlabl Sync="TRUE"> Count</attrlabl>
+           <attrdef Sync="TRUE"> Color ramp blue value</attrdef>
+           <attrtype Sync="TRUE"> Short integer</attrtype>
+           <attwidth Sync="TRUE"> 1 byte</attwidth>
+           <atprecis Sync="TRUE"> 3</atprecis>
+           <attscale Sync="TRUE"> 0</attscale>
+         </attr>
+      </detailed>
+   </eainfo>
+   <mdHrLvName Sync="TRUE">dataset</mdHrLvName>
+   <refSysInfo>
+      <RefSystem>
+         <refSysID>
+            <identCode code="0" Sync="TRUE" />
+         </refSysID>
+      </RefSystem>
+   </refSysInfo>
+</metadata>

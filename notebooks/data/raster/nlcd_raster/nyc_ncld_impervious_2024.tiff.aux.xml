@@ -1,0 +1,85 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <Histograms>
+      <HistItem>
+        <HistMin>0</HistMin>
+        <HistMax>255</HistMax>
+        <BucketCount>255</BucketCount>
+        <IncludeOutOfRange>0</IncludeOutOfRange>
+        <Approximate>0</Approximate>
+        <HistCounts>1012989|1104697|952242|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0</HistCounts>
+      </HistItem>
+    </Histograms>
+    <GDALRasterAttributeTable tableType="thematic">
+      <FieldDefn index="0">
+        <Name>Pixel Value</Name>
+        <Type>0</Type>
+        <Usage>5</Usage>
+      </FieldDefn>
+      <FieldDefn index="1">
+        <Name>Pixel Count</Name>
+        <Type>1</Type>
+        <Usage>1</Usage>
+      </FieldDefn>
+      <FieldDefn index="2">
+        <Name>Red</Name>
+        <Type>0</Type>
+        <Usage>6</Usage>
+      </FieldDefn>
+      <FieldDefn index="3">
+        <Name>Green</Name>
+        <Type>0</Type>
+        <Usage>7</Usage>
+      </FieldDefn>
+      <FieldDefn index="4">
+        <Name>Blue</Name>
+        <Type>0</Type>
+        <Usage>8</Usage>
+      </FieldDefn>
+      <FieldDefn index="5">
+        <Name>Opacity</Name>
+        <Type>0</Type>
+        <Usage>9</Usage>
+      </FieldDefn>
+      <FieldDefn index="6">
+        <Name>Impervious Class</Name>
+        <Type>2</Type>
+        <Usage>2</Usage>
+      </FieldDefn>
+      <Row index="0">
+        <F>0</F>
+        <F>1012989</F>
+        <F>0</F>
+        <F>0</F>
+        <F>0</F>
+        <F>255</F>
+        <F>Non-Urban</F>
+      </Row>
+      <Row index="1">
+        <F>1</F>
+        <F>1104697</F>
+        <F>33</F>
+        <F>113</F>
+        <F>181</F>
+        <F>255</F>
+        <F>Roads</F>
+      </Row>
+      <Row index="2">
+        <F>2</F>
+        <F>952242</F>
+        <F>246</F>
+        <F>236</F>
+        <F>39</F>
+        <F>255</F>
+        <F>Urban</F>
+      </Row>
+    </GDALRasterAttributeTable>
+    <Metadata>
+      <MDI key="STATISTICS_MINIMUM">0</MDI>
+      <MDI key="STATISTICS_MAXIMUM">2</MDI>
+      <MDI key="STATISTICS_MEAN">0.98021223950529</MDI>
+      <MDI key="STATISTICS_STDDEV">0.79985239190161</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">66.56</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>
