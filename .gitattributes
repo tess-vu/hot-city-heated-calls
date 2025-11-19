@@ -1,1 +1,2 @@
 *.zip filter=lfs diff=lfs merge=lfs -text
+notebooks/data/raster/landsat.zip filter=lfs diff=lfs merge=lfs -text
