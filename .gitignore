@@ -335,3 +335,4 @@ notebooks/data/raster/landsat/LC09_L2SP_014032_20250829_20250830_02_T1_SR_B7.TIF
 notebooks/data/raster/landsat/LC09_L2SP_014032_20250829_20250830_02_T1_ST_B10.TIF
 notebooks/data/raster/landsat/LC09_L2SP_014032_20250829_20250830_02_T1_ST_QA.TIF
 notebooks/data/nyc_311/panel/nyc_311_points_2025.geojson
+notebooks/data/nyc_311/nyc_311_points_2025.geojson
