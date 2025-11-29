@@ -30,12 +30,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const grainElement = document.getElementById('grain-middle');
             if (grainElement) {
                 grained("#grain-middle", grainOptionsMiddle);
-                console.log("✓ Grain texture applied to middle panel");
+                console.log("Grain texture applied to middle panel.");
             } else {
-                console.error("Grain element #grain-middle not found in DOM");
+                console.error("Grain element #grain-middle not found in DOM.");
             }
         } else {
-            console.error("Grained library not loaded. Make sure the script is included in index.html");
+            console.error("Grained library not loaded. Make sure the script is included in index.html.");
         }
     }
 

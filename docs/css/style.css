@@ -35,7 +35,7 @@ button:hover,
  */
 body {
     display: grid;
-    grid-template-columns: 275px 1fr 275px;
+    grid-template-columns: 300px 1fr 300px;
     grid-template-rows: 100vh;
     background: linear-gradient(
         180deg,
@@ -62,7 +62,7 @@ body {
 .panel-left {
     padding: 2rem;
     overflow: hidden;
-    background-color: rgba(21, 20, 25, 0.9);
+    background-color: rgba(21, 20, 25, 0.75);
     backdrop-filter: blur(10px);
     font-family: var(--font-headers-secondary);
     display: flex;
@@ -78,6 +78,24 @@ body {
     margin-top: auto;
     padding-top: 1rem;
     border-top: 1px solid var(--clr-border);
+}
+
+.panel-left-footer h5 {
+    color: #b60101;
+    font-weight: 500;
+}
+
+.panel-left-footer h5 a {
+    color: #b60101;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    text-decoration: underline;
+}
+
+.panel-left-footer h5 a:hover,
+.panel-left-footer h5 a:active,
+.panel-left-footer h5 a:focus {
+    color: #97d7dd !important; /* Forces white on hover/click */
 }
 
 /* Panel 2: Middle (Scrollable) */
@@ -116,8 +134,8 @@ body {
 #grain-middle {
     position: fixed !important;
     top: 0;
-    left: 275px;
-    right: 275px;
+    left: 300px;
+    right: 300px;
     height: 100vh;
     pointer-events: none;
     z-index: 1;
