@@ -136,11 +136,11 @@ body {
  * 1. Define Global Theme Variables on :root 
  */
 :root {
-    --clr-bg: #121212;
-    --clr-bg-panel-right: #05031B; /* Slightly lighter bg for right panel, #030E1B, #05031B, #031B11 */
-    --clr-text-primary: #feffff;   /* Off-white for main text */
-    --clr-text-secondary: #feffff; /* Off-white for sub-text and links */
-    --clr-accent: #e5372d;         /* Primary red */
+    --clr-bg: #151419;
+    --clr-bg-panel-right: #D9D3C1; /* Slightly lighter bg for right panel, #030E1B, #05031B, #031B11 */
+    --clr-text-primary: #D9D3C1;   /* Off-white for main text */
+    --clr-text-secondary: #D9D3C1; /* Off-white for sub-text and links */
+    --clr-accent: #D91807;         /* Primary red */
     --clr-border: #333333;         /* Dark border color */
     
     --font-headers-main: "Aleo", serif; /* h1, h2, h3 */
@@ -234,7 +234,7 @@ p {
 .nav-title {
     color: var(--clr-text-secondary);
     font-size: 0.75rem;
-    font-weight: normal;
+    font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     border-bottom: 1px solid var(--clr-border);
