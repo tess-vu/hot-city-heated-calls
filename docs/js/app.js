@@ -1,25 +1,58 @@
 /* js/app.js */
 
-// Wait for the DOM to be fully loaded before running the script
+// Wait for DOM to fully load before running script
 document.addEventListener("DOMContentLoaded", () => {
     
     const navPanel = document.querySelector(".panel-left-nav");
     const contentMiddle = document.getElementById("content-middle");
     const contentRight = document.getElementById("content-right");
 
-    // Store the currently active link
+    // Store currently active link
     let activeLink = null;
+    
+    // Grain Texture
+    function initGrainTexture() {
+        // Grain options
+        const grainOptionsMiddle = {
+            animate: true,
+            patternWidth: 200,
+            patternHeight: 200,
+            grainOpacity: 0.25,
+            grainDensity: 1,
+            grainWidth: 1.1,
+            grainHeight: 1.1,
+            grainChaos: 0.5,
+            grainSpeed: 20
+        };
 
-    // 1. EVENT DELEGATION: Listen for clicks on the entire nav panel
+        // Apply grain to middle panel overlay
+        if (typeof grained !== 'undefined') {
+            const grainElement = document.getElementById('grain-middle');
+            if (grainElement) {
+                grained("#grain-middle", grainOptionsMiddle);
+                console.log("✓ Grain texture applied to middle panel");
+            } else {
+                console.error("Grain element #grain-middle not found in DOM");
+            }
+        } else {
+            console.error("Grained library not loaded. Make sure the script is included in index.html");
+        }
+    }
+
+    // Initialize grain texture once
+    initGrainTexture();
+
+    // Navigation and Content Loading
+    // Event Delegation: Listen for clicks on entire nav panel
     navPanel.addEventListener("click", (e) => {
-        // Find the <a> tag that was clicked, if any
+        // Find the <a> tag that was clicked
         const clickedLink = e.target.closest("a");
 
         if (!clickedLink) {
-            return; // Click wasn't on a link, do nothing
+            return; // Click wasn't on a link
         }
 
-        // Prevent the link from causing a page reload
+        // Prevent page reload
         e.preventDefault(); 
 
         const pageName = clickedLink.dataset.page;
@@ -28,24 +61,27 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // 2. Manage Active State
+        // Manage Active State
         if (activeLink) {
             activeLink.classList.remove("active");
         }
         activeLink = clickedLink;
         activeLink.classList.add("active");
 
-        // 3. Load the content
+        // Load the content
         loadContent(pageName);
     });
 
     /**
-     * Fetches a content fragment from the /pages/ directory
-     * and injects it into the middle and right panels.
-     * [17, 20]
+     * Fetch content fragment from /pages/ directory
+     * and inject into middle and right panels.
+     * 
+     * Replace innerHTML of content-middle
+     * Grain overlay (#grain-middle) is positioned with fixed,
+     * so it's not affected by content changes.
      */
     async function loadContent(pageName) {
-        // Set loading state (optional, but good UX)
+        // Set loading state
         contentMiddle.innerHTML = `<p>Loading...</p>`;
         contentRight.innerHTML = "";
 
@@ -58,20 +94,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const fragmentText = await response.text();
 
-            // 4. IN-MEMORY PARSING LOGIC 
-            // Create a temporary div to hold the fetched HTML
+            // Parse the fetched HTML
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = fragmentText;
 
-            // Find the content for each panel within the temp div
+            // Find content for each panel
             const middleFragment = tempDiv.querySelector('.content-middle');
             const rightFragment = tempDiv.querySelector('.content-right');
 
-            // 5. INJECTION: Populate the panels
-            contentMiddle.innerHTML = middleFragment? middleFragment.innerHTML : `<p>Content for middle panel not found.</p>`;
-            contentRight.innerHTML = rightFragment? rightFragment.innerHTML : ``; // Right panel can be empty
+            // Inject content directly
+            // (Grain overlay is separate, so this won't affect it)
+            contentMiddle.innerHTML = middleFragment ? 
+                middleFragment.innerHTML : 
+                `<p>Content for middle panel not found.</p>`;
+            
+            contentRight.innerHTML = rightFragment ? 
+                rightFragment.innerHTML : 
+                '';
 
-            // 6. UX: Scroll both panels back to the top
+            // Scroll panels back to top
             contentMiddle.scrollTop = 0;
             contentRight.scrollTop = 0;
 
@@ -81,9 +122,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Load a introduction page on initial visit
+    // Load introduction page on initial visit
     const initialLink = navPanel.querySelector('a[data-page="01_introduction"]');
     if (initialLink) {
-        initialLink.click(); // Programmatically click the first link
+        initialLink.click();
     }
 });

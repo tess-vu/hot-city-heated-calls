@@ -1,30 +1,17 @@
-/* css/style.css - Part 1: Layout */
+/* css/style.css */
 
 /* Google Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,400..900&family=Sono:wght@200..800&display=swap');
-/*
- * Font Options:
- * - Sono: Modern, clean sans-serif (for h1, h2, h3)
- * - Aleo: Geometric sans-serif (for h4, h5, h6)
- */
- 
+
 /* 
- * 1. Global Reset & Viewport Lock
- * This is the most critical step for independent scrolling.
- * We force the page to be exactly the height of the viewport
- * and prevent the <body> itself from scrolling.
+ * 1. Global Reset and Viewport Lock
  */
 html, body {
-    cursor: none;
     margin: 0;
     padding: 0;
-    height: 100vh; /* Use 100dvh for better mobile/tablet handling */
-    overflow: hidden; /* Prevent main page scroll */
+    height: 100vh;
+    overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    /* 
-      Use border-box sizing globally to make
-      padding calculations intuitive 
-    */
     box-sizing: border-box;
     cursor: url("cursor/red_mid.cur"), auto !important;
 }
@@ -44,25 +31,18 @@ button:hover,
 }
 
 /* 
- * 2. The 3-Panel Grid Container (on the <body>)
- * We use CSS Grid for this 2D layout 
+ * 2. 3-Panel Grid Container (on <body>)
  */
 body {
     display: grid;
-    
-    /* 
-     * Define 3 columns:
-     * - Left: 275px, fixed width
-     * - Middle: 1fr, takes rest of space
-     * - Right: 275px, fixed width
-     */
     grid-template-columns: 275px 1fr 275px;
-    
-    /* 
-     * Define 1 row that fills the entire viewport height.
-     * This is the "constraint" that makes overflow-y work.
-     */
     grid-template-rows: 100vh;
+    background: linear-gradient(
+        180deg,
+        #400e09 0%,
+        #b60101 50%,
+        #97d7dd 100%
+    );
 }
 
 /* 
@@ -71,8 +51,7 @@ body {
 .panel-left,
 .panel-middle,
 .panel-right {
-    padding: 2rem;
-    height: 100vh; /* Ensure all panels fill the grid row height */
+    height: 100vh;
 }
 
 /* 
@@ -81,78 +60,92 @@ body {
 
 /* Panel 1: Left (Non-Scrollable) */
 .panel-left {
-    /* This panel is fixed as requested */
+    padding: 2rem;
     overflow: hidden;
-    border-right: 1px solid var(--clr-border);
+    background-color: rgba(21, 20, 25, 0.9);
+    backdrop-filter: blur(10px);
     font-family: var(--font-headers-secondary);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-/* Wrap the header and nav together so footer stays at bottom */
 .panel-left-content {
-    flex: 1; /* Takes up available space */
+    flex: 1;
 }
 
-/* Style the footer at the bottom */
 .panel-left-footer {
-    margin-top: auto; /* Pushes footer to bottom */
+    margin-top: auto;
     padding-top: 1rem;
     border-top: 1px solid var(--clr-border);
 }
 
 /* Panel 2: Middle (Scrollable) */
 .panel-middle {
-    overflow-y: auto; /* Enables vertical scrolling *only* for this panel */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    padding: 2rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background-color: transparent;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    position: relative; /* Stacking context */
+    z-index: 10; /* Higher than grain */
 }
 
 .panel-middle::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for Chrome/Safari/Webkit */
+    display: none;
 }
 
 /* Panel 3: Right (Scrollable) */
 .panel-right {
-    overflow-y: auto; /* Enables vertical scrolling *only* for this panel */
+    padding: 2rem;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    
-    /* Hide scrollbar */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    background-color: rgba(217, 211, 193, 0.5);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .panel-right::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for Chrome/Safari/Webkit */
+    display: none;
 }
 
-/* css/style.css - Part 2: Theming & Interactions */
-
-/* 
- * 1. Define Global Theme Variables on :root 
+/* Grain Texture Overlay
+ * Mix-blend-mode makes grain visible over gradient
  */
+#grain-middle {
+    position: fixed !important;
+    top: 0;
+    left: 275px;
+    right: 275px;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* Make grain itself more visible */
+#grain-middle .grained {
+    mix-blend-mode: overlay !important;
+    opacity: 0.15 !important;
+}
+
+/* Theme Variables */
 :root {
     --clr-bg: #151419;
-    --clr-bg-panel-right: #D9D3C1; /* Slightly lighter bg for right panel, #030E1B, #05031B, #031B11 */
-    --clr-text-primary: #D9D3C1;   /* Off-white for main text */
-    --clr-text-secondary: #D9D3C1; /* Off-white for sub-text and links */
-    --clr-accent: #D91807;         /* Primary red */
-    --clr-border: #333333;         /* Dark border color */
+    --clr-bg-panel-right: #F2F2F2;
+    --clr-text-primary: #000000;
+    --clr-text-secondary: #F2F2F2;
+    --clr-accent: #F2A007;
+    --clr-border: #D9D3C1;
     
-    --font-headers-main: "Aleo", serif; /* h1, h2, h3 */
-    --font-headers-secondary: "Sono", sans-serif; /* h4, h5, h6 */
-    --font-body: "Sono", sans-serif; /* Body text */
+    --font-headers-main: "Aleo", serif;
+    --font-headers-secondary: "Sono", sans-serif;
+    --font-body: "Sono", sans-serif;
 }
 
-/* 
- * 2. Apply Theme to Base Elements
- */
+/* Typography */
 body {
-    background-color: var(--clr-bg);
     color: var(--clr-text-primary);
     font-family: var(--font-body);
     font-size: 12px;
@@ -171,70 +164,30 @@ h4, h5, h6 {
     font-weight: 300;
 }
 
-h1 {
-    font-size: 30px;
-    margin: 0 0 1rem 0;
-}
-
-h2 {
-    font-size: 22px;
-    margin: 0 0 0.7rem 0;
-}
-
-h3 {
-    font-size: 16px;
-    margin: 0 0 0.7rem 0;
-}
-
-h4 {
-    font-size: 12px;
-    margin: 0 0 0.5rem 0;
-}
-
-h5 {
-    font-size: 10px;
-    margin: 0 0 0.5rem 0;
-}
-
-h6 {
-    font-size: 8px;
-    margin: 0 0 0.5rem 0;
-}
+h1 { font-size: 30px; margin: 0 0 1rem 0; }
+h2 { font-size: 22px; margin: 0 0 0.7rem 0; }
+h3 { font-size: 16px; margin: 0 0 0.7rem 0; }
+h4 { font-size: 12px; margin: 0 0 0.5rem 0; }
+h5 { font-size: 10px; margin: 0 0 0.5rem 0; }
+h6 { font-size: 8px; margin: 0 0 0.5rem 0; }
 
 p {
     line-height: 1.3;
     font-size: 12px;
 }
 
-/* 
- * 3. Apply Theme to Specific Panels
- */
-.panel-left {
-    /* Add a subtle border to divide it from the middle panel */
-    border-right: 1px solid var(--clr-border);
-    font-family: var(--font-headers-secondary);
-}
-
-.panel-right {
-    background-color: var(--clr-bg-panel-right);
-    border-left: 1px solid var(--clr-border);
-}
-
-/* 
- * 4. Style the Navigation Elements
- */
+/* Navigation Elements */
 .author-name {
-    color: var(--clr-text-primary);
+    color: var(--clr-accent);
     font-weight: bold;
     font-size: 1rem;
-    margin: 0 0 0.5rem 0; /* Reduced bottom margin for tighter spacing */
-    line-height: 1.2; /* Tighter line height between author names */
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
 }
 
 .nav-title {
     color: var(--clr-text-secondary);
     font-size: 0.75rem;
-    font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     border-bottom: 1px solid var(--clr-border);
@@ -251,49 +204,37 @@ p {
     margin-bottom: 0.5rem;
 }
 
-/* 
- * 5. Link Inversion Interaction
- */
 .nav-links a {
-    /* Default state */
     color: var(--clr-text-secondary);
     background-color: transparent;
     text-decoration: none;
     display: block;
     padding: 0.3rem 0.5rem;
-    margin-left: -0.5rem; /* Offset padding to align text */
-    border-radius: 0; /* Sharp corners */
+    margin-left: -0.5rem;
+    border-radius: 0;
     position: relative;
     overflow: hidden;
-    
-    /* Smooth transition for text color */
     transition: color 0.3s ease-out;
 }
 
-/* Animated background box using ::before pseudo-element */
 .nav-links a::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 0%; /* Start with 0 width */
+    width: 0%;
     height: 100%;
     background-color: var(--clr-accent);
     z-index: -1;
-    
-    /* Animate from left to right */
     transition: width 0.3s ease-out;
 }
 
-/* 
- * Hover/Active state: Animate box from left to right
- */
 .nav-links a:hover::before,
 .nav-links a.active::before {
-    width: 100%; /* Expand to full width */
+    width: 100%;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: var(--clr-bg); /* Text becomes the background color */
+    color: var(--clr-bg);
 }
