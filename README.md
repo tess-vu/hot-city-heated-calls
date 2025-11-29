@@ -2,7 +2,7 @@
 
 ## Understanding Extreme Heat and Quality of Life Using NYC's 311 and SHAP
 
-[**WEBSITE LINK**]()
+### [**WEBSITE LINK**](https://tess-vu.github.io/nyc-311-heat-and-ml-shap/)
 
 **GOAL:** Estimate how heat exposure changes urban livability—proxied by
 the rate of quality-of-life (QoL)-related 311
