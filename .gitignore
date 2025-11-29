@@ -337,3 +337,7 @@ notebooks/data/raster/landsat/LC09_L2SP_014032_20250829_20250830_02_T1_ST_QA.TIF
 notebooks/data/nyc_311/panel/nyc_311_points_2025.geojson
 notebooks/data/nyc_311/nyc_311_points_2025.geojson
 notebooks/cache/49d0168626445298650455bb3e2a1e964da5f624.json
+docs/full-site-test.html
+docs/grain-all-in-one-test.html
+docs/grain-debug-test.html
+docs/grain-test.html
