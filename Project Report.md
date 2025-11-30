@@ -10,7 +10,11 @@ In this regard, the project is built upon geospatial data science techniques for
 
 ## 1.2. Research Gap
 
-few studies compare the mechanism difference between extreme heat day and regular heat day
+While a substantial body of literature has established the correlation between rising temperatures and increased frequency of 311 service requests—specifically regarding noise, energy, and water consumption—most existing studies treat temperature as a continuous linear variable or focus on the aggregate summer season as a single period. (Hsu et al., 2021) (Harlan et al., 2006) There is a lack of research that explicitly compares the mechanisms driving QoL degradation between normal summer conditions versus extreme heat events.
+
+Current urban research usually identifies where vulnerability exists, connecting heat exposure to socioeconomic disparities and lack of green infrastructure. (Uejio et al., 2010) However, fewer studies investigate how the influence of these environmental and urban morphology factors shifts when the thermal environment crosses into extreme thresholds.
+
+Tranditional approaches like OLS in 311 analysis generally struggle to capture the non-linear behaviors of human-environment interactions. While machine learning offers improved predictive power, (Kontokosta & Tull, 2017) it generally lacks interpretability. So, by integrating SHAP to compare extreme versus normal heat weeks, this study addresses a critical gap, where it takes a step further from simple prediction to interpret and explain socioeconomic, environmental, and urban built drivers under two different heat regimes, of which is explained in detail in section 2. (Lundberg & Lee, 2017)
 
 ## 1.3. Research Objective
 
@@ -28,102 +32,65 @@ The study area is based in New York City with spatial resolution at the census t
 
 ### Heat Data
 
-The subsequent removal of August's last week provided a total of 12 weeks in summer 2025, where extreme heat weeks were defined as at least two extreme heat days within a week with a temperature cutoff threshold at 93°F using the John F. Kennedy (JFK) weather station located at Philadelphia's international airport. This threshold was determined according to a climatological baseline from 1981 through 2010 daily max temperature with a 95th percentile, and this split the observations between 17 extreme heat days and 71 normal heat days, providing 5 extreme heat weeks and 7 normal heat weeks. Data was directly downloaded from the National Oceanic and Atmospheric Administration (NOAA).
+The subsequent removal of August's last week provided a total of 12 weeks in summer 2025, where extreme heat weeks were defined as at least two extreme heat days within a week with a temperature cutoff threshold at 93°F using the John F. Kennedy (JFK) weather station located at Philadelphia's international airport. This threshold was determined according to a climatological baseline from 1981 through 2010 daily max temperature with a 95th percentile, and this split the observations into two needed regimes: 17 extreme heat days and 71 normal heat days, providing 5 extreme heat weeks and 7 normal heat weeks. Data was directly downloaded from the National Oceanic and Atmospheric Administration (NOAA).
 
 ### Socioeconomic Data
 
-Socioeconomic data was derived from the United States Census, specifically the most recent 5-year American Community Survey (ACS) in 2023. The pyCensus module provided easy access to filter the data down to main investigative, derived variables in the final table:
+Socioeconomic data was derived from the United States Census, specifically the most recent 5-year American Community Survey (ACS) in 2023. Python's `pyCensus` module provided easy access to filter the data down to main investigative, derived variables in the final table:
 
 -   Percent Bachelor's or More (B15003_022E / B15003_001E)
-
     -   Bachelor's or More / Education Total
-
 -   Percent Renters (B25003_003E / B25003_001E)
-
     -   Renter Count / Household Total
-
 -   Percent Limited English Speakers (B16005_007E / B16005_001E)
-
     -   Limited English Speaker Count / Household Total
-
 -   Median Household Income (B19013_001E)
-
 -   Poverty Rate (B17001_002E / B17001_001E)
-
     -   Poverty Count / Total Whom Poverty Status is Recorded
-
 -   Percent Non-White (1 - B02001_002E / B01003_001E)
-
     -   (1 - White Count / Total Population)
 
 Justifications for these variables highlight socioeconomic issues and how heat-related issues disproportionately affect different communities as well as how different communities interact with public services like New York City's 311. Educated and higher-income individuals may know how to navigate what their cities offer, limited English speakers may have more barriers accessing 311 services, renters may face more infrastructural issues compared to owners,
 
 ### Environmental and Urban Data
 
-Environmental uruban data were all derived from Landsat raster calculations, specifically scenes within the same study timeline, with the computation done through ArcGIS Pro. However, land-cover land-use (LULC) data was a static raster from 2024.
+Environmental urban data were all derived from Landsat raster calculations, specifically scenes within the same study timeline, with the computation done through ArcGIS Pro. However, land-cover land-use (LULC) data was a static raster from 2024.
 
 -   LULC Raster
-
     -   Percent Tree Canopy
-
     -   Percent Impervious Surface
-
 -   Surface Temperature / Reflectance Raster
-
     -   Average Height of Buildings (AH)
-
     -   Building Density (BD)
-
     -   Normalized Difference Vegetation Index (NDVI)
-
     -   Water Coverage Ratio (WCR)
 
-Other data included deriving spatial features from Python's osmnx module to calculate points-of-interest (POI) density utilizing a 500-meter buffer and mean Euclidean distance to the nearest subway of census tract centroids.
+Other data included deriving spatial features from Python's `osmnx` module to calculate points-of-interest (POI) density utilizing a 500-meter buffer and mean Euclidean distance to the nearest subway of census tract centroids.
 
 Justification for these variables are that quantifiable metrics of greenery such as tree canopy and NDVI, as well as water coverage, could help explore the relationship between their roles in heat mitigation and alleviating air pollution within cities, and how they could potentially affect QoL requests as a byproduct. In addition, the impervious surface can suggest high heat absorption throughout the city at high percentages, and this is the same case with the building heights and densities. While many of these environmental and urban forms may be multicollinear, the goal is striving for interpretation rather than maximizing prediction, and this helps to explore the different properties of a city.
 
 POIs were determined as everyday main amenities, shops, leisure, and public transport categories in OpenStreet Maps (OSM) yielding 21,309 points, and are as follows:
 
 -   Amenity
-
     -   library
-
     -   community_centre
-
     -   social_facility
-
     -   bus_station
-
     -   bar
-
     -   restaurant
-
     -   fast_food
-
     -   toilets
-
     -   hospital
-
     -   clinic
-
     -   pharmacy
-
 -   Shop
-
     -   convenience
-
     -   supermarket
-
     -   alcohol
-
     -   deli
-
 -   Leisure
-
     -   park
-
 -   Public Transport
-
     -   station
 
 ## 2.3. OLS Regression Model
@@ -150,15 +117,11 @@ In the case of this study RF, is stable on moderate-size datasets and can handle
 
 Like the OLS model, the RF models were trained in the extreme heat weeks and normal heat weeks with the same predictor groups for direct comparison. Then, to prevent overfitting and ensure generalizability, a 3-fold cross-validation was implemented, partitioning the tracts into an 80% train set and 20% test set, with the RF hyperparameters as follows:
 
--   n_estimators: [200, 400, 600]
-
--   max_depth: [10, 20, 30]
-
--   min_samples_split: [2, 5, 10]
-
--   max_samples_leaf: [1, 2, 4]
-
--   max_features ["auto", "sqrt", 0.5]
+-   n_estimators: `[200, 400, 600]`
+-   max_depth: `[10, 20, 30]`
+-   min_samples_split: `[2, 5, 10]`
+-   max_samples_leaf: `[1, 2, 4]`
+-   max_features: `["auto", "sqrt", 0.5]`
 
 While OLS is useful for interpretation, extreme heat effects on QoL likely possess nonlinearity, interactions between the built environment and socioeconomic vulnerability, among others, and RF accommodates to these unique idiosyncracies, capturing behavioral and nonlinear dynamics that OLS falls short on.
 
@@ -185,3 +148,15 @@ With this, SHAP allows identification of which environmental, socioeconomic, or 
 # 4. DISCUSSION
 
 Results, and discuss about why the mechanism might be different and study limitations.
+
+# 5. REFERENCES
+
+Harlan, S. L., Brazel, A. J., Prashad, L., Stefanov, W. L., & Larsen, L. (2006). Neighborhood microclimates and vulnerability to heat stress. *Social Science & Medicine*, 63(11), 2847–2863. https://doi.org/10.1016/j.socscimed.2006.07.030
+
+Hsu, A., Sheriff, G., Chakraborty, T., & Manya, D. (2021). Disproportionate exposure to urban heat island intensity across major US cities. *Nature Communications*, 12(1). https://doi.org/10.1038/s41467-021-22799-5
+
+Kontokosta, C. E., & Tull, C. (2017). A data-driven predictive model of city-scale energy use in buildings. *Applied Energy*, 197, 303–317. https://doi.org/10.1016/j.apenergy.2017.04.005
+
+Lundberg, S., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *NIPS’17: Proceedings of the 31st International Conference on Neural Information Processing Systems*, 9781510860964. https://doi.org/10.5555/3295222.3295230
+
+Uejio, C. K., Wilhelmi, O. V., Golden, J. S., Mills, D. M., Gulino, S. P., & Samenow, J. P. (2010). Intra-urban societal vulnerability to extreme heat: The role of heat exposure and the built environment, socioeconomics, and neighborhood stability. *Health & Place*, 17(2), 498–507. https://doi.org/10.1016/j.healthplace.2010.12.005
