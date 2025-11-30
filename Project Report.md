@@ -82,9 +82,89 @@ Other data included deriving spatial features from Python's osmnx module to calc
 
 Justification for these variables are that quantifiable metrics of greenery such as tree canopy and NDVI, as well as water coverage, could help explore the relationship between their roles in heat mitigation and alleviating air pollution within cities, and how they could potentially affect QoL requests as a byproduct. In addition, the impervious surface can suggest high heat absorption throughout the city at high percentages, and this is the same case with the building heights and densities. While many of these environmental and urban forms may be multicollinear, the goal is striving for interpretation rather than maximizing prediction, and this helps to explore the different properties of a city.
 
+POIs were determined as everyday main amenities, shops, leisure, and public transport categories in OpenStreet Maps (OSM) yielding 21,309 points, and are as follows:
+
+-   Amenity
+
+    -   library
+
+    -   community_centre
+
+    -   social_facility
+
+    -   bus_station
+
+    -   bar
+
+    -   restaurant
+
+    -   fast_food
+
+    -   toilets
+
+    -   hospital
+
+    -   clinic
+
+    -   pharmacy
+
+-   Shop
+
+    -   convenience
+
+    -   supermarket
+
+    -   alcohol
+
+    -   deli
+
+-   Leisure
+
+    -   park
+
+-   Public Transport
+
+    -   station
+
 ## 2.3. OLS Regression Model
 
+OLS regression was used as the foundational statistical model in this study because it provides an interperetable, baseline framework for understanding the linear associations between environmental, socioeconomic, urban morphology, and spatial accessibility characteristics and the dependent variable of heat-related QoL 311 complaints per capita.
+
+Separate cross-sectional OLS models were estimated for extreme heat weeks defined as those with at least two extreme heat days, and normal heat weeks defined as those with less than two extreme heat days, with each of the 2,225 observations representing a census tract by week.
+
+Predictors were structured into three conceptual categories, which were added incrementally to assess the added explanatory value of each predictor block: Environmental Predictors, Socioeconomic Predictors, and Urban Morphology Predictors.
+
+**Environmental:** NDVI, percent tree canopy, percent impervious surface, and WCR.
+
+**Socioeconomic:** Median income, poverty rate, percent renters, percent limited English, percent bachelor’s or more, and percent non-white.
+
+**Urban Morphology:** AH, BD, distance to the nearest subway station, and 500-meter buffer POI density.
+
+OLS provides a transparent estimation of how predictors correlate with QoL complaint rates, and coefficients can be directly interpreted and compared across extreme versus normal heat conditions, serving as an important reference model before introducing nonlinear ML approaches with Random Forest. So, given the behavioral nature of 311 complaint reporting and the noisy, high-frequency variability of QoL calls, relatively low R² values are expected in this domain, consistent with existing literature on 311 data, urban complaints, and human-environment interactions.
+
 ## 2.4. ML Model and SHAP
+
+Stepping further to understanding QoL and heat dynamics, to complement the OLS framework, a nonlinear ML model was used to test whether environmental, socioeconomic, and urban predictors collectively produce stronger predictive power for QoL rates per capita during extreme and normal heat weeks.
+
+In the case of this study RF, is stable on moderate-size datasets and can handle high multicollinearity and correlated predictors like this study's without requiring regularization. In addition, it is less sensitive to hyperparameter tuning and is capable of modeling nonlinear relationships and threshold behaviors associated with heat stress, as it is a popular ML model used in the environmental exposure, health, and urban prediction literature.
+
+Like the OLS model, the RF models were trained in the extreme heat weeks and normal heat weeks with the same predictor groups for direct comparison. Then, to prevent overfitting and ensure generalizability, a 3-fold cross-validation was implemented, partitioning the tracts into an 80% train set and 20% test set, with the RF hyperparameters as follows:
+
+-   n_estimators: [200, 400, 600]
+
+-   max_depth: [10, 20, 30]
+
+-   min_samples_split: [2, 5, 10]
+
+-   max_samples_leaf: [1, 2, 4]
+
+-   max_features ["auto", "sqrt", 0.5]
+
+While OLS is useful for interpretation, extreme heat effects on QoL likely possess nonlinearity, interactions between the built environment and socioeconomic vulnerability, among others, and RF accommodates to these unique idiosyncracies, capturing behavioral and nonlinear dynamics that OLS falls short on.
+
+Finally, SHAP was used to interpret the Random Forest predictions and quantify the contribution of each predictor to the predicted QoL complaint rate per capita. This particular methodology is well-suited for urban and environmental modeling because it, like Random Forest, can handle nonlinear, interactive relationships, but it can especially decomposes predictions into additive contributions from each predictor, providing a measure of global importance and local explanations, so this makes the two regimes of extreme heat weeks versus normal heat weeks comparable.
+
+With this, SHAP allows identification of which environmental, socioeconomic, or urban factors become more influential during extreme heat, and whether predictors behave differently under high heat versus normal heat conditions.
 
 # 3. RESULTS
 
