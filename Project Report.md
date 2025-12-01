@@ -2,19 +2,16 @@
 
 ## 1.1. Research Background
 
-Extreme heat is one of the deadliest environmental hazards in the United States and, while its effects are felt by everyone, they're also felt disproportionately. In dense, urban metropolitan cities like New York, extreme temperatures interact with not just the built environment and local infrastructure conditions, but also the socioeconomic climate—extreme heat acts as one of the many architects shaping where service disruptions, complaints, and other surrounding stressors occur, degrading quality-of-life (QoL) for urbanites, suburbanites, and ruralites alike.
+Extreme heat weather is one of the deadliest environmental hazards in the United States, the heat extreme heat events have significant negative impacts on urban public health and urban sustainable development. In dense, urban metropolitan cities like New York, extreme heat interacts with not just the built environment and local infrastructure conditions, but also the socioeconomic climate—extreme heat acts as one of the many architects shaping where service disruptions, complaints, and other surrounding stressors occur, degrading quality-of-life (QoL) for urban residents.
 
-Within the context of this degradation is New York City's 311 service, a complaint system that accepts reports via calls, emails, and website submissions that can reflect extreme-heat induced behavior; it is a granular, real-time lens that provides understanding of how heat-related aggravation and other aspects can translate into observable, negative resident sentiment. This project in particular seeks to connect extreme heat versus normal heat weeks with environmental factors, socioeconomic conditions, and urban morphology to potentially explain QoL issues and their increases during hotter periods.
+Within the context of this degradation is New York City’s 311 service, a complaint system that accepts reports via calls, emails, and website submissions that can reflect heat induced QoL behavior; it is a granular, real-time lens that provides understanding of how heat-related aggravation and other aspects can translate into observable, negative resident sentiment. This project in particular seeks to connect extreme heat versus normal heat weeks with environmental factors, socioeconomic conditions, and urban morphology to potentially explain QoL issues by different factors and their different performance during hotter periods.
 
-In this regard, the project is built upon geospatial data science techniques for modeling weekly QoL outcomes, as proxied by selected 311 report categories, using ordinary least squares (OLS) regression modeling as a baseline followed by modern machine learning (ML) models RandomForest (RF) and SHapley Additive exPlanations (SHAP).
+In this regard, the project is built upon geospatial data science techniques for modeling weekly QoL outcomes in extreme heat and normal heat conditions, as proxied by selected 311 report categories, using ordinary least squares (OLS) regression modeling as a baseline followed by modern machine learning (ML) models, and SHapley Additive exPlanations (SHAP) method to interpret.
 
 ## 1.2. Research Gap
+A substantial body of literature has established the correlation between rising temperatures and increased frequency of 311 service requests, specifically regarding noise, energy, and water consumption (Harlan et al., 2006; Hsu et al., 2021). And some other urban research also identified how different socioeconomic, environmental, and urban built metrics patterns shape the spatial heterogeneity of 311 calls (Uejio et al., 2010). However, fewer studies connect them and investigate how the impact of these factors on QoF performance shifts when the thermal environment crosses into extreme thresholds.
 
-While a substantial body of literature has established the correlation between rising temperatures and increased frequency of 311 service requests—specifically regarding noise, energy, and water consumption—most existing studies treat temperature as a continuous linear variable or focus on the aggregate summer season as a single period. (Hsu et al., 2021) (Harlan et al., 2006) There is a lack of research that explicitly compares the mechanisms driving QoL degradation between normal summer conditions versus extreme heat events.
-
-Current urban research usually identifies where vulnerability exists, connecting heat exposure to socioeconomic disparities and lack of green infrastructure. (Uejio et al., 2010) However, fewer studies investigate how the influence of these environmental and urban morphology factors shifts when the thermal environment crosses into extreme thresholds.
-
-Tranditional approaches like OLS in 311 analysis generally struggle to capture the non-linear behaviors of human-environment interactions. While machine learning offers improved predictive power, (Kontokosta & Tull, 2017) it generally lacks interpretability. So, by integrating SHAP to compare extreme versus normal heat weeks, this study addresses a critical gap, where it takes a step further from simple prediction to interpret and explain socioeconomic, environmental, and urban built drivers under two different heat regimes, of which is explained in detail in section 2. (Lundberg & Lee, 2017)
+Transitional approaches like OLS in 311 analysis generally struggle to capture the non-linear behaviors of human-environment interactions. While machine learning offers improved predictive power, (Kontokosta & Tull, 2017) it generally lacks interpretability. So, by integrating SHAP to compare extreme versus normal heat weeks, this study addresses a critical gap, where it takes a step further from simple prediction to interpret and explain socioeconomic, environmental, and urban built drivers under two different heat regimes, of which is explained in detail in section 2. (Lundberg & Lee, 2017)
 
 ## 1.3. Research Objective
 
@@ -22,7 +19,7 @@ With the research gap's context, this study asks: how do environmental, socioeco
 
 Heat-related academic literature suggests that discomfort rises with temperature, so it is hypothesized that the QoL rate per capita will align with those findings. However, the objective of this research is to produce SHAP model values that can help reveal the drivers of QoL complaints in New York City.
 
-# 2. METHODS
+# 2. Data and METHODS
 
 ## 2.1. Study Area and Period
 
@@ -52,7 +49,7 @@ Socioeconomic data was derived from the United States Census, specifically the m
 
 Justifications for these variables highlight socioeconomic issues and how heat-related issues disproportionately affect different communities as well as how different communities interact with public services like New York City's 311. Educated and higher-income individuals may know how to navigate what their cities offer, limited English speakers may have more barriers accessing 311 services, renters may face more infrastructural issues compared to owners,
 
-### Environmental and Urban Data
+### Urban Built and Environmental Data
 
 Environmental urban data were all derived from Landsat raster calculations, specifically scenes within the same study timeline, with the computation done through ArcGIS Pro. However, land-cover land-use (LULC) data was a static raster from 2024.
 
@@ -92,6 +89,8 @@ POIs were determined as everyday main amenities, shops, leisure, and public tran
     -   park
 -   Public Transport
     -   station
+    
+### Built 
 
 ## 2.3. OLS Regression Model
 
@@ -111,7 +110,7 @@ OLS provides a transparent estimation of how predictors correlate with QoL compl
 
 ## 2.4. ML Model and SHAP
 
-Stepping further to understanding QoL and heat dynamics, to complement the OLS framework, a nonlinear ML model was used to test whether environmental, socioeconomic, and urban predictors collectively produce stronger predictive power for QoL rates per capita during extreme and normal heat weeks.
+Stepping further to understanding the relationships between QoL and urban dynamics under different heat conditions, to complement the OLS framework, a nonlinear ML model was used to test whether environmental, socioeconomic, and urban predictors collectively produce stronger predictive power for QoL rates per capita during extreme and normal heat weeks.
 
 In the case of this study RF, is stable on moderate-size datasets and can handle high multicollinearity and correlated predictors like this study's without requiring regularization. In addition, it is less sensitive to hyperparameter tuning and is capable of modeling nonlinear relationships and threshold behaviors associated with heat stress, as it is a popular ML model used in the environmental exposure, health, and urban prediction literature.
 
