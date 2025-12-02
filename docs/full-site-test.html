@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Site Test with Grain</title>
+    <style>
+        /* Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body {
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        body {
+            display: grid;
+            grid-template-columns: 275px 1fr 275px;
+            grid-template-rows: 100vh;
+            background: linear-gradient(180deg, #400e09 0%, #b60101 50%, #97d7dd 100%);
+            font-family: sans-serif;
+        }
+        
+        /* Left Panel */
+        .panel-left {
+            background-color: rgba(21, 20, 25, 0.9);
+            padding: 2rem;
+            color: white;
+        }
+        
+        /* Middle Panel Wrapper */
+        .panel-middle-wrapper {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Grain Container - BEHIND everything */
+        #grain-middle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        /* Content Panel - ABOVE grain */
+        .panel-middle {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            padding: 2rem;
+            overflow-y: auto;
+            /* NO background - lets grain show through */
+        }
+        
+        /* Right Panel */
+        .panel-right {
+            background-color: rgba(217, 211, 193, 0.5);
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        /* Content styling */
+        h1 { color: #F2A007; margin-bottom: 1rem; }
+        h2 { color: #F2A007; margin: 1.5rem 0 0.5rem; }
+        p { color: #000; line-height: 1.6; margin-bottom: 1rem; }
+        
+        .debug-box {
+            background: rgba(0,0,0,0.8);
+            color: #7DD3C0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="panel-left">
+        <h3 style="color: #F2A007;">LEFT PANEL</h3>
+        <p>Navigation here</p>
+    </nav>
+
+    <div class="panel-middle-wrapper">
+        <!-- Grain overlay -->
+        <div id="grain-middle"></div>
+        
+        <!-- Content -->
+        <main class="panel-middle" id="content-middle">
+            <h1>Middle Panel Content</h1>
+            <p>This text should be visible ABOVE the grain texture. The grain should appear as a subtle animated texture behind this content.</p>
+            
+            <h2>More Content</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+            
+            <h2>Even More Content</h2>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+            
+            <div class="debug-box" id="debug"></div>
+        </main>
+    </div>
+
+    <aside class="panel-right" id="content-right">
+        <h2 style="color: #F2A007;">Right Panel</h2>
+        <p>Sidebar content here.</p>
+    </aside>
+
+    <!-- Grained.js with z-index: 1 -->
+    <script>
+        (function (window, doc) {
+            "use strict";
+            function grained(ele, opt) {
+                var element = typeof ele === 'string' ? doc.getElementById(ele.split('#')[1]) : ele;
+                if (!element) { console.error('Grained: cannot find element'); return; }
+                var elementId = element.id;
+                
+                if (element.style.position !== 'absolute') element.style.position = 'relative';
+                element.style.overflow = 'hidden';
+
+                var options = {
+                    animate: true, patternWidth: 100, patternHeight: 100,
+                    grainOpacity: 0.05, grainDensity: 1, grainWidth: 1, grainHeight: 1, grainSpeed: 20
+                };
+                Object.keys(opt).forEach(k => options[k] = opt[k]);
+
+                var generateNoise = function () {
+                    var canvas = doc.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+                    canvas.width = options.patternWidth;
+                    canvas.height = options.patternHeight;
+                    for (var w = 0; w < options.patternWidth; w += options.grainDensity) {
+                        for (var h = 0; h < options.patternHeight; h += options.grainDensity) {
+                            var rgb = Math.random() * 256 | 0;
+                            ctx.fillStyle = 'rgba(' + [rgb, rgb, rgb, options.grainOpacity].join() + ')';
+                            ctx.fillRect(w, h, options.grainWidth, options.grainHeight);
+                        }
+                    }
+                    return canvas.toDataURL('image/png');
+                };
+
+                var grainDiv = doc.createElement('div');
+                grainDiv.className = 'grained';
+                grainDiv.style.cssText = [
+                    'position: absolute', 'top: -50%', 'left: -50%', 'right: -50%', 'bottom: -50%',
+                    'width: 200%', 'height: 200%',
+                    'background-image: url(' + generateNoise() + ')',
+                    'background-repeat: repeat', 'pointer-events: none', 'opacity: 1', 'z-index: 1'
+                ].join(';');
+
+                if (options.animate) {
+                    var animName = 'grain-anim-' + elementId;
+                    var keyframes = '@keyframes ' + animName + ' {' +
+                        '0%, 100% { transform: translate(0, 0); }' +
+                        '10% { transform: translate(-5%, -10%); }' +
+                        '30% { transform: translate(7%, -25%); }' +
+                        '50% { transform: translate(-15%, 10%); }' +
+                        '70% { transform: translate(0%, 15%); }' +
+                        '90% { transform: translate(-10%, 10%); }' +
+                    '}';
+                    var style = doc.createElement('style');
+                    style.innerHTML = keyframes;
+                    doc.head.appendChild(style);
+                    grainDiv.style.animation = animName + ' ' + options.grainSpeed + 's steps(10, end) infinite';
+                }
+                element.insertBefore(grainDiv, element.firstChild);
+                console.log('Grained applied to #' + elementId);
+            }
+            window.grained = grained;
+        })(window, document);
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const debug = document.getElementById('debug');
+            
+            // Apply grain
+            grained("#grain-middle", {
+                animate: true,
+                patternWidth: 300,
+                patternHeight: 300,
+                grainOpacity: 0.08,  // Visible but subtle
+                grainDensity: 1,
+                grainWidth: 1,
+                grainHeight: 1,
+                grainSpeed: 20
+            });
+            
+            // Debug info
+            const grainDiv = document.querySelector('#grain-middle .grained');
+            const contentDiv = document.getElementById('content-middle');
+            
+            let info = [];
+            info.push('=== STACKING DEBUG ===');
+            info.push('');
+            info.push('#grain-middle z-index: ' + getComputedStyle(document.getElementById('grain-middle')).zIndex);
+            info.push('.grained z-index: ' + (grainDiv ? grainDiv.style.zIndex : 'NOT FOUND'));
+            info.push('.panel-middle z-index: ' + getComputedStyle(contentDiv).zIndex);
+            info.push('');
+            info.push('.grained exists: ' + (grainDiv ? '✓ YES' : '✗ NO'));
+            info.push('.grained has background: ' + (grainDiv && grainDiv.style.backgroundImage ? '✓ YES' : '✗ NO'));
+            info.push('.grained has animation: ' + (grainDiv && grainDiv.style.animation ? '✓ YES' : '✗ NO'));
+            
+            debug.innerHTML = info.join('<br>');
+        });
+    </script>
+</body>
+</html>
