@@ -356,54 +356,51 @@ display: none;
 <h1>1. INTRODUCTION</h1>
 <div id="research-background" class="section level2">
 <h2>1.1. Research Background</h2>
-<p>Extreme heat is one of the deadliest environmental hazards in the
-United States and, while its effects are felt by everyone, they’re also
-felt disproportionately. In dense, urban metropolitan cities like New
-York, extreme temperatures interact with not just the built environment
-and local infrastructure conditions, but also the socioeconomic
-climate—extreme heat acts as one of the many architects shaping where
-service disruptions, complaints, and other surrounding stressors occur,
-degrading quality-of-life (QoL) for urbanites, suburbanites, and
-ruralites alike.</p>
+<p>Extreme heat weather is one of the deadliest environmental hazards in
+the United States, the heat extreme heat events have significant
+negative impacts on urban public health and urban sustainable
+development. In dense, urban metropolitan cities like New York, extreme
+heat interacts with not just the built environment and local
+infrastructure conditions, but also the socioeconomic climate—extreme
+heat acts as one of the many architects shaping where service
+disruptions, complaints, and other surrounding stressors occur,
+degrading quality-of-life (QoL) for urban residents.</p>
 <p>Within the context of this degradation is New York City’s 311
 service, a complaint system that accepts reports via calls, emails, and
-website submissions that can reflect extreme-heat induced behavior; it
-is a granular, real-time lens that provides understanding of how
-heat-related aggravation and other aspects can translate into
-observable, negative resident sentiment. This project in particular
-seeks to connect extreme heat versus normal heat weeks with
-environmental factors, socioeconomic conditions, and urban morphology to
-potentially explain QoL issues and their increases during hotter
+website submissions that can reflect heat induced QoL behavior; it is a
+granular, real-time lens that provides understanding of how heat-related
+aggravation and other aspects can translate into observable, negative
+resident sentiment. This project in particular seeks to connect extreme
+heat versus normal heat weeks with environmental factors, socioeconomic
+conditions, and urban morphology to potentially explain QoL issues by
+different factors and their different performance during hotter
 periods.</p>
 <p>In this regard, the project is built upon geospatial data science
-techniques for modeling weekly QoL outcomes, as proxied by selected 311
-report categories, using ordinary least squares (OLS) regression
-modeling as a baseline followed by modern machine learning (ML) models
-RandomForest (RF) and SHapley Additive exPlanations (SHAP).</p>
+techniques for modeling weekly QoL outcomes in extreme heat and normal
+heat conditions, as proxied by selected 311 report categories, using
+ordinary least squares (OLS) regression modeling as a baseline followed
+by modern machine learning (ML) models, and SHapley Additive
+exPlanations (SHAP) method to interpret.</p>
 </div>
 <div id="research-gap" class="section level2">
 <h2>1.2. Research Gap</h2>
-<p>While a substantial body of literature has established the
-correlation between rising temperatures and increased frequency of 311
-service requests—specifically regarding noise, energy, and water
-consumption—most existing studies treat temperature as a continuous
-linear variable or focus on the aggregate summer season as a single
-period. (Hsu et al., 2021) (Harlan et al., 2006) There is a lack of
-research that explicitly compares the mechanisms driving QoL degradation
-between normal summer conditions versus extreme heat events.</p>
-<p>Current urban research usually identifies where vulnerability exists,
-connecting heat exposure to socioeconomic disparities and lack of green
-infrastructure. (Uejio et al., 2010) However, fewer studies investigate
-how the influence of these environmental and urban morphology factors
-shifts when the thermal environment crosses into extreme thresholds.</p>
-<p>Tranditional approaches like OLS in 311 analysis generally struggle
+<p>A substantial body of literature has established the correlation
+between rising temperatures and increased frequency of 311 service
+requests, specifically regarding noise, energy, and water consumption
+(Harlan et al., 2006; Hsu et al., 2021). And some other urban research
+also identified how different socioeconomic, environmental, and urban
+built metrics patterns shape the spatial heterogeneity of 311 calls
+(Uejio et al., 2010). However, fewer studies connect them and
+investigate how the impact of these factors on QoF performance shifts
+when the thermal environment crosses into extreme thresholds.</p>
+<p>Transitional approaches like OLS in 311 analysis generally struggle
 to capture the non-linear behaviors of human-environment interactions.
 While machine learning offers improved predictive power, (Kontokosta
 &amp; Tull, 2017) it generally lacks interpretability. So, by
-integrating SHAP to compare extreme versus normal heat weeks, this study
-addresses a critical gap, where it takes a step further from simple
-prediction to interpret and explain socioeconomic, environmental, and
-urban built drivers under two different heat regimes, of which is
+integrating SHAP approach to compare extreme versus normal heat weeks,
+this study addresses a critical gap, where it takes a step further from
+simple prediction to interpret and explain socioeconomic, environmental,
+and urban built drivers under two different heat regimes, of which is
 explained in detail in section 2. (Lundberg &amp; Lee, 2017)</p>
 </div>
 <div id="research-objective" class="section level2">
@@ -419,8 +416,8 @@ produce SHAP model values that can help reveal the drivers of QoL
 complaints in New York City.</p>
 </div>
 </div>
-<div id="methods" class="section level1">
-<h1>2. METHODS</h1>
+<div id="data-and-methods" class="section level1">
+<h1>2. DATA and METHODS</h1>
 <div id="study-area-and-period" class="section level2">
 <h2>2.1. Study Area and Period</h2>
 <p>The study area is based in New York City with spatial resolution at
@@ -484,8 +481,8 @@ to navigate what their cities offer, limited English speakers may have
 more barriers accessing 311 services, renters may face more
 infrastructural issues compared to owners,</p>
 </div>
-<div id="environmental-and-urban-data" class="section level3">
-<h3>Environmental and Urban Data</h3>
+<div id="urban-environmental-data" class="section level3">
+<h3>Urban Environmental Data</h3>
 <p>Environmental urban data were all derived from Landsat raster
 calculations, specifically scenes within the same study timeline, with
 the computation done through ArcGIS Pro. However, land-cover land-use
@@ -554,11 +551,14 @@ points, and are as follows:</p>
 </ul></li>
 </ul>
 </div>
+<div id="urban-built-and-spatial-data" class="section level3">
+<h3>Urban Built and Spatial Data</h3>
+</div>
 </div>
 <div id="ols-regression-model" class="section level2">
 <h2>2.3. OLS Regression Model</h2>
 <p>OLS regression was used as the foundational statistical model in this
-study because it provides an interperetable, baseline framework for
+study because it provides an interperatable, baseline framework for
 understanding the linear associations between environmental,
 socioeconomic, urban morphology, and spatial accessibility
 characteristics and the dependent variable of heat-related QoL 311
@@ -571,13 +571,13 @@ each of the 2,225 observations representing a census tract by week.</p>
 were added incrementally to assess the added explanatory value of each
 predictor block: Environmental Predictors, Socioeconomic Predictors, and
 Urban Morphology Predictors.</p>
-<p><strong>Environmental:</strong> NDVI, percent tree canopy, percent
-impervious surface, and WCR.</p>
-<p><strong>Socioeconomic:</strong> Median income, poverty rate, percent
-renters, percent limited English, percent bachelor’s or more, and
-percent non-white.</p>
-<p><strong>Urban Morphology:</strong> AH, BD, distance to the nearest
-subway station, and 500-meter buffer POI density.</p>
+<p><strong>Urban Environmental Features:</strong> NDVI, percent tree
+canopy, percent impervious surface, and water cover ratio (WCR).</p>
+<p><strong>Urban Socioeconomic Features:</strong> Median income, poverty
+rate, percent renters, percent limited English, percent bachelor’s or
+more, and percent non-white.</p>
+<p><strong>Urban Built and Spatial Features:</strong> AH, BD, distance
+to the nearest subway station, and 500-meter buffer POI density.</p>
 <p>OLS provides a transparent estimation of how predictors correlate
 with QoL complaint rates, and coefficients can be directly interpreted
 and compared across extreme versus normal heat conditions, serving as an
@@ -643,20 +643,71 @@ normal heat conditions.</p>
 </div>
 <div id="ols-model-results" class="section level2">
 <h2>3.2. OLS Model Results</h2>
-<div id="extreme-heat-model" class="section level3">
-<h3>Extreme Heat Model</h3>
-</div>
 <div id="normal-heat-model" class="section level3">
-<h3>Normal Heat Model</h3>
+<h3>3.2.1 Normal Heat Model</h3>
+<p>In the OLS model for normal heat week QoF 311 report density, the
+overall F-statistic is strongly significant, indicating that the set of
+urban features jointly contributes meaningfully to explaining variation
+in reporting behavior. The R-squared of 0.084 shows that these
+predictors account for roughly 8% of the spatial variation, which
+presents a modest and low level of explanatory power that is typical for
+urban planning research on 311-based analyses. Such 311 outcomes reflect
+that service-request behavior is shaped by complex human responses,
+institutional factors, and informal social dynamics that are only
+partially captured by observable indicators. The relatively low
+R-squared also suggests the non-linear relationships might exist between
+urban features and 311 reporting behavior, indicating that
+machine-learning models may be more suitable for uncovering these
+non-linearities.</p>
+<p>Regarding individual predictors, under the 0.05 significance
+threshold and within the linear OLS framework, seven features show
+statistically significant associations with QoF 311 report density
+during normal heat weeks: PCT_TREE_CANOPY, PCT_IMPERVIOUS, NDVI,
+POVERTY_RATE, PCT_NON_WHITE, BD, and AH. All remaining variables exhibit
+no significant linear effect.</p>
+</div>
+<div id="extreme-heat-model" class="section level3">
+<h3>3.2.2 Extreme Heat Model</h3>
+<p>In the OLS model for extreme heat–week QoF 311 report density, the
+overall F-statistic is highly significant, indicating that the set of
+urban features jointly provides meaningful explanatory power. The
+model’s R-squared of 0.088 shows that these variables account for
+roughly 8–9% of the spatial variation, which also shows a limited
+explanatory power. The relatively low R-squared also suggests the
+non-linear relationships might exist between urban features and 311
+reporting behavior in extreme heat weeks.</p>
+<p>Regarding individual features, under the 0.05 significance threshold
+and the linearity assumption inherent to OLS, six features exhibit
+statistically significant associations with QoF 311 report density
+during extreme heat weeks: PCT_IMPERVIOUS, NDVI, POVERTY_RATE,
+PCT_NON_WHITE, BD, and AH. All other variables show no significant
+linear relationship after controlling for the rest of the model,
+implying that their effects may be weak, or more accurately represented
+through non-linear structures.</p>
+</div>
+<div id="ols-comparison" class="section level3">
+<h3>3.2.3 OLS Comparison</h3>
+<p>Across both the extreme-heat-week and normal-heat-week OLS models,
+only about half of the urban features exhibit statistically significant
+linear associations with QoF 311 report density, and both models yield
+low explanatory power (R² &lt; 0.10). This consistency indicates that
+the linear models capture only a small portion of the urban
+environmental, socioeconomic, and built indicators driving 311
+reporting. Taken together, these results reinforce the limitations of
+linear OLS for this problem. They highlight the need for
+machine-learning approaches that can better capture non-linear effects,
+enabling a more precise comparison of how urban features influence 311
+reporting differently under extreme heat versus normal heat
+conditions.</p>
 </div>
 </div>
 <div id="ml-and-shap-results" class="section level2">
 <h2>3.3. ML and SHAP Results</h2>
-<div id="extreme-heat-model-1" class="section level3">
-<h3>Extreme Heat Model</h3>
-</div>
 <div id="normal-heat-model-1" class="section level3">
-<h3>Normal Heat Model</h3>
+<h3>3.3.1 Normal Heat Model</h3>
+</div>
+<div id="extreme-heat-model-1" class="section level3">
+<h3>3.3.2 Extreme Heat Model</h3>
 </div>
 </div>
 </div>

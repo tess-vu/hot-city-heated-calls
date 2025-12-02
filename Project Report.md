@@ -11,7 +11,7 @@ In this regard, the project is built upon geospatial data science techniques for
 ## 1.2. Research Gap
 A substantial body of literature has established the correlation between rising temperatures and increased frequency of 311 service requests, specifically regarding noise, energy, and water consumption (Harlan et al., 2006; Hsu et al., 2021). And some other urban research also identified how different socioeconomic, environmental, and urban built metrics patterns shape the spatial heterogeneity of 311 calls (Uejio et al., 2010). However, fewer studies connect them and investigate how the impact of these factors on QoF performance shifts when the thermal environment crosses into extreme thresholds.
 
-Transitional approaches like OLS in 311 analysis generally struggle to capture the non-linear behaviors of human-environment interactions. While machine learning offers improved predictive power, (Kontokosta & Tull, 2017) it generally lacks interpretability. So, by integrating SHAP to compare extreme versus normal heat weeks, this study addresses a critical gap, where it takes a step further from simple prediction to interpret and explain socioeconomic, environmental, and urban built drivers under two different heat regimes, of which is explained in detail in section 2. (Lundberg & Lee, 2017)
+Transitional approaches like OLS in 311 analysis generally struggle to capture the non-linear behaviors of human-environment interactions. While machine learning offers improved predictive power, (Kontokosta & Tull, 2017) it generally lacks interpretability. So, by integrating SHAP approach to compare extreme versus normal heat weeks, this study addresses a critical gap, where it takes a step further from simple prediction to interpret and explain socioeconomic, environmental, and urban built drivers under two different heat regimes, of which is explained in detail in section 2. (Lundberg & Lee, 2017)
 
 ## 1.3. Research Objective
 
@@ -19,7 +19,7 @@ With the research gap's context, this study asks: how do environmental, socioeco
 
 Heat-related academic literature suggests that discomfort rises with temperature, so it is hypothesized that the QoL rate per capita will align with those findings. However, the objective of this research is to produce SHAP model values that can help reveal the drivers of QoL complaints in New York City.
 
-# 2. Data and METHODS
+# 2. DATA and METHODS
 
 ## 2.1. Study Area and Period
 
@@ -49,7 +49,7 @@ Socioeconomic data was derived from the United States Census, specifically the m
 
 Justifications for these variables highlight socioeconomic issues and how heat-related issues disproportionately affect different communities as well as how different communities interact with public services like New York City's 311. Educated and higher-income individuals may know how to navigate what their cities offer, limited English speakers may have more barriers accessing 311 services, renters may face more infrastructural issues compared to owners,
 
-### Urban Built and Environmental Data
+### Urban Environmental Data
 
 Environmental urban data were all derived from Landsat raster calculations, specifically scenes within the same study timeline, with the computation done through ArcGIS Pro. However, land-cover land-use (LULC) data was a static raster from 2024.
 
@@ -90,21 +90,21 @@ POIs were determined as everyday main amenities, shops, leisure, and public tran
 -   Public Transport
     -   station
     
-### Built 
+### Urban Built and Spatial Data
 
 ## 2.3. OLS Regression Model
 
-OLS regression was used as the foundational statistical model in this study because it provides an interperetable, baseline framework for understanding the linear associations between environmental, socioeconomic, urban morphology, and spatial accessibility characteristics and the dependent variable of heat-related QoL 311 complaints per capita.
+OLS regression was used as the foundational statistical model in this study because it provides an interperatable, baseline framework for understanding the linear associations between environmental, socioeconomic, urban morphology, and spatial accessibility characteristics and the dependent variable of heat-related QoL 311 complaints per capita.
 
 Separate cross-sectional OLS models were estimated for extreme heat weeks defined as those with at least two extreme heat days, and normal heat weeks defined as those with less than two extreme heat days, with each of the 2,225 observations representing a census tract by week.
 
 Predictors were structured into three conceptual categories, which were added incrementally to assess the added explanatory value of each predictor block: Environmental Predictors, Socioeconomic Predictors, and Urban Morphology Predictors.
 
-**Environmental:** NDVI, percent tree canopy, percent impervious surface, and WCR.
+**Urban Environmental Features:** NDVI, percent tree canopy, percent impervious surface, and water cover ratio (WCR).
 
-**Socioeconomic:** Median income, poverty rate, percent renters, percent limited English, percent bachelor’s or more, and percent non-white.
+**Urban Socioeconomic Features:** Median income, poverty rate, percent renters, percent limited English, percent bachelor’s or more, and percent non-white.
 
-**Urban Morphology:** AH, BD, distance to the nearest subway station, and 500-meter buffer POI density.
+**Urban Built and Spatial Features:** AH, BD, distance to the nearest subway station, and 500-meter buffer POI density.
 
 OLS provides a transparent estimation of how predictors correlate with QoL complaint rates, and coefficients can be directly interpreted and compared across extreme versus normal heat conditions, serving as an important reference model before introducing nonlinear ML approaches with Random Forest. So, given the behavioral nature of 311 complaint reporting and the noisy, high-frequency variability of QoL calls, relatively low R² values are expected in this domain, consistent with existing literature on 311 data, urban complaints, and human-environment interactions.
 
@@ -134,15 +134,36 @@ With this, SHAP allows identification of which environmental, socioeconomic, or 
 
 ## 3.2. OLS Model Results
 
-### Extreme Heat Model
+### 3.2.1 Normal Heat Model
+In the OLS model for normal heat week QoF 311 report density, the overall F-statistic is strongly significant, indicating that the set of urban features jointly contributes meaningfully to explaining variation in reporting behavior. The R-squared of 0.084 shows that these predictors account for roughly 8% of the spatial variation, which presents a modest and low level of explanatory power that is typical for urban planning research on 311-based analyses. Such 311 outcomes reflect that service-request behavior is shaped by complex human responses, institutional factors, and informal social dynamics that are only partially captured by observable indicators. The relatively low R-squared also suggests the non-linear relationships might exist between urban features and 311 reporting behavior, indicating that machine-learning models may be more suitable for uncovering these non-linearities.
 
-### Normal Heat Model
+Regarding individual predictors, under the 0.05 significance threshold and within the linear OLS framework, seven features show statistically significant associations with QoF 311 report density during normal heat weeks: PCT_TREE_CANOPY, PCT_IMPERVIOUS, NDVI, POVERTY_RATE, PCT_NON_WHITE, BD, and AH. All remaining variables exhibit no significant linear effect. 
+
+### 3.2.2 Extreme Heat Model
+
+In the OLS model for extreme heat–week QoF 311 report density, the overall F-statistic is highly significant, indicating that the set of urban features jointly provides meaningful explanatory power. The model’s R-squared of 0.088 shows that these variables account for roughly 8–9% of the spatial variation, which also shows a limited explanatory power. The relatively low R-squared also suggests the non-linear relationships might exist between urban features and 311 reporting behavior in extreme heat weeks.
+
+Regarding individual features, under the 0.05 significance threshold and the linearity assumption inherent to OLS, six features exhibit statistically significant associations with QoF 311 report density during extreme heat weeks: PCT_IMPERVIOUS, NDVI, POVERTY_RATE, PCT_NON_WHITE, BD, and AH. All other variables show no significant linear relationship after controlling for the rest of the model, implying that their effects may be weak, or more accurately represented through non-linear structures.
+
+### 3.2.3 OLS Comparison
+
+Across both the extreme-heat-week and normal-heat-week OLS models, only about half of the urban features exhibit statistically significant linear associations with QoF 311 report density, and both models yield low explanatory power (R² < 0.10). This consistency indicates that the linear models capture only a small portion of the urban environmental, socioeconomic, and built indicators driving 311 reporting. Taken together, these results reinforce the limitations of linear OLS for this problem. They highlight the need for machine-learning approaches that can better capture non-linear effects, enabling a more precise comparison of how urban features influence 311 reporting differently under extreme heat versus normal heat conditions.
 
 ## 3.3. ML and SHAP Results
 
-### Extreme Heat Model
+### 3.3.1 ML Model Result
 
-### Normal Heat Model
+Across both models, Random Forest substantially outperforms the OLS baseline, demonstrating the importance of non-linear and complex effects in explaining QoF 311 report density. For the regular heat week model, the test R2 reaches 0.274, over three times higher than the OLS R2 of approximately 0.08. Similarly, the extreme heat week model attains a test R^2of 0.246, again far exceeding the linear model but slightly lower than the regular heat scenario. This gap suggests that reporting behaviors during extreme heat is more variable and influenced by additional unobserved or volatile mechanisms. The clear improvements in model performance in both cases further confirm that machine-learning approaches capture substantial structure in the data that linear models fail to represent.
+
+SHAP results reveal a consistent set of dominant predictors across both heat conditions. In each model, AH, PCT_NON_WHITE, and NDVI emerge as the three strongest contributors, reinforcing the central role of high-density residential morphology, socio-demographic composition, and environmental greenness in shaping QoF 311 reporting patterns. Several other predictors, such as subway accessibility, median income, WCR, poverty rate, and PCT_RENTERS, also exhibit meaningful non-linear contributions that were not visible in OLS, underscoring the value of ML models for uncovering complex behavioral responses.
+
+### 3.3.2 Extreme Heat vs Normal Heat
+
+Comparing the two heat conditions reveals both stability and notable shifts in feature influence. The hierarchy of the top three features, AH, PCT_NON_WHITE, and NDVI, remains consistent across models, suggesting that built form intensity, demographic composition, and vegetation coverage systematically shape reporting behaviors in both normal and extreme heat contexts. These stable high-importance variables reflect structural neighborhood characteristics whose effects persist regardless of temperature severity.
+
+However, several features display meaningful changes in importance under extreme heat. WCR increases in influence in the extreme heat model, indicating that proximity to water bodies may play a more substantial role when heat stress intensifies, possibly reflecting shifts in human activity patterns or uneven access to cooling amenities. In contrast, some variables such as PCT_IMPERVIOUS, BD, and PCT_TREE_CANOPY show moderate decreases in relative importance, suggesting that physical morphology may matter slightly less once temperatures exceed critical thresholds and behavioral or socio-demographic factors take precedence. Overall, these patterns indicate that while the core drivers of 311 reporting remain stable, the marginal influence of secondary features is sensitive to heat severity, reinforcing the need for flexible modelling approaches to detect such context-dependent effects.
+
+### 3.3.3 Non-Linear Relationship for Features
 
 # 4. DISCUSSION
 
