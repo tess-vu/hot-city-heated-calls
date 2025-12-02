@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grain Debug Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #FF4F3A 0%, #FF8B7A 50%, #7DD3C0 100%);
+            font-family: monospace;
+            color: white;
+        }
+        
+        .debug-panel {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+        
+        h1 {
+            margin: 0 0 20px 0;
+            font-size: 24px;
+        }
+        
+        .test-container {
+            width: 100%;
+            height: 400px;
+            background-color: rgba(255, 255, 255, 0.1);
+            position: relative;
+            border: 2px solid white;
+            margin-bottom: 20px;
+        }
+        
+        #grain-test {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            z-index: 10;
+        }
+        
+        #status {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .log {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #7DD3C0;
+            padding-left: 10px;
+        }
+        
+        .log-entry.error {
+            border-left-color: #FF4F3A;
+            color: #FF4F3A;
+        }
+        
+        .log-entry.success {
+            border-left-color: #7DD3C0;
+            color: #7DD3C0;
+        }
+        
+        .log-entry.warning {
+            border-left-color: #FFE66D;
+            color: #FFE66D;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-panel">
+        <h1>🔍 GRAIN LIBRARY DEBUG TEST</h1>
+        <div id="log-output" class="log">
+            <div class="log-entry">Initializing tests...</div>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <div id="grain-test">
+            <div class="info">
+                <div>GRAIN TEXTURE TEST</div>
+                <div id="status">Initializing...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load grained.js (use your local file) -->
+    <script src="js/grained.js"></script>
+    
+    <script>
+        const logOutput = document.getElementById('log-output');
+        const statusDiv = document.getElementById('status');
+        
+        function addLog(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry ' + type;
+            entry.textContent = message;
+            logOutput.appendChild(entry);
+            logOutput.scrollTop = logOutput.scrollHeight;
+            console.log(message);
+        }
+        
+        // Wait a moment for library to load
+        setTimeout(() => {
+            addLog('Starting grain test...', 'info');
+            
+            try {
+                // Check if grained library loaded
+                if (typeof grained === 'undefined') {
+                    addLog('❌ ERROR: Grained library not loaded!', 'error');
+                    addLog('Make sure grained.js is in the js/ folder', 'error');
+                    statusDiv.textContent = '❌ Grained library not loaded';
+                    statusDiv.style.color = '#FF4F3A';
+                    return;
+                }
+                
+                addLog('✓ Grained library loaded successfully', 'success');
+                
+                // Check if target element exists
+                const targetElement = document.getElementById('grain-test');
+                if (!targetElement) {
+                    addLog('❌ ERROR: Target element #grain-test not found!', 'error');
+                    statusDiv.textContent = '❌ Target element not found';
+                    statusDiv.style.color = '#FF4F3A';
+                    return;
+                }
+                
+                addLog('✓ Target element found', 'success');
+                
+                // Apply grain with visible settings for testing
+                const options = {
+                    animate: true,
+                    patternWidth: 150,
+                    patternHeight: 150,
+                    grainOpacity: 0.15,  // Extra visible for testing
+                    grainDensity: 2,     // More dense for testing
+                    grainWidth: 1.5,
+                    grainHeight: 1.5
+                };
+                
+                addLog('Applying grain with options: ' + JSON.stringify(options), 'info');
+                
+                // Apply the grain effect
+                grained("#grain-test", options);
+                
+                addLog('✓ Grained function executed', 'success');
+                
+                // Wait a moment for DOM to update
+                setTimeout(() => {
+                    // Check if grained div was created
+                    const grainedDiv = document.querySelector('#grain-test .grained');
+                    
+                    if (grainedDiv) {
+                        addLog('✅ SUCCESS: Grained div created!', 'success');
+                        addLog('Div class: ' + grainedDiv.className, 'info');
+                        addLog('Position: ' + grainedDiv.style.position, 'info');
+                        addLog('Z-index: ' + grainedDiv.style.zIndex, 'info');
+                        
+                        const hasBackground = grainedDiv.style.backgroundImage && 
+                                             grainedDiv.style.backgroundImage.includes('data:image');
+                        
+                        if (hasBackground) {
+                            addLog('✓ Background image generated (base64 PNG)', 'success');
+                        } else {
+                            addLog('⚠ Warning: No background image found', 'warning');
+                        }
+                        
+                        if (grainedDiv.style.animation) {
+                            addLog('✓ Animation applied: ' + grainedDiv.style.animation, 'success');
+                        } else {
+                            addLog('⚠ Warning: No animation found', 'warning');
+                        }
+                        
+                        statusDiv.textContent = '✅ Grain is working! Look for animated texture';
+                        statusDiv.style.color = '#7DD3C0';
+                        
+                        addLog('===================', 'success');
+                        addLog('🎉 ALL TESTS PASSED!', 'success');
+                        addLog('You should see grain texture above', 'success');
+                        addLog('===================', 'success');
+                        
+                    } else {
+                        addLog('❌ ERROR: Grained div not created!', 'error');
+                        addLog('Checking what\'s in #grain-test:', 'info');
+                        addLog('Children count: ' + targetElement.children.length, 'info');
+                        
+                        for (let i = 0; i < targetElement.children.length; i++) {
+                            addLog('Child ' + i + ': ' + targetElement.children[i].tagName + 
+                                   ' class=' + targetElement.children[i].className, 'info');
+                        }
+                        
+                        statusDiv.textContent = '⚠️ Grained div not found - check console';
+                        statusDiv.style.color = '#FFE66D';
+                    }
+                }, 100);
+                
+            } catch (error) {
+                addLog('❌ CRITICAL ERROR: ' + error.message, 'error');
+                addLog('Stack: ' + error.stack, 'error');
+                statusDiv.textContent = '❌ Error: ' + error.message;
+                statusDiv.style.color = '#FF4F3A';
+            }
+        }, 500);
+    </script>
+</body>
+</html>

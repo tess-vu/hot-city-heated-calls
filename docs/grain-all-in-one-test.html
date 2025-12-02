@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grain Effect - All-in-One Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #FF4F3A 0%, #FF8B7A 50%, #7DD3C0 100%);
+            font-family: 'Courier New', monospace;
+            color: white;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .test-box {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid white;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        #grain-target {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .message {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 100;
+            position: relative;
+        }
+        
+        .message h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        #status {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        
+        .status-success { color: #7DD3C0; }
+        .status-error { color: #FF4F3A; }
+        .status-warning { color: #FFE66D; }
+        
+        .instructions {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            list-style-position: inside;
+            line-height: 1.8;
+        }
+        
+        .debug-info {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .debug-info h3 {
+            margin-bottom: 10px;
+            color: #7DD3C0;
+        }
+        
+        .debug-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #7DD3C0;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌾 GRAIN EFFECT TEST</h1>
+        <p class="subtitle">All-in-One Test File - No external dependencies needed!</p>
+        
+        <div class="test-box">
+            <div id="grain-target">
+                <div class="message">
+                    <h2>Look for the grain texture!</h2>
+                    <div id="status">Initializing...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>✅ What to look for:</h3>
+            <ul>
+                <li>Subtle animated texture (like old film grain)</li>
+                <li>Texture should move/shift slightly</li>
+                <li>Green success message below</li>
+                <li>No error messages in browser console (F12)</li>
+            </ul>
+        </div>
+        
+        <div class="debug-info">
+            <h3>Debug Information:</h3>
+            <div id="debug-output"></div>
+        </div>
+    </div>
+
+    <!-- GRAINED.JS LIBRARY EMBEDDED -->
+    <script>
+        /*!
+         * Grained.js
+         * Author : Sarath Saleem - https://github.com/sarathsaleem
+         * MIT license: http://opensource.org/licenses/MIT
+         * GitHub : https://github.com/sarathsaleem/grained
+         * v0.0.1
+         */
+        (function (window, doc) {
+            "use strict";
+
+            function grained(ele, opt) {
+                var element = null, elementId = null;
+
+                if (typeof ele === 'string') {
+                    element = doc.getElementById(ele.split('#')[1]);
+                } else if (typeof ele === 'object') {
+                    element = ele;
+                }
+
+                if (!element) {
+                    console.error('Grained: cannot find the element with id ' + ele);
+                    return;
+                }
+                elementId = element.id;
+
+                if (element.style.position !== 'absolute') {
+                    element.style.position = 'relative';
+                }
+                element.style.overflow = 'hidden';
+
+                var options = {
+                    animate: true,
+                    patternWidth: 100,
+                    patternHeight: 100,
+                    grainOpacity: 0.05,
+                    grainDensity: 1,
+                    grainWidth: 1,
+                    grainHeight: 1,
+                    grainSpeed: 20
+                };
+
+                Object.keys(opt).forEach(function (key) {
+                    options[key] = opt[key];
+                });
+
+                var generateNoise = function () {
+                    var canvas = doc.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+                    canvas.width = options.patternWidth;
+                    canvas.height = options.patternHeight;
+
+                    for (var w = 0; w < options.patternWidth; w += options.grainDensity) {
+                        for (var h = 0; h < options.patternHeight; h += options.grainDensity) {
+                            var rgb = Math.random() * 256 | 0;
+                            ctx.fillStyle = 'rgba(' + [rgb, rgb, rgb, options.grainOpacity].join() + ')';
+                            ctx.fillRect(w, h, options.grainWidth, options.grainHeight);
+                        }
+                    }
+                    return canvas.toDataURL('image/png');
+                };
+
+                function addGrainDiv() {
+                    var grainDiv = doc.createElement('div');
+                    grainDiv.className = 'grained';
+                    var dataURI = generateNoise();
+
+                    grainDiv.style.cssText = [
+                        'position: absolute',
+                        'top: -50%',
+                        'left: -50%',
+                        'right: -50%',
+                        'bottom: -50%',
+                        'width: 200%',
+                        'height: 200%',
+                        'background-image: url(' + dataURI + ')',
+                        'background-repeat: repeat',
+                        'pointer-events: none',
+                        'opacity: 1',
+                        'z-index: 1'
+                    ].join(';');
+
+                    if (options.animate) {
+                        var animationName = 'grained-animation-' + elementId;
+                        var keyframes = '@keyframes ' + animationName + ' {' +
+                            '0%, 100% { transform: translate(0, 0); }' +
+                            '10% { transform: translate(-5%, -10%); }' +
+                            '20% { transform: translate(-15%, 5%); }' +
+                            '30% { transform: translate(7%, -25%); }' +
+                            '40% { transform: translate(-5%, 25%); }' +
+                            '50% { transform: translate(-15%, 10%); }' +
+                            '60% { transform: translate(15%, 0%); }' +
+                            '70% { transform: translate(0%, 15%); }' +
+                            '80% { transform: translate(3%, 35%); }' +
+                            '90% { transform: translate(-10%, 10%); }' +
+                        '}';
+
+                        var style = doc.createElement('style');
+                        style.type = 'text/css';
+                        style.innerHTML = keyframes;
+                        doc.getElementsByTagName('head')[0].appendChild(style);
+
+                        grainDiv.style.animation = animationName + ' ' + options.grainSpeed + 's steps(10, end) infinite';
+                    }
+
+                    element.insertBefore(grainDiv, element.firstChild);
+                }
+
+                addGrainDiv();
+                console.log('Grained effect applied to #' + elementId);
+            }
+
+            window.grained = grained;
+        })(window, document);
+    </script>
+
+    <!-- TEST SCRIPT -->
+    <script>
+        const statusDiv = document.getElementById('status');
+        const debugOutput = document.getElementById('debug-output');
+        
+        function addDebug(message, isError = false) {
+            const entry = document.createElement('div');
+            entry.className = 'debug-entry';
+            entry.textContent = message;
+            if (isError) entry.style.borderLeftColor = '#FF4F3A';
+            debugOutput.appendChild(entry);
+            console.log(message);
+        }
+        
+        setTimeout(() => {
+            try {
+                addDebug('✓ Grained library loaded');
+                
+                if (typeof grained === 'undefined') {
+                    throw new Error('Grained library not found');
+                }
+                
+                const options = {
+                    animate: true,
+                    patternWidth: 200,
+                    patternHeight: 200,
+                    grainOpacity: 0.12,  // Very visible for testing
+                    grainDensity: 1.5,
+                    grainWidth: 1,
+                    grainHeight: 1,
+                    grainSpeed: 20
+                };
+                
+                addDebug('✓ Applying grain with opacity: ' + options.grainOpacity);
+                
+                grained('grain-target', options);
+                
+                setTimeout(() => {
+                    const grainedDiv = document.querySelector('#grain-target .grained');
+                    
+                    if (grainedDiv) {
+                        addDebug('✓ Grained div created successfully!');
+                        addDebug('✓ Background: ' + (grainedDiv.style.backgroundImage ? 'Generated' : 'Missing'));
+                        addDebug('✓ Animation: ' + (grainedDiv.style.animation ? 'Active' : 'None'));
+                        
+                        statusDiv.innerHTML = '<span class="status-success">✅ SUCCESS! Grain is working!</span>';
+                        addDebug('===================');
+                        addDebug('🎉 ALL TESTS PASSED!');
+                        addDebug('You should see animated grain texture above');
+                    } else {
+                        throw new Error('Grained div was not created');
+                    }
+                }, 100);
+                
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="status-error">❌ ERROR: ' + error.message + '</span>';
+                addDebug('❌ ERROR: ' + error.message, true);
+                addDebug('Stack: ' + error.stack, true);
+            }
+        }, 300);
+    </script>
+</body>
+</html>
