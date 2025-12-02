@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grain Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(180deg, #FF4F3A 0%, #FF8B7A 50%, #7DD3C0 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #test-container {
+            width: 600px;
+            height: 400px;
+            background-color: rgba(255, 255, 255, 0.1);
+            position: relative;
+            border: 2px solid white;
+        }
+        
+        #grain-test {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: monospace;
+            font-size: 24px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            z-index: 10;
+        }
+        
+        #status {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #7DD3C0;
+        }
+    </style>
+</head>
+<body>
+    <div id="test-container">
+        <div id="grain-test"></div>
+        <div class="info">
+            <div>GRAIN TEXTURE TEST</div>
+            <div id="status">Initializing...</div>
+        </div>
+    </div>
+
+    <!-- Load grained.js (use your local file) -->
+    <script src="js/grained.js"></script>
+    
+    <script>
+        // Wait a moment for library to load
+        setTimeout(() => {
+            const statusDiv = document.getElementById('status');
+            
+            try {
+                // Check if grained library loaded
+                if (typeof grained === 'undefined') {
+                    statusDiv.textContent = '❌ Grained library not loaded';
+                    statusDiv.style.color = '#FF4F3A';
+                    return;
+                }
+                
+                // Apply grain with visible settings for testing
+                const options = {
+                    animate: true,
+                    patternWidth: 150,
+                    patternHeight: 150,
+                    grainOpacity: 0.15,  // Extra visible for testing
+                    grainDensity: 2,     // More dense for testing
+                    grainWidth: 1.5,
+                    grainHeight: 1.5
+                };
+                
+                grained("#grain-test", options);
+                
+                // Check if grained div was created (it's a div, not a canvas!)
+                const grainedDiv = document.querySelector('#grain-test .grained');
+                if (grainedDiv) {
+                    statusDiv.textContent = '✅ Grain is working! Look for animated texture';
+                    statusDiv.style.color = '#7DD3C0';
+                    
+                    // Log details
+                    console.log('✅ Grained div created:', grainedDiv);
+                    console.log('Background image:', grainedDiv.style.backgroundImage ? 'Generated ✓' : 'Missing ✗');
+                    console.log('Animation:', grainedDiv.style.animation || 'None');
+                } else {
+                    statusDiv.textContent = '⚠️ Grained div not found - grain may not be applied';
+                    statusDiv.style.color = '#FFE66D';
+                }
+                
+            } catch (error) {
+                statusDiv.textContent = '❌ Error: ' + error.message;
+                statusDiv.style.color = '#FF4F3A';
+                console.error('Grain error:', error);
+            }
+        }, 500);
+    </script>
+</body>
+</html>
