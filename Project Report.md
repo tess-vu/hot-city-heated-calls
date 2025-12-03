@@ -1,3 +1,13 @@
+---
+title: "Hot City, Heated Calls"
+subtitle: "Understanding Extreme Heat and Quality of Life Using NYC's 311 and SHAP"
+date: today
+author:
+  - name: Mark Deng
+  - name: Tess Vu
+format: html
+---
+
 # 1. INTRODUCTION
 
 ## 1.1. Research Background
@@ -132,6 +142,110 @@ With this, SHAP allows identification of which environmental, socioeconomic, or 
 # 3. RESULTS
 
 ## 3.1. Exploratory Data Analysis
+
+![*Target Variable Histogram*](notebooks/images/EDA/target_variable_histogram.png)
+
+Histograms reveal leftward shift in heat week call distribution relative to normal weeks, evidenced by both mean and median decreases. This is a slight call reduction during extreme heat periods, conflicting with the main hypothesis. This may likely be due to behavioral shifts during extremes versus normals. While the 311 calls were selected based on their connections to heat and heightened aggravation with high temperatures, certain complaints like "banging" or "loud music" *could* decrease because individuals may want to insulate themselves indoors with AC, reducing audible and visible perceptions to outdoor or even sanitation issues.
+
+Both distributions have pronounced positive skewness with long right tails extending beyond 15 calls per 1,000 population. However, heat week distribution per capita has more extreme outliers and higher variability, suggesting certain tracts experience disproportionate surges in QoL complaints during heat waves (about 852 tracts, or 38.3% of tracts have higher calls during heat weeks). These outlier tracts warrant individual investigation as they may be commercial districts with transient populations inflating per-capita rates, neighborhoods with vulnerable populations, areas with heightened civic engagement and 311 awareness, or tracts with potential data quality issues.
+
+The great overlap between distributions suggests most tracts maintain relatively stable complaint rates regardless of heat conditions. However, some tracts do show meaningful elevation during heat weeks, highlighting importance of identifying characteristics that predict heat sensitivity rather than assuming universal heat response.
+
+![*Environmental Predictors Histogram*](notebooks/images/EDA/environment_histogram.png)
+
+**PCT_TREE_CANOPY:** Tree canopy may be a powerful discriminator among neighborhood types as most tracts have very little canopy as opposed to others given the low mean and median yet high maximum.
+
+**NDVI:** Seemingly shows a similar distribution to `PCT_TREE_CANOPY`.
+
+**WCR:** Expectedly very low due to the urbanity of NYC unless tracts are bordering water bodies.
+
+**PCT_IMPERVIOUS:** High percentage is expected due to the built density of metropolitan cities.
+
+![*Socioeconomic Predictors Histogram*](notebooks/images/EDA/socioeconomic_histogram.png)
+
+**PCT_BACHELORS_PLUS:** Over 30% of individuals attained high education, which also affects awareness and use of city services like 311. Again, high standard deviation indicates unequal distribution of education.
+
+**PCT_RENTERS:** Expected high values due to NYC being a renter-dominant city. This means a lot of renants may experience infrastructural issues outside of their immediate control, as safety and building regulation responsibilities fall on the landlord.
+
+**PCT_LIMITED_ENGLISH:** Very high skew shows that individuals who speak limited English are geographically stratified in different parts of NYC. This reflects a significant barrier to accessing 311 services.
+
+**MEDIAN_INCOME:**: After removing placeholder values, income distribution reveals NYC's stark economic geography. Standard deviation exceeds the mean, indicating heavily skewed distribution, which unsurprisingly reflects extreme wealth inequality across census tracts.
+
+**POVERTY_RATE:** High right skew and a 100% max indicate concentrated poverty in certain neighborhoods.
+
+**PCT_NON_WHITE:** Racial composition reflects NYC's diversity, but high variability indicates persistent residential segregation patterns that could interact with target variables.
+
+![*Urban Form Predictors Histogram*](notebooks/images/EDA/urban_histogram.png)
+
+**BD:** Most tracts have low-to-moderate building coverage with some ultra-dense commercial/residential cores.
+
+**AH:** Building heights have great skew and range, so there's significant vertical variability in NYC, likely reflecting skyscraper districts in the central core and mid- to low-rise as the geography eases out into the periphery.
+
+**POI_500M_DENSITY:** Amenities are expectedly highly clustered, likely in denser commercial / business and residential areas.
+
+**KNN_SUBWAY_dist_mean:** Average walking distance to nearest subway stations shows most tracts generally have reasonable transit access, and this is unsurprising as NYC is the only city in the US with public transport as its main commute / modality for citizens. Although the variation suggests transit deserts exist.
+
+![*Correlation Matrix*](notebooks/images/EDA/correlation_matrix.png)
+
+![*Correlation Horizontal Divergent Bar Plot*](notebooks/images/EDA/correlation_horizontal_bar.png)
+
+**Extreme Heat and Normal Weeks:** Heat week and normal week call rates show strong positive correlation, indicating neighborhoods with high baseline complaint rates also show elevated rates during heat periods. Again, imperfect correlation suggests heat amplifies complaints differently, with some tracts having proportionally larger increases than baseline activity.
+
+**Tree Canopy and NDVI Correlation:** Tree canopy coverage and NDVI measure related environmental characteristics. But it also suggests that they both capture unique aspects, especially since NDVI reflects all vegetation including grass / shrubs while tree canopy specifically quantifies woody vegetation providing shade.
+
+**Impervious Surface Relationships:** Negative correlations show expected trade-off between built environment and green space. But there are some tracts with high vegetation despite substantial impervious coverage, potentially through street trees, small parks, or green infrastructure.
+
+**Income and Education Correlation:** Strong positive association between higher education and median income is expected.
+
+**Income and Poverty Correlation:** Extremely strong negative correlation creates redundancy as these variables measure opposite ends of same economic spectrum.
+
+**Race and Poverty Correlation:** Moderate positive correlation between percent non-white and poverty rate reflects persistent structural racism and residential segregation in NYC.
+
+**Building Density and Height Correlation:** Moderate positive correlation suggests taller buildings tend to cluster in denser areas.
+
+**POI Density and Subway Access Correlation:** Negative correlation indicates that commercial centers concentrate near transit. However, stats indicate deserts with commercial activity and transit-rich residential zones both exist.
+
+**Green Space and Heat Calls Correlation:** Weak negative correlations support the hypothesis on buffering effects, though relationships are weaker than anticipated. However, this may require nonlinear modeling or interaction terms to capture threshold effects.
+
+**Income and Heat Calls Correlation:** Near-zero or weakly positive correlation challenges simple vulnerability narrative, supporting one of the hypotheses of nuanced prediction that affluent areas may show increased reporting despite lower physiological vulnerability.
+
+![*VIF Horizontal Bar Plot*](notebooks/images/EDA/vif_horizontal_bar.png)
+
+**Critical VIF Violations (10 \< VIF\>)**
+
+`PCT_RENTERS`, `BD`, and `PCT_IMPERVIOUS` are likely very correlated with one another as imperviousness and building density have overlapping measures of the physical city, whereas renters as opposed to owners will be concentrated in denser areas.
+
+`PCT_BACHELORS_PLUS` and `MEDIAN_INCOME` are expectedly correlated with one another as higher educational attainment often meets that higher earning gradient.
+
+`NDVI`'s high VIF indicates a correlation with its inverse of impervious surface as well as correlation with `PCT_TREE_CANOPY`. It may have a higher VIF due to its broader measurements that capture more city characteristics than tree canopy.
+
+`PCT_NON_WHITE` is likely associated with `POVERTY_RATE`, but the former may capture more broad sociodemographics, hence the higher VIF.
+
+**Moderate Multicollinearity Concerns (5 \< VIF \< 10)**
+
+`POVERTY_RATE` and `KNN_SUBWAY_dist_mean` are moderately multicollinear, the former with `MEDIAN_INCOME` and `PCT_NON_WHITE` and the latter with the urban form variables. However, these metrics do not have as drastic of VIF values as their related counterparts.
+
+**Acceptable VIF Range (VIF \< 5)**
+
+Low VIF for `WCR`, `PCT_LIMITED_ENGLISH`, `POI_DENSITY`, `AH`, and `PCT_TREE_CANOPY` indicate that these are the most distinct and independent variables from 311 QoL reports in heat.
+
+With this, it seems the variables cluster strongly and reveal that socioeconomic and environmental inequality is not composed of independent factors, but rather tightly bundled mechanisms that drive 311 reporting behavior. This means that OLS, while providing an interpretable baseline, is not ideal for capturing all these variables, reinforcing the need for models robust against multicollinearity like Random Forest.
+
+![*Target Variable Map*](notebooks/images/EDA/target_variable_map.png)
+
+![*Environmental Predictors Map*](notebooks/images/EDA/environment_map.png)
+
+![*Socioeconomic Predictors Map*](notebooks/images/EDA/socioeconomic_map.png)
+
+![*Urban Form Predictors Map*](notebooks/images/EDA/urban_map.png)
+
+The outliers significantly wash out the other tracts in NYC, many 311 super users are in the Queens Borough in the Long Island City area right around LaGuardia Community College. This general area looks like it has a higher non-white and higher poverty rate.
+
+Most notably, the percent change map looks like it lacks spatial autocorrelation, but visually the impact must be influenced by some scattered tracts with low baseline activity that makes it look fragmented. This must indicate some kind of stress that's unique to the tracts and their mechanism shifts.
+
+Despite the visual scattered perception, it does look like that the changes are more skewed toward peripheral edges of the boroughs.
+
+Also, `MEDIAN_INCOME` and `PCT_BACHELORS_PLUS` show an almost inverse spatial pattern when compared to `PCT_NON_WHITE`.
 
 ## 3.2. OLS Model Results
 
