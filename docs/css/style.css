@@ -1,5 +1,3 @@
-/* css/style.css */
-
 /* Google Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,400..900&family=Sono:wght@200..800&display=swap');
 
@@ -95,7 +93,7 @@ body {
 .panel-left-footer h5 a:hover,
 .panel-left-footer h5 a:active,
 .panel-left-footer h5 a:focus {
-    color: #97d7dd !important; /* Forces white on hover/click */
+    color: #97d7dd !important;
 }
 
 /* Panel 2: Middle (Scrollable) */
@@ -106,31 +104,82 @@ body {
     background-color: transparent;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    position: relative; /* Stacking context */
-    z-index: 10; /* Higher than grain */
+    position: relative;
+    z-index: 10;
+    scroll-behavior: smooth;
 }
 
 .panel-middle::-webkit-scrollbar {
     display: none;
 }
 
-/* Panel 3: Right (Scrollable) */
+/* Panel 3: Right (Scrollable content, fixed footer) */
 .panel-right {
     padding: 2rem;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
     background-color: rgba(217, 211, 193, 0.5);
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    display: flex;
+    flex-direction: column;
 }
 
 .panel-right::-webkit-scrollbar {
     display: none;
 }
 
-/* Grain Texture Overlay
- * Mix-blend-mode makes grain visible over gradient
- */
+/* Right panel content area - scrollable */
+.content-right {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.panel-right-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.panel-right-content::-webkit-scrollbar {
+    display: none;
+}
+
+.panel-right-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--clr-border);
+    flex-shrink: 0;
+}
+
+.panel-right-footer h3 {
+    color: #000000;
+}
+
+.panel-right-footer p {
+    color: #000000;
+}
+
+.panel-right-footer h5 {
+    color: #000000;
+    font-weight: 300;
+}
+
+.panel-right-footer h5 a {
+    color: #000000;
+    font-weight: 300;
+    transition: color 0.2s ease;
+    text-decoration: underline;
+}
+
+.panel-right-footer h5 a:hover,
+.panel-right-footer h5 a:active,
+.panel-right-footer h5 a:focus {
+    color: #97d7dd !important;
+}
+
+/* Grain Texture Overlay */
 #grain-middle {
     position: fixed !important;
     top: 0;
@@ -142,7 +191,6 @@ body {
     overflow: hidden;
 }
 
-/* Make grain itself more visible */
 #grain-middle .grained {
     mix-blend-mode: overlay !important;
     opacity: 0.15 !important;
@@ -184,14 +232,14 @@ h4, h5, h6 {
 
 h1 { font-size: 30px; margin: 0 0 1rem 0; }
 h2 { font-size: 22px; margin: 0 0 0.7rem 0; }
-h3 { font-size: 16px; margin: 0 0 0.7rem 0; }
-h4 { font-size: 12px; margin: 0 0 0.5rem 0; }
+h3 { font-size: 18px; margin: 0 0 0.7rem 0; }
+h4 { font-size: 16px; margin: 0 0 0.5rem 0; }
 h5 { font-size: 10px; margin: 0 0 0.5rem 0; }
 h6 { font-size: 8px; margin: 0 0 0.5rem 0; }
 
 p {
     line-height: 1.3;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 /* Navigation Elements */
@@ -255,4 +303,711 @@ p {
 .nav-links a:hover,
 .nav-links a.active {
     color: var(--clr-bg);
+}
+
+/* Submenu Styles - Animated Expandable Menu */
+
+.has-submenu {
+    position: relative;
+}
+
+/* Submenu arrow indicator */
+.submenu-arrow {
+    display: inline-block;
+    font-size: 10px;
+    margin-left: 0.3rem;
+    transition: transform 0.3s ease;
+}
+
+.has-submenu:hover .submenu-arrow {
+    transform: rotate(90deg);
+}
+
+/* The submenu itself */
+.nav-submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.2);
+    margin-left: 0;
+    margin-top: 0.25rem;
+    border-left: 2px solid var(--clr-accent);
+}
+
+/* Expand submenu on hover */
+.has-submenu:hover .nav-submenu {
+    max-height: 400px; /* Enough for all items */
+    opacity: 1;
+}
+
+/* Submenu items */
+.nav-submenu li {
+    margin-bottom: 0;
+}
+
+.nav-submenu a {
+    font-size: 10px;
+    padding: 0.25rem 0.5rem 0.25rem 0.75rem;
+    margin-left: 0;
+    color: rgba(242, 242, 242, 0.8);
+    transition: all 0.2s ease;
+}
+
+.nav-submenu a::before {
+    display: none; /* Remove the fill animation for submenu items */
+}
+
+.nav-submenu a:hover {
+    color: var(--clr-accent);
+    background: rgba(242, 160, 7, 0.15);
+    padding-left: 1rem;
+}
+
+/* Keep submenu open when CODE is active */
+.nav-links a.active + .nav-submenu,
+.has-submenu:focus-within .nav-submenu,
+.has-submenu.submenu-active .nav-submenu {
+    max-height: 400px;
+    opacity: 1;
+}
+
+/* Keep arrow rotated when submenu is active */
+.has-submenu.submenu-active .submenu-arrow {
+    transform: rotate(90deg);
+}
+
+/* Active state for submenu items */
+.nav-submenu a.active {
+    color: var(--clr-accent);
+    background: rgba(242, 160, 7, 0.2);
+    padding-left: 1rem;
+    font-weight: 600;
+}
+
+/* Report Content Styling */
+.report-content h1 {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--clr-border);
+}
+
+.report-content h1:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.report-content h2 {
+    margin-top: 1.5rem;
+}
+
+.report-content h3 {
+    margin-top: 1rem;
+}
+
+.report-content p {
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+.report-content ul,
+.report-content ol {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.report-content li {
+    margin-bottom: 0.5rem;
+}
+
+.report-content blockquote {
+    border-left: 3px solid var(--clr-accent);
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    font-style: italic;
+}
+
+.report-content code {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9em;
+}
+
+.report-content pre {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+.report-content pre code {
+    background: transparent;
+    padding: 0;
+}
+
+/* Table styling for report */
+.report-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 11px;
+}
+
+.report-content th,
+.report-content td {
+    border: 1px solid var(--clr-border);
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.report-content th {
+    background: rgba(242, 160, 7, 0.2);
+    color: var(--clr-accent);
+}
+
+/* Custom Sizing for Report Image */
+.report-image {
+    max-width: 70% !important; 
+    display: block; 
+    margin: 1rem auto; 
+    height: auto; 
+}
+
+/* Notebook Styling */
+.notebook-content {
+    font-size: 12px;
+}
+
+.notebook-controls {
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.code-toggle-btn {
+    background: var(--clr-accent);
+    color: var(--clr-bg);
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 3px;
+    font-family: var(--font-headers-secondary);
+    font-size: 11px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.code-toggle-btn:hover {
+    background: #d9900a;
+}
+
+/* Code Folding */
+.code-fold {
+    margin: 0.5rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.code-fold-toggle {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    font-family: var(--font-headers-secondary);
+    font-size: 11px;
+    color: var(--clr-accent);
+    list-style: none;
+    user-select: none;
+    transition: background 0.2s ease;
+}
+
+.code-fold-toggle::-webkit-details-marker {
+    display: none;
+}
+
+.code-fold-toggle:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.code-fold[open] .code-fold-toggle {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.code-fold[open] .code-fold-toggle::before {
+    content: "▼ ";
+}
+
+.code-fold:not([open]) .code-fold-toggle::before {
+    content: "▶ ";
+}
+
+.code-fold-toggle {
+    font-size: 0;
+}
+
+.code-fold-toggle::after {
+    font-size: 12px;
+    content: "Code";
+}
+
+.code-fold[open] .code-fold-toggle::after {
+    content: " | Hide Code";
+}
+
+.code-fold:not([open]) .code-fold-toggle::after {
+    content: " | Show Code";
+}
+
+/* Notebook output cells */
+.notebook-content .output,
+.notebook-content .jp-OutputArea {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+/* Notebook images */
+.notebook-content img {
+    max-width: 70%;
+    height: auto;
+    margin: 1rem 0;
+    border-radius: 4px;
+}
+
+/* Notebook dataframes/tables */
+.notebook-content .dataframe,
+.notebook-content table.dataframe {
+    font-size: 12px;
+    color: white;
+    border-collapse: collapse;
+    margin: 0.5rem 0;
+}
+
+.notebook-content .dataframe th,
+.notebook-content .dataframe td {
+    border: 1px solid var(--clr-border);
+    padding: 0.25rem 0.5rem;
+}
+
+.notebook-content .dataframe th {
+    background: rgba(242, 160, 7, 0.15);
+}
+
+/* Syntax Highlighting */
+.highlight {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 0;
+}
+
+.highlight pre {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.highlight .k,
+.highlight .kn,
+.highlight .kd {
+    color: #ff79c6;
+}
+
+.highlight .n,
+.highlight .na {
+    color: #f8f8f2;
+}
+
+.highlight .s,
+.highlight .s1,
+.highlight .s2 {
+    color: #f1fa8c;
+}
+
+.highlight .c,
+.highlight .c1 {
+    color: #6272a4;
+    font-style: italic;
+}
+
+.highlight .mi,
+.highlight .mf {
+    color: #bd93f9;
+}
+
+.highlight .o {
+    color: #ff79c6;
+}
+
+.highlight .p {
+    color: #f8f8f2;
+}
+
+.highlight .nf {
+    color: #50fa7b;
+}
+
+.highlight .nb {
+    color: #8be9fd;
+}
+
+/* Table of Contents in right panel */
+.content-right .toc {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.content-right .toc li {
+    margin-bottom: 0.3rem;
+}
+
+.content-right .toc a {
+    color: var(--clr-text-primary);
+    text-decoration: none;
+    font-size: 12px;
+    transition: color 0.2s ease;
+}
+
+.content-right .toc a:hover {
+    color: var(--clr-accent);
+}
+
+.content-right .toc ul {
+    list-style: none;
+    padding-left: 1rem;
+    margin: 0.25rem 0;
+}
+
+/* Notebook Page Specific Styles */
+
+/* Notebook Section Headers */
+.notebook-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.5s ease;
+}
+
+.notebook-section:last-child {
+    border-bottom: none;
+}
+
+/* Highlight effect when scrolled to */
+.notebook-highlight {
+    background: rgba(242, 160, 7, 0.1);
+    border-radius: 8px;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.notebook-title {
+    color: var(--clr-accent);
+    font-family: var(--font-headers-main);
+    font-size: 18px;
+    margin-bottom: 0.5rem;
+}
+
+.notebook-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.notebook-cells {
+    margin-top: 1rem;
+}
+
+/* Markdown cells in notebooks */
+.cell-markdown {
+    margin: 1rem 0;
+    padding: 0.5rem 0;
+}
+
+.cell-markdown h4,
+.cell-markdown h5 {
+    color: white;
+    font-size: 14px;
+    margin-top: 1rem;
+}
+
+.cell-markdown p {
+    margin: 0.5rem 0;
+}
+
+.cell-markdown code {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.1rem 0.3rem;
+    border-radius: 2px;
+    font-size: 14px;
+}
+
+/* Code cell wrapper */
+.cell-code-wrapper {
+    margin: 0.75rem 0;
+}
+
+/* Code block inside details */
+.cell-code {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 1rem;
+    margin: 0;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #f8f8f2;
+    white-space: pre;
+    border-radius: 0 0 4px 4px;
+}
+
+.cell-code code {
+    background: transparent;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/* Output cells */
+.cell-outputs {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+    border-left: 3px solid rgba(242, 160, 7, 0.3);
+}
+
+.output-stream,
+.output-text {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.output-error {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 12px;
+    color: #ff6b6b;
+    background: rgba(255, 0, 0, 0.1);
+    padding: 0.5rem;
+    border-radius: 3px;
+    margin: 0;
+}
+
+.output-html {
+    overflow-x: auto;
+    font-size: 12px;
+}
+
+/* DataFrame tables from pandas */
+.output-html table {
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 0.5rem 0;
+}
+
+.output-html th,
+.output-html td {
+    border: 1px solid rgba(217, 211, 193, 0.3);
+    padding: 0.25rem 0.5rem;
+    text-align: left;
+}
+
+.output-html th {
+    background: rgba(242, 160, 7, 0.15);
+    color: var(--clr-accent);
+    font-weight: 600;
+}
+
+.output-html tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Output images */
+.output-image {
+    max-width: 100% !important;
+    height: auto;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+    background: darkgray;
+    padding: 0.5rem;
+}
+
+/* Figure placeholder */
+.output-figure-placeholder,
+.output-note {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+    text-align: center;
+}
+
+/* Table of contents for notebooks in right panel */
+.notebook-toc {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notebook-toc li {
+    margin-bottom: 0.4rem;
+}
+
+.notebook-toc a {
+    color: var(--clr-text-primary);
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 1.3;
+    display: block;
+    transition: color 0.2s ease;
+}
+
+.notebook-toc a:hover {
+    color: var(--clr-accent);
+}
+
+/* Code fold toggle improvements for notebooks */
+.notebook-content .code-fold {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    margin: 0;
+}
+
+.notebook-content .code-fold-toggle {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 0.4rem 0.75rem;
+    font-size: 12px;
+}
+
+.notebook-content .code-fold[open] .code-fold-toggle {
+    border-radius: 4px 4px 0 0;
+}
+
+.notebook-content .code-fold-toggle {
+    font-size: 12px !important;
+}
+
+.notebook-content .code-fold-toggle::after {
+    font-size: 12px;
+}
+
+/* Notebook Page Naviation */
+
+/* Prev/Next navigation buttons */
+.notebook-nav-buttons {
+    display: flex;
+    font-weight: 600;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.5rem 0;
+    padding: 0.75rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.notebook-nav-bottom {
+    margin-top: 2rem;
+}
+
+.notebook-prev,
+.notebook-next {
+    color: var(--clr-accent);
+    text-decoration: none;
+    font-size: 12px;
+    font-family: var(--font-headers-main);
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--clr-accent);
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.notebook-prev:hover,
+.notebook-next:hover {
+    background: var(--clr-accent);
+    color: var(--clr-bg);
+}
+
+.notebook-prev {
+    margin-right: auto;
+}
+
+.notebook-next {
+    margin-left: auto;
+}
+
+/* Right panel notebook navigation list */
+.notebook-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notebook-nav-list li {
+    margin-bottom: 0.3rem;
+}
+
+.notebook-nav-list a {
+    color: var(--clr-text-primary);
+    text-decoration: none;
+    font-size: 12px;
+    display: block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.notebook-nav-list a:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--clr-accent);
+}
+
+/* Current notebook highlight in right panel */
+.notebook-nav-current a {
+    background: rgba(242, 160, 7, 0.2);
+    color: var(--clr-accent);
+    font-weight: 600;
+    border-left: 3px solid var(--clr-accent);
+}
+
+/* Figure styling */
+.output-figure {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.output-svg {
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.output-svg svg {
+    max-width: 75%;
+    height: auto;
 }
