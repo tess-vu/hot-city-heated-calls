@@ -15,8 +15,7 @@
     </div>
     
     <div class="report-content notebook-content">
-<div class="cell-markdown"><h3>Hot City, Heated Calls: EDA</h3>
-<h4>Understanding Extreme Heat and Quality of Life Using NYC's 311 and SHAP</h4>
+<div class="cell-markdown">
 <p><strong>Goal:</strong> Estimate how heat exposure changes urban livability—proxied by the rate of quality-of-life (QoL)-related 311 complaints per capita—controlling for environmental, socioeconomic, and urban morphology conditions across New York City tracts.</p>
 <p><strong>Research Question:</strong> How does heat exposure influence urban livability—as reflected in the proportion of QoL-related 311 service requests—across census tracts in New York City after accounting for environmental, socioeconomic, and urban morphology conditions?</p></div>
 <div class="cell-markdown"><h4>1. Setup and Data Loading</h4></div>
@@ -1600,24 +1599,26 @@ bivar_gdf3 = create_bivariate_map(
 <p>- NDVI: -0.106</p>
 <p>- AH: 0.073</p>
 <p>- PCT_IMPERVIOUS: 0.068</p>
-<p>- PCT<em>NON</em>WHITE: -0.058</p>
+<p>- PCT_NON_WHITE: -0.058</p>
 <p>- MULTICOLLINEARITY CONCERNS:</p>
 <p>- 7 variables with VIF > 10:</p>
-<p>• PCT_IMPERVIOUS: VIF = 53.83</p>
-<p>• BD: VIF = 24.34</p>
-<p>• PCT<em>BACHELORS</em>PLUS: VIF = 19.09</p>
-<p>• PCT_RENTERS: VIF = 18.63</p>
-<p>• MEDIAN_INCOME: VIF = 17.78</p>
-<p>• NDVI: VIF = 12.86</p>
-<p>• PCT<em>NON</em>WHITE: VIF = 10.02</p>
+<p>PCT_IMPERVIOUS: VIF = 53.83</p>
+<p>BD: VIF = 24.34</p>
+<p>PCT_BACHELORS_PLUS: VIF = 19.09</p>
+<p>PCT_RENTERS: VIF = 18.63</p>
+<p>MEDIAN_INCOME: VIF = 17.78</p>
+<p>NDVI: VIF = 12.86</p>
+<p>PCT_NON_WHITE: VIF = 10.02</p>
 <p>- SPATIAL PATTERNS:</p>
 <p>- 6 variable(s) show significant spatial autocorrelation:</p>
-<p>• heatweek<em>calls</em>per_1k: Moran's I = 0.163 (p = 0.0010)</p>
-<p>• normalweek<em>calls</em>per_1k: Moran's I = 0.192 (p = 0.0010)</p>
-<p>• PCT<em>TREE</em>CANOPY: Moran's I = 0.640 (p = 0.0010)</p>
-<p>• PCT_IMPERVIOUS: Moran's I = 0.557 (p = 0.0010)</p>
-<p>• PCT<em>BACHELORS</em>PLUS: Moran's I = 0.792 (p = 0.0010)</p>
-<p>• PCT_RENTERS: Moran's I = 0.654 (p = 0.0010)</p>
+<ul>
+    <li>heatweek_calls_per_1k: Moran's I = 0.163 (p = 0.0010)</li>
+    <li>normalweek_calls_per_1k: Moran's I = 0.192 (p = 0.0010)</li>
+    <li>PCT_TREE_CANOPY: Moran's I = 0.640 (p = 0.0010)</li>
+    <li>PCT_IMPERVIOUS: Moran's I = 0.557 (p = 0.0010)</li>
+    <li>PCT_BACHELORS_PLUS: Moran's I = 0.792 (p = 0.0010)</li>
+    <li>PCT_RENTERS: Moran's I = 0.654 (p = 0.0010)</li>
+</ul>
 <p>- LISA Hot Spots (HH): 86 tracts</p>
 <p>- LISA Cold Spots (LL): 324 tracts</p>
 <p>- DATA QUALITY NOTES:</p>
@@ -1648,9 +1649,9 @@ bivar_gdf3 = create_bivariate_map(
         </ul>
         
         <h2>This Notebook</h2>
-        <p><strong>Source:</strong> eda.ipynb</p>
-        <p><strong>Code cells:</strong> 33</p>
-        <p><strong>Figures:</strong> 21</p>
+        <b>Source:</b> eda.ipynb<br><br>
+        <b>Code Cells:</b> 33<br>
+        <b>Figures:</b> 21
     </div>
     <div class="panel-right-footer">
         <h3>Data Pipeline</h3>

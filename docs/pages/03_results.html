@@ -21,6 +21,7 @@
 <p>Comparing the two heat conditions reveals both stability and notable shifts in feature influence. The hierarchy of the top three features, AH, PCT_NON_WHITE, and NDVI, remains consistent across models, suggesting that built form intensity, demographic composition, and vegetation coverage systematically shape reporting behaviors in both normal and extreme heat contexts. These stable high-importance variables reflect structural neighborhood characteristics whose effects persist regardless of temperature severity.</p>
 <p>However, several features display meaningful changes in importance under extreme heat. WCR increases in influence in the extreme heat model, indicating that proximity to water bodies may play a more substantial role when heat stress intensifies, possibly reflecting shifts in human activity patterns or uneven access to cooling amenities. In contrast, some variables such as PCT_IMPERVIOUS, BD, and PCT_TREE_CANOPY show moderate decreases in relative importance, suggesting that physical morphology may matter slightly less once temperatures exceed critical thresholds and behavioral or socio-demographic factors take precedence. Overall, these patterns indicate that while the core drivers of 311 reporting remain stable, the marginal influence of secondary features is sensitive to heat severity, reinforcing the need for flexible modelling approaches to detect such context-dependent effects.</p>
 <h3>3.3.3 Non-Linear Relationship for Features</h3>
+<img class="report-image" src="../../notebooks/images/SHAP2/beeswarm_heat.png">
     </div>
 </div>
 
@@ -28,22 +29,18 @@
     <h2>Model Performance</h2>
     
     <h3>OLS Models</h3>
-    <ul>
-        <li>Normal heat R²: 0.084</li>
-        <li>Extreme heat R²: 0.088</li>
-    </ul>
+    - Normal Heat R²: <b>0.084</b>
+    <br>- Extreme Heat R²: <b>0.088</b><br>
     
     <h3>Random Forest</h3>
-    <ul>
-        <li>Normal heat R²: <strong>0.274</strong></li>
-        <li>Extreme heat R²: <strong>0.246</strong></li>
-    </ul>
+    - Normal Heat R²: <b>0.274</b>
+    <br>- Extreme Heat R²: <b>0.246</b><br>
     
-    <h2>Top SHAP Predictors</h2>
+    <h2>Top 3 SHAP Predictors</h2>
     <ol>
         <li>Average Height (AH)</li>
         <li>PCT_NON_WHITE</li>
-        <li>NDVI</li>
+        <li>NDVI</li><br>
     </ol>
     
     <h2>Key Findings</h2>

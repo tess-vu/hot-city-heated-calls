@@ -89,12 +89,12 @@
 <p>OLS regression was used as the foundational statistical model in this study because it provides an interperatable, baseline framework for understanding the linear associations between environmental, socioeconomic, urban morphology, and spatial accessibility characteristics and the dependent variable of heat-related QoL 311 complaints per capita.</p>
 <p>Separate cross-sectional OLS models were estimated for extreme heat weeks defined as those with at least two extreme heat days, and normal heat weeks defined as those with less than two extreme heat days, with each of the 2,225 observations representing a census tract by week.</p>
 <p>Predictors were structured into three conceptual categories, which were added incrementally to assess the added explanatory value of each predictor block: Environmental Predictors, Socioeconomic Predictors, and Urban Morphology Predictors.</p>
-<p><strong>Urban Environmental Features:</strong> NDVI, percent tree canopy, percent impervious surface, and water cover ratio (WCR).</p>
-<p><strong>Urban Socioeconomic Features:</strong> Median income, poverty rate, percent renters, percent limited English, percent bachelor's or more, and percent non-white.</p>
-<p><strong>Urban Built and Spatial Features:</strong> AH, BD, distance to the nearest subway station, and 500-meter buffer POI density.</p>
+<p><b>Urban Environmental Features:</b> NDVI, percent tree canopy, percent impervious surface, and water cover ratio (WCR).</p>
+<p><b>Urban Socioeconomic Features:</b> Median income, poverty rate, percent renters, percent limited English, percent bachelor's or more, and percent non-white.</p>
+<p><b>Urban Built and Spatial Features:</b> AH, BD, distance to the nearest subway station, and 500-meter buffer POI density.</p>
 <p>OLS provides a transparent estimation of how predictors correlate with QoL complaint rates, and coefficients can be directly interpreted and compared across extreme versus normal heat conditions, serving as an important reference model before introducing nonlinear ML approaches with Random Forest. So, given the behavioral nature of 311 complaint reporting and the noisy, high-frequency variability of QoL calls, relatively low R² values are expected in this domain, consistent with existing literature on 311 data, urban complaints, and human-environment interactions.</p>
 <h2>2.4. ML Model and SHAP</h2>
-<p>Stepping further to understanding the relationships between QoL and urban dynamics under different heat conditions, to complement the OLS framework, a nonlinear ML model was used to test whether environmental, socioeconomic, and urban predictors collectively produce stronger predictive power for QoL rates per capita during extreme and normal heat weeks.</p>
+<p>Stepping further to understanding the relationships between QoL and urban dynamics under different heat conditions, to complement the OLS framework, a nonlinear ML model was used to test whether environmental, socioeconomic, and urban predictors collectively produce ber predictive power for QoL rates per capita during extreme and normal heat weeks.</p>
 <p>In the case of this study RF, is stable on moderate-size datasets and can handle high multicollinearity and correlated predictors like this study's without requiring regularization. In addition, it is less sensitive to hyperparameter tuning and is capable of modeling nonlinear relationships and threshold behaviors associated with heat stress, as it is a popular ML model used in the environmental exposure, health, and urban prediction literature.</p>
 <p>Like the OLS model, the RF models were trained in the extreme heat weeks and normal heat weeks with the same predictor groups for direct comparison. Then, to prevent overfitting and ensure generalizability, a 3-fold cross-validation was implemented, partitioning the tracts into an 80% train set and 20% test set, with the RF hyperparameters as follows:</p>
 <ul>
@@ -112,25 +112,19 @@
 
 <div class="content-right">
     <h2>Study Parameters</h2>
-    <ul>
-        <li><strong>Location:</strong> New York City</li>
-        <li><strong>Resolution:</strong> Census tract level</li>
-        <li><strong>Period:</strong> Summer 2025 (June–August 23)</li>
-        <li><strong>Temporal:</strong> Weekly</li>
-    </ul>
+    <b>Location:</b> New York City<br><br>
+    <b>Spatial Resolution:</b> Census tract level<br><br>
+    <b>Time Period:</b> Summer 2025 (June–August 23)<br><br>
+    <b>Temporal Resolution:</b> Weekly<br><br>
     
     <h2>Heat Thresholds</h2>
-    <p><strong>93°F</strong> — Extreme heat threshold based on 95th percentile of 1981–2010 climatological baseline.</p>
-    <ul>
-        <li>5 extreme heat weeks</li>
-        <li>7 normal heat weeks</li>
-    </ul>
+    <b>93°F</b> is the extreme heat threshold based on 95th percentile of 1981–2010 climatological baseline.<br>
+    <br>- 5 extreme heat weeks
+    <br>- 7 normal heat weeks<br><br>
     
     <h2>Data Sources</h2>
-    <ul>
-        <li>NOAA (temperature)</li>
-        <li>ACS 2023 (socioeconomic)</li>
-        <li>Landsat (environmental)</li>
-        <li>OpenStreetMap (POIs)</li>
-    </ul>
+    - NOAA (temperature)<br>
+    - ACS 2023 (socioeconomic)<br>
+    - Landsat (environmental / urban)<br>
+    - OpenStreetMap (POIs / kNN / urban)
 </div>
