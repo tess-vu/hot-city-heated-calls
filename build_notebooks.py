@@ -1,18 +1,10 @@
 #!/usr/bin/env python3
 """
-build_notebooks.py - Convert Jupyter notebooks to HTML pages for the website.
+Convert Jupyter notebooks to HTML pages for the website.
 
-USAGE:
-    python build_notebooks.py
+From nbconvert repository.
 
-Run this script from project root (where docs/ and notebooks/ folders are).
-It will read notebooks from notebooks/ and output HTML pages to docs/pages/.
-
-After updating any .ipynb file, just run this script to regenerate the pages.
-
-REQUIREMENTS:
-    - Python 3.7+
-    - No external dependencies needed (uses only standard library)
+https://github.com/jupyter/nbconvert
 """
 
 import json
@@ -74,22 +66,22 @@ NOTEBOOKS = [
         "description": "Combining all datasets and preparing final analysis-ready table."
     },
     {
-        "file": "eda.ipynb",
-        "page_id": "04h_code_eda",
-        "nav_name": "7. EDA",
-        "title": "Exploratory Data Analysis",
-        "description": "Visualizations and summary statistics of the merged dataset."
-    },
-    {
         "file": "07_ols_ml.ipynb",
         "page_id": "04i_code_ols_ml_shap",
         "nav_name": "8. OLS & ML + SHAP",
         "title": "OLS & ML Modeling with SHAP",
         "description": "OLS regression, Random Forest modeling, and SHAP interpretability analysis."
     },
+    {
+        "file": "eda.ipynb",
+        "page_id": "04h_code_eda",
+        "nav_name": "7. EDA",
+        "title": "Exploratory Data Analysis",
+        "description": "Visualizations and summary statistics of the merged dataset."
+    },
 ]
 
-# CONVERSION FUNCTIONS
+# Conversion functions.
 
 def escape_html(text):
     """Escape HTML special characters."""
@@ -98,25 +90,25 @@ def escape_html(text):
 
 def convert_markdown(md_text):
     """Convert markdown to HTML."""
-    # Headers
+    # Headers.
     md_text = re.sub(r'^#### (.+)$', r'<h6>\1</h6>', md_text, flags=re.MULTILINE)
     md_text = re.sub(r'^### (.+)$', r'<h5>\1</h5>', md_text, flags=re.MULTILINE)
     md_text = re.sub(r'^## (.+)$', r'<h4>\1</h4>', md_text, flags=re.MULTILINE)
     md_text = re.sub(r'^# (.+)$', r'<h3>\1</h3>', md_text, flags=re.MULTILINE)
     
-    # Bold and italic
-    md_text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', md_text)
+    # Bold and italic.
+    md_text = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', md_text)
     md_text = re.sub(r'\*(.+?)\*', r'<em>\1</em>', md_text)
-    md_text = re.sub(r'__(.+?)__', r'<strong>\1</strong>', md_text)
+    md_text = re.sub(r'__(.+?)__', r'<b>\1</b>', md_text)
     md_text = re.sub(r'_(.+?)_', r'<em>\1</em>', md_text)
     
-    # Code
+    # Code.
     md_text = re.sub(r'`([^`]+)`', r'<code>\1</code>', md_text)
     
-    # Links
+    # Links.
     md_text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2" target="_blank">\1</a>', md_text)
     
-    # Paragraphs
+    # Paragraphs.
     paragraphs = md_text.split('\n\n')
     result = []
     for p in paragraphs:
@@ -151,7 +143,7 @@ def convert_outputs_with_figures(outputs):
         elif output_type in ('execute_result', 'display_data'):
             data = output.get('data', {})
             
-            # PNG images
+            # PNG images.
             if 'image/png' in data:
                 img_data = data['image/png']
                 figure_count += 1
@@ -159,7 +151,7 @@ def convert_outputs_with_figures(outputs):
 <div class="output-figure">
     <img class="output-image" src="data:image/png;base64,{img_data}" alt="Figure {figure_count}" />
 </div>''')
-            # JPEG images
+            # JPEG images.
             elif 'image/jpeg' in data:
                 img_data = data['image/jpeg']
                 figure_count += 1
@@ -167,13 +159,13 @@ def convert_outputs_with_figures(outputs):
 <div class="output-figure">
     <img class="output-image" src="data:image/jpeg;base64,{img_data}" alt="Figure {figure_count}" />
 </div>''')
-            # SVG images
+            # SVG images.
             elif 'image/svg+xml' in data:
                 svg_data = ''.join(data['image/svg+xml'])
                 figure_count += 1
                 html_parts.append(f'<div class="output-figure output-svg">{svg_data}</div>')
                 
-            # HTML (dataframes)
+            # HTML (dataframes).
             elif 'text/html' in data:
                 html_content = ''.join(data['text/html'])
                 if len(html_content) > 50000:
@@ -181,7 +173,7 @@ def convert_outputs_with_figures(outputs):
                 else:
                     html_parts.append(f'<div class="output-html">{html_content}</div>')
                 
-            # Plain text
+            # Plain text.
             elif 'text/plain' in data:
                 text = ''.join(data['text/plain'])
                 if len(text) > 2000:
@@ -242,7 +234,7 @@ def convert_notebook_to_page(nb_path, notebook_info, all_notebooks):
     
     notebook_content = '\n'.join(html_parts)
     
-    # Build sidebar navigation
+    # Build sidebar navigation.
     nav_items = []
     current_idx = next((i for i, nb in enumerate(all_notebooks) if nb['file'] == notebook_info['file']), 0)
     
@@ -253,7 +245,7 @@ def convert_notebook_to_page(nb_path, notebook_info, all_notebooks):
     
     nav_html = '\n'.join(nav_items)
     
-    # Prev/Next navigation
+    # Prev / Next navigation.
     prev_link = ""
     next_link = ""
     if current_idx > 0:
@@ -313,10 +305,10 @@ def convert_notebook_to_page(nb_path, notebook_info, all_notebooks):
 # MAIN
 
 def main():
-    # Determine paths
+    # Determine paths.
     script_dir = Path(__file__).parent.resolve()
     
-    # Look for notebooks/ directory
+    # Look for notebooks/ directory.
     notebooks_dir = script_dir / 'notebooks'
     if not notebooks_dir.exists():
         notebooks_dir = script_dir.parent / 'notebooks'
@@ -326,7 +318,7 @@ def main():
         print(f"       and: {script_dir.parent / 'notebooks'}")
         sys.exit(1)
     
-    # Look for docs/pages/ directory
+    # Look for docs / pages/ directory.
     pages_dir = script_dir / 'docs' / 'pages'
     if not pages_dir.exists():
         pages_dir = script_dir.parent / 'docs' / 'pages'
@@ -356,15 +348,13 @@ def main():
             size_kb = output_path.stat().st_size / 1024
             total_size += size_kb
             success_count += 1
-            print(f"✓ {nb_info['page_id']}.html ({size_kb:.1f} KB)")
+            print(f"{nb_info['page_id']}.html ({size_kb:.1f} KB).")
         else:
-            print(f"✗ NOT FOUND: {nb_info['file']}")
+            print(f"NOT FOUND: {nb_info['file']}.")
     
     print()
-    print("=" * 60)
-    print(f"Converted {success_count}/{len(NOTEBOOKS)} notebooks")
-    print(f"Total size: {total_size/1024:.2f} MB")
-    print("=" * 60)
+    print(f"Converted {success_count}/{len(NOTEBOOKS)} notebooks.")
+    print(f"Total Size: {total_size/1024:.2f} MB.")
 
 
 if __name__ == '__main__':
