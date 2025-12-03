@@ -15,7 +15,8 @@
     </div>
     
     <div class="report-content notebook-content">
-<div class="cell-markdown"><h5>311 QUALITY OF LIFE BY TRACTS (SUMMER, 2025)</h5></div>
+<div class="cell-markdown"><h4>311 QUALITY OF LIFE BY TRACTS</h4>
+<p>Extract quality-of-life-related 311 reports in NYC.</p></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -55,7 +56,7 @@ point_path_geojson = nyc_311_dir / &quot;nyc_311_points_2025.geojson&quot;</code
 <div class="cell-code-wrapper">
     <details class="code-fold">
         <summary class="code-fold-toggle">Code Cell 3</summary>
-        <pre class="cell-code"><code># Noise &amp; Social Activity (heat-sensitive)
+        <pre class="cell-code"><code># Noise and Social Activity (heat-sensitive)
 QOL_NOISE = [
     &quot;LOUD MUSIC/PARTY&quot;, &quot;BANGING/POUNDING&quot;, &quot;LOUD TALKING&quot;,
     &quot;CAR/TRUCK MUSIC&quot;, &quot;CAR/TRUCK HORN&quot;, &quot;DOG NOISE&quot;,
@@ -443,110 +444,6 @@ print(&quot;Saved point data as GeoJSON:&quot;, point_path_geojson)</code></pre>
 </div>
 </div>
 
-
-<div class="cell-code-wrapper">
-    <details class="code-fold">
-        <summary class="code-fold-toggle">Code Cell 11</summary>
-        <pre class="cell-code"><code># # 311 tract-by-day panel with full QoL categories.
-# # Counts, % shares, and per-capita rates (per 1,000).
-
-# joined_gdf[&quot;date&quot;] = joined_gdf[&quot;created_date&quot;].dt.date
-
-# joined_gdf[&quot;is_noise&quot;]        = joined_gdf[&quot;qol_category&quot;].eq(&quot;QOL_NOISE&quot;)
-# joined_gdf[&quot;is_outdoor&quot;]      = joined_gdf[&quot;qol_category&quot;].eq(&quot;QOL_OUTDOOR&quot;)
-# joined_gdf[&quot;is_sanitation&quot;]   = joined_gdf[&quot;qol_category&quot;].eq(&quot;QOL_SANITATION&quot;)
-# joined_gdf[&quot;is_water&quot;]        = joined_gdf[&quot;qol_category&quot;].eq(&quot;QOL_WATER_INFRA&quot;)
-# joined_gdf[&quot;is_infra_heat&quot;]   = joined_gdf[&quot;qol_category&quot;].eq(&quot;QOL_INFRA_HEAT&quot;)
-
-# # Counts.
-# panel = (
-#     joined_gdf.groupby([&quot;GEOID&quot;, &quot;date&quot;], as_index=False)
-#     .agg(
-#         total_calls     = (&quot;unique_key&quot;, &quot;count&quot;),
-#         qol_noise       = (&quot;is_noise&quot;, &quot;sum&quot;),
-#         qol_outdoor     = (&quot;is_outdoor&quot;, &quot;sum&quot;),
-#         qol_sanitation  = (&quot;is_sanitation&quot;, &quot;sum&quot;),
-#         qol_water       = (&quot;is_water&quot;, &quot;sum&quot;),
-#         qol_infra_heat  = (&quot;is_infra_heat&quot;, &quot;sum&quot;)
-#     )
-# )
-
-# # Total calls.
-# panel[&quot;qol_calls&quot;] = (
-#       panel[&quot;qol_noise&quot;]
-#     + panel[&quot;qol_outdoor&quot;]
-#     + panel[&quot;qol_sanitation&quot;]
-#     + panel[&quot;qol_water&quot;]
-#     + panel[&quot;qol_infra_heat&quot;]
-# )
-
-# # Percent calls.
-# def pct(col):
-#     return np.where(panel[&quot;total_calls&quot;] &gt; 0, panel[col] / panel[&quot;total_calls&quot;], np.nan)
-
-# panel[&quot;qol_pct&quot;]             = pct(&quot;qol_calls&quot;)
-# panel[&quot;qol_noise_pct&quot;]       = pct(&quot;qol_noise&quot;)
-# panel[&quot;qol_outdoor_pct&quot;]     = pct(&quot;qol_outdoor&quot;)
-# panel[&quot;qol_sanitation_pct&quot;]  = pct(&quot;qol_sanitation&quot;)
-# panel[&quot;qol_water_pct&quot;]       = pct(&quot;qol_water&quot;)
-# panel[&quot;qol_infra_heat_pct&quot;]  = pct(&quot;qol_infra_heat&quot;)
-
-# # Per-capita rate variables (calls per 1,000 population).
-# # IMPORTANT: ACS merge must happen AFTER this panel is created.
-# # This step stubs the columns but they will compute AFTER merging.
-
-# # Create empty rate columns now; fill after ACS merge.
-# panel[&quot;qol_rate_1k&quot;]             = np.nan
-# panel[&quot;qol_noise_rate_1k&quot;]       = np.nan
-# panel[&quot;qol_outdoor_rate_1k&quot;]     = np.nan
-# panel[&quot;qol_sanitation_rate_1k&quot;]  = np.nan
-# panel[&quot;qol_water_rate_1k&quot;]       = np.nan
-# panel[&quot;qol_infra_heat_rate_1k&quot;]  = np.nan
-
-# # Final column order.
-# panel = panel[
-#     [
-#         &quot;GEOID&quot;, &quot;date&quot;,
-#         &quot;total_calls&quot;, &quot;qol_calls&quot;, &quot;qol_pct&quot;,
-#         &quot;qol_noise&quot;, &quot;qol_outdoor&quot;, &quot;qol_sanitation&quot;,
-#         &quot;qol_water&quot;, &quot;qol_infra_heat&quot;,
-#         &quot;qol_noise_pct&quot;, &quot;qol_outdoor_pct&quot;,
-#         &quot;qol_sanitation_pct&quot;, &quot;qol_water_pct&quot;,
-#         &quot;qol_infra_heat_pct&quot;,
-#         # Rate variables for later ACS merge.
-#         &quot;qol_rate_1k&quot;,
-#         &quot;qol_noise_rate_1k&quot;,
-#         &quot;qol_outdoor_rate_1k&quot;,
-#         &quot;qol_sanitation_rate_1k&quot;,
-#         &quot;qol_water_rate_1k&quot;,
-#         &quot;qol_infra_heat_rate_1k&quot;
-#     ]
-# ]
-
-# panel.to_csv(panel_path, index = False)
-# print(&quot;Saved panel:&quot;, panel_path)</code></pre>
-    </details>
-    
-</div>
-
-
-<div class="cell-code-wrapper">
-    <details class="code-fold">
-        <summary class="code-fold-toggle">Code Cell 12</summary>
-        <pre class="cell-code"><code># # ACS merge guide.
-# df = panel.merge(acs[[&quot;GEOID&quot;,&quot;TOTAL_POP&quot;]], on=&quot;GEOID&quot;, how=&quot;left&quot;)
-
-# # Per 1,000 rates.
-# df[&quot;qol_rate_1k&quot;]            = (df[&quot;qol_calls&quot;]       / df[&quot;TOTAL_POP&quot;]) * 1000
-# df[&quot;qol_noise_rate_1k&quot;]      = (df[&quot;qol_noise&quot;]       / df[&quot;TOTAL_POP&quot;]) * 1000
-# df[&quot;qol_outdoor_rate_1k&quot;]    = (df[&quot;qol_outdoor&quot;]     / df[&quot;TOTAL_POP&quot;]) * 1000
-# df[&quot;qol_sanitation_rate_1k&quot;] = (df[&quot;qol_sanitation&quot;]  / df[&quot;TOTAL_POP&quot;]) * 1000
-# df[&quot;qol_water_rate_1k&quot;]      = (df[&quot;qol_water&quot;]       / df[&quot;TOTAL_POP&quot;]) * 1000
-# df[&quot;qol_infra_heat_rate_1k&quot;] = (df[&quot;qol_infra_heat&quot;]  / df[&quot;TOTAL_POP&quot;]) * 1000</code></pre>
-    </details>
-    
-</div>
-
     </div>
     
     <div class="notebook-nav-buttons notebook-nav-bottom">
@@ -566,14 +463,14 @@ print(&quot;Saved point data as GeoJSON:&quot;, point_path_geojson)</code></pre>
 <li class=""><a href="#" data-page="04e_code_additional_features">4. Additional Features</a></li>
 <li class=""><a href="#" data-page="04f_code_nlcd_rasters">5. NLCD Rasters</a></li>
 <li class=""><a href="#" data-page="04g_code_data_merging">6. Data Merging</a></li>
-<li class=""><a href="#" data-page="04h_code_eda">7. EDA</a></li>
 <li class=""><a href="#" data-page="04i_code_ols_ml_shap">8. OLS & ML + SHAP</a></li>
+<li class=""><a href="#" data-page="04h_code_eda">7. EDA</a></li>
         </ul>
         
         <h2>This Notebook</h2>
-        <b>Source:</b> 02_311_tract_daily.ipynb<br><br>
-        <b>Code Cells:</b> 12<br>
-        <b>Figures:</b> 0
+        <p><strong>Source:</strong> 02_311_tract_daily.ipynb</p>
+        <p><strong>Code cells:</strong> 10</p>
+        <p><strong>Figures:</strong> 0</p>
     </div>
     <div class="panel-right-footer">
         <h3>Data Pipeline</h3>
