@@ -730,10 +730,10 @@ models for uncovering complex behavioral responses.</p>
 <div id="extreme-heat-vs-normal-heat" class="section level3">
 <h3>3.3.2 Extreme Heat vs Normal Heat</h3>
 <p>Comparing the two heat conditions reveals both stability and notable
-shifts in feature influence. The hierarchy of the top three features,
-AH, PCT_NON_WHITE, and NDVI, remains consistent across models,
-suggesting that built form intensity, demographic composition, and
-vegetation coverage systematically shape reporting behaviors in both
+shifts in feature influence. The hierarchy of the top four features, AH,
+PCT_NON_WHITE, NDVI, and KNN_SUBWAY_dist_mean remains consistent across
+models, suggesting that built form intensity, demographic composition,
+and urban greenery systematically shape reporting behaviors in both
 normal and extreme heat contexts. These stable high-importance variables
 reflect structural neighborhood characteristics whose effects persist
 regardless of temperature severity.</p>
@@ -744,23 +744,115 @@ substantial role when heat stress intensifies, possibly reflecting
 shifts in human activity patterns or uneven access to cooling amenities.
 In contrast, some variables such as PCT_IMPERVIOUS, BD, and
 PCT_TREE_CANOPY show moderate decreases in relative importance,
-suggesting that physical morphology may matter slightly less once
-temperatures exceed critical thresholds and behavioral or
-socio-demographic factors take precedence. Overall, these patterns
+suggesting that some physical morphology may matter slightly less once
+temperatures exceed critical thresholds. Overall, these patterns
 indicate that while the core drivers of 311 reporting remain stable, the
-marginal influence of secondary features is sensitive to heat severity,
-reinforcing the need for flexible modelling approaches to detect such
-context-dependent effects.</p>
+marginal influence of secondary features is sensitive to heat
+severity.</p>
 </div>
 <div id="non-linear-relationship-for-features" class="section level3">
 <h3>3.3.3 Non-Linear Relationship for Features</h3>
+<p>Across the SHAP scatter plots for both the extreme heat and normal
+heat models, clear non-linear relationships emerge for most features.
+Only NDVI and POVERTY_RATE exhibit relatively consistent linear
+patterns, while all other features display visibly complex,
+non-monotonic trends. A prominent example is AH, the most influential
+features in both models: although AH appears significant in OLS, its
+relationship revealed by SHAP approach is distinctly U-shaped in both
+heat conditions. This means that both low and high AH values are
+associated with higher predicted 311 report density, whereas medium AH
+values correspond to the lowest predicted levels.</p>
+<p>Similarly, PCT_NON_WHITE and PCT_RENTERS show a characteristic
+inverted-U pattern in both models, where extreme low or high values of
+these features correspond to lower 311 reporting density, and
+intermediate values correspond to higher levels. An interesting shift
+between the two heat conditions appears in the behavior of BD: in the
+regular heat model, BD follows an inverted-U shape, but in the extreme
+heat model, this pattern transitions into an approximately linear
+negative relationship.</p>
 </div>
 </div>
 </div>
 <div id="discussion" class="section level1">
 <h1>4. DISCUSSION</h1>
-<p>Results, and discuss about why the mechanism might be different and
-study limitations.</p>
+<div id="result-interpretation-discussion" class="section level2">
+<h2>4.1 Result Interpretation &amp; Discussion</h2>
+<p>Overall, the ML models fit the data substantially better than the OLS
+models and capture more complex and non-linear relationships between
+urban features and QoF 311 report density. The Random Forest for regular
+heat weeks attains a slightly higher R2 than the extreme-heat model,
+suggesting that QoF 311 reporting during extreme heat might be more
+complex and harder to explain with observed features. Across both heat
+conditions, four features consistently emerge as the top contributors:
+AH, PCT_NON_WHITE, NDVI, and KNN_SUBWAY_dist_mean, highlighting the
+persistent importance of building height, demographic composition, urban
+greenery, and transit-related spatial configuration. At the same time,
+WCR becomes noticeably more important under extreme heat, indicating
+that proximity to water gains salience for QoF outcomes when
+temperatures are very high. By contrast, the relative contributions of
+PCT_IMPERVIOUS, BD, and PCT_TREE_CANOPY decline slightly in the
+extreme-heat model, which may suggest that beyond certain temperature
+thresholds the marginal QoF benefits or harms associated with these
+features become constrained or saturated.</p>
+<p>The SHAP scatter plots further show that non-linear effects are the
+rule rather than the exception. Only a small number of predictors
+display relatively clear linear relationships, most notably NDVI and
+POVERTY_RATE, both of which are approximately linear and negatively
+associated with predicted 311 density. For NDVI, this pattern indicates
+that higher levels of greenery are consistently linked to fewer
+QoF-related report density, in line with the cooling and
+comfort-enhancing role of vegetation. The negative slope for
+POVERTY_RATE, however, is better interpreted as an artefact of reporting
+bias: residents in poorer neighborhoods may face more barriers to using
+the 311 system, so their problems are less likely to be recorded. Other
+variables, such as PCT_IMPERVIOUS and MEDIAN_INCOME, are broadly
+monotonic positive but clearly non-linear—higher imperviousness is
+associated with greater predicted 311 density, and higher income with
+more reports, the latter again likely reflecting under-reporting in very
+low-income areas. In contrast, KNN_SUBWAY_dist_mean, PCT_TREE_CANOPY,
+and POI_500M_DENSITY are approximately monotonic negative, suggesting
+that better transit accessibility, more tree canopy, and higher local
+amenity density are each associated with lower predicted 311 density and
+thus better perceived QoF.</p>
+<p>Several key predictors exhibit explicitly non-monotonic shapes. AH
+shows a robust U-shaped relationship in both models: neighborhoods with
+either very low or very high average building heights have elevated
+predicted 311 density, whereas areas with medium AH show the lowest
+levels. A plausible interpretation is that low-rise areas are more
+directly exposed to heat, while very tall building environments may
+suffer from strong street-canyon effects and poor ventilation;
+intermediate heights may balance shading and airflow, leading to fewer
+QoF-related complaints. PCT_NON_WHITE and PCT_RENTERS both follow an
+inverted-U pattern: tracts with very low or very high values have
+relatively low predicted 311 density, while mixed or intermediate levels
+are associated with higher reporting. This may reflect both underlying
+social dynamics in mixed areas and systematic biases in who uses the 311
+system. Finally, BD displays an inverted-U shape under regular heat, but
+becomes roughly monotonic negative under extreme heat. One simple
+reading is that, in moderate heat, medium-density environments combine
+sufficient population and activity to generate high reporting rates,
+whereas very low- and very high-density areas generate fewer calls;
+under extreme heat, however, higher built density may increasingly
+coincide with stronger adaptation measures or more indoor retreat,
+producing a more uniformly negative association with QoF 311 reporting.
+Together, these patterns underline that the relationships between urban
+form, social composition, and environment and QoF are highly non-linear
+and context dependent.</p>
+</div>
+<div id="limitation" class="section level2">
+<h2>4.2 Limitation</h2>
+<p>This study has several limitations. First, the analysis focuses on a
+single summer season in 2025, which may restrict the temporal
+representativeness of the findings; extending the study period to
+multiple years (e.g., 2021–2024) would allow for increasing the
+reliability and representative of our findings. Second, although
+311-based outcomes are inherently difficult to fully explain, the Random
+Forest R2 of around 0.25 indicates that there is still substantial
+unexplained variance. Incorporating additional environmental,
+socio-economic, and spatial variables could further improve model
+performance and yield a more complete picture of the drivers of
+QoF-related 311 report density.</p>
+</div>
 </div>
 <div id="references" class="section level1">
 <h1>5. REFERENCES</h1>
