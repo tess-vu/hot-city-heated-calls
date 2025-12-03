@@ -1,0 +1,336 @@
+<div class="content-middle">
+    <h1>CODE: NLCD Raster Calculations</h1>
+    <h2>Hot City, Heated Calls:<br>Understanding Extreme Heat and Quality of Life<br>Using New York City's 311 and SHAP</h2>
+    
+    <p class="notebook-description">Zonal statistics for tree canopy and impervious surface from NLCD data.</p>
+    
+    <div class="notebook-controls">
+        <button onclick="toggleAllCode(true)" class="code-toggle-btn">Show All Code</button>
+        <button onclick="toggleAllCode(false)" class="code-toggle-btn">Hide All Code</button>
+    </div>
+    
+    <div class="notebook-nav-buttons">
+        <a href="#" data-page="04e_code_additional_features" class="notebook-prev">← 4. Additional Features</a>
+        <a href="#" data-page="04g_code_data_merging" class="notebook-next">6. Data Merging →</a>
+    </div>
+    
+    <div class="report-content notebook-content">
+<div class="cell-markdown"><h5>NLCD RASTERS (SUMMER, 2025)</h5></div>
+
+<div class="cell-code-wrapper">
+    <details class="code-fold">
+        <summary class="code-fold-toggle">Code Cell 1</summary>
+        <pre class="cell-code"><code># Modules.
+import os
+from pathlib import Path
+import numpy as np
+import rasterio
+from rasterio.mask import mask
+from rasterio.warp import reproject, Resampling
+import geopandas as gpd
+from tqdm import tqdm
+from rasterstats import zonal_stats</code></pre>
+    </details>
+    
+</div>
+
+
+<div class="cell-code-wrapper">
+    <details class="code-fold">
+        <summary class="code-fold-toggle">Code Cell 2</summary>
+        <pre class="cell-code"><code># Paths.
+nlcd_tree_path = Path(&quot;data/raster/nlcd_raster/nlcd_tree_canopy_2023.tiff&quot;)
+nlcd_impervious_path = Path(&quot;data/raster/nyc_impervious_2024.tif&quot;)
+
+tracts_path = Path(&quot;data/nyc_tracts_2020/nyc_tracts_2020.shp&quot;)
+
+output_dir = Path(&quot;data/raster/processed&quot;)
+output_dir.mkdir(parents = True, exist_ok = True)
+
+tracts = gpd.read_file(tracts_path).to_crs(32118)
+
+</code></pre>
+    </details>
+    
+</div>
+
+
+<div class="cell-code-wrapper">
+    <details class="code-fold">
+        <summary class="code-fold-toggle">Code Cell 3</summary>
+        <pre class="cell-code"><code># Zonal statistics for NCLD.
+def zonal_mean(rpath, gdf_or_geom):
+    &quot;&quot;&quot;Apply CRS zonal mean for tracts or city boundary.&quot;&quot;&quot;
+    with rasterio.open(rpath) as src:
+        r_crs = src.crs
+
+    if isinstance(gdf_or_geom, (gpd.GeoSeries, gpd.GeoDataFrame)):
+        gdf = gdf_or_geom.to_crs(r_crs)
+    else:
+        gdf = gpd.GeoSeries([gdf_or_geom], crs = 32118).to_crs(r_crs)
+
+    return zonal_stats(gdf, rpath, stats = [&quot;mean&quot;], nodata = np.nan)</code></pre>
+    </details>
+    
+</div>
+
+
+<div class="cell-code-wrapper">
+    <details class="code-fold">
+        <summary class="code-fold-toggle">Code Cell 4</summary>
+        <pre class="cell-code"><code># Print checks for the calculations.
+print(&quot;Tree canopy zonal stats:&quot;)
+tree = zonal_mean(nlcd_tree_path, tracts)
+print(&quot;Impervious zonal stats:&quot;)
+impervious = zonal_mean(nlcd_impervious_path, tracts)
+
+tracts[&quot;pct_tree_canopy&quot;] = [t[&quot;mean&quot;] for t in tree]
+tracts[&quot;pct_impervious&quot;] = [i[&quot;mean&quot;] for i in impervious]
+</code></pre>
+    </details>
+    <div class="cell-outputs">
+<pre class="output-stream">Tree canopy zonal stats:
+Impervious zonal stats:
+</pre>
+</div>
+</div>
+
+
+<div class="cell-code-wrapper">
+    <details class="code-fold">
+        <summary class="code-fold-toggle">Code Cell 5</summary>
+        <pre class="cell-code"><code>tracts.columns = tracts.columns.str.upper()
+tracts = tracts.rename(columns = {&quot;GEOMETRY&quot;: &quot;geometry&quot;})
+
+tracts.head()</code></pre>
+    </details>
+    <div class="cell-outputs">
+<div class="output-html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CTLABEL</th>
+      <th>BOROCODE</th>
+      <th>BORONAME</th>
+      <th>CT2020</th>
+      <th>BOROCT2020</th>
+      <th>CDELIGIBIL</th>
+      <th>NTANAME</th>
+      <th>NTA2020</th>
+      <th>CDTA2020</th>
+      <th>CDTANAME</th>
+      <th>GEOID</th>
+      <th>SHAPE_LENG</th>
+      <th>SHAPE_AREA</th>
+      <th>geometry</th>
+      <th>PCT_TREE_CANOPY</th>
+      <th>PCT_IMPERVIOUS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>Manhattan</td>
+      <td>000100</td>
+      <td>1000100</td>
+      <td>I</td>
+      <td>The Battery-Governors Island-Ellis Island-Libe...</td>
+      <td>MN0191</td>
+      <td>MN01</td>
+      <td>MN01 Financial District-Tribeca (CD 1 Equivalent)</td>
+      <td>36061000100</td>
+      <td>10833.043929</td>
+      <td>1.843005e+06</td>
+      <td>MULTIPOLYGON (((296291.109 58135.715, 296322.4...</td>
+      <td>10.126984</td>
+      <td>46.973545</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>14.01</td>
+      <td>1</td>
+      <td>Manhattan</td>
+      <td>001401</td>
+      <td>1001401</td>
+      <td>I</td>
+      <td>Lower East Side</td>
+      <td>MN0302</td>
+      <td>MN03</td>
+      <td>MN03 Lower East Side-Chinatown (CD 3 Equivalent)</td>
+      <td>36061001401</td>
+      <td>5075.332000</td>
+      <td>1.006117e+06</td>
+      <td>POLYGON ((300982.972 61050.770, 301053.206 610...</td>
+      <td>13.314286</td>
+      <td>69.590476</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14.02</td>
+      <td>1</td>
+      <td>Manhattan</td>
+      <td>001402</td>
+      <td>1001402</td>
+      <td>E</td>
+      <td>Lower East Side</td>
+      <td>MN0302</td>
+      <td>MN03</td>
+      <td>MN03 Lower East Side-Chinatown (CD 3 Equivalent)</td>
+      <td>36061001402</td>
+      <td>4459.156019</td>
+      <td>1.226206e+06</td>
+      <td>POLYGON ((301261.149 61343.713, 301332.269 613...</td>
+      <td>0.592000</td>
+      <td>83.656000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>18</td>
+      <td>1</td>
+      <td>Manhattan</td>
+      <td>001800</td>
+      <td>1001800</td>
+      <td>I</td>
+      <td>Lower East Side</td>
+      <td>MN0302</td>
+      <td>MN03</td>
+      <td>MN03 Lower East Side-Chinatown (CD 3 Equivalent)</td>
+      <td>36061001800</td>
+      <td>6391.921174</td>
+      <td>2.399277e+06</td>
+      <td>POLYGON ((300857.167 61503.238, 300868.535 614...</td>
+      <td>3.076305</td>
+      <td>81.887550</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>22.01</td>
+      <td>1</td>
+      <td>Manhattan</td>
+      <td>002201</td>
+      <td>1002201</td>
+      <td>E</td>
+      <td>Lower East Side</td>
+      <td>MN0302</td>
+      <td>MN03</td>
+      <td>MN03 Lower East Side-Chinatown (CD 3 Equivalent)</td>
+      <td>36061002201</td>
+      <td>5779.062607</td>
+      <td>1.740174e+06</td>
+      <td>POLYGON ((301795.202 61438.261, 301792.173 614...</td>
+      <td>6.089888</td>
+      <td>78.735955</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+
+
+<div class="cell-code-wrapper">
+    <details class="code-fold">
+        <summary class="code-fold-toggle">Code Cell 6</summary>
+        <pre class="cell-code"><code>tracts.columns</code></pre>
+    </details>
+    <div class="cell-outputs">
+<pre class="output-text">Index([&#x27;CTLABEL&#x27;, &#x27;BOROCODE&#x27;, &#x27;BORONAME&#x27;, &#x27;CT2020&#x27;, &#x27;BOROCT2020&#x27;, &#x27;CDELIGIBIL&#x27;,
+       &#x27;NTANAME&#x27;, &#x27;NTA2020&#x27;, &#x27;CDTA2020&#x27;, &#x27;CDTANAME&#x27;, &#x27;GEOID&#x27;, &#x27;SHAPE_LENG&#x27;,
+       &#x27;SHAPE_AREA&#x27;, &#x27;geometry&#x27;, &#x27;PCT_TREE_CANOPY&#x27;, &#x27;PCT_IMPERVIOUS&#x27;],
+      dtype=&#x27;object&#x27;)</pre>
+</div>
+</div>
+
+
+<div class="cell-code-wrapper">
+    <details class="code-fold">
+        <summary class="code-fold-toggle">Code Cell 7</summary>
+        <pre class="cell-code"><code>tracts = tracts.drop(columns = [&#x27;CTLABEL&#x27;, &#x27;BOROCODE&#x27;, &#x27;BORONAME&#x27;, &#x27;CT2020&#x27;,
+                       &#x27;BOROCT2020&#x27;, &#x27;CDELIGIBIL&#x27;, &#x27;NTANAME&#x27;, &#x27;NTA2020&#x27;,
+                       &#x27;CDTA2020&#x27;, &#x27;CDTANAME&#x27;, &#x27;SHAPE_LENG&#x27;, &#x27;SHAPE_AREA&#x27;])</code></pre>
+    </details>
+    
+</div>
+
+
+<div class="cell-code-wrapper">
+    <details class="code-fold">
+        <summary class="code-fold-toggle">Code Cell 8</summary>
+        <pre class="cell-code"><code>tracts.columns</code></pre>
+    </details>
+    <div class="cell-outputs">
+<pre class="output-text">Index([&#x27;GEOID&#x27;, &#x27;geometry&#x27;, &#x27;PCT_TREE_CANOPY&#x27;, &#x27;PCT_IMPERVIOUS&#x27;], dtype=&#x27;object&#x27;)</pre>
+</div>
+</div>
+
+
+<div class="cell-code-wrapper">
+    <details class="code-fold">
+        <summary class="code-fold-toggle">Code Cell 9</summary>
+        <pre class="cell-code"><code># Save as geojson.
+geojson_out = output_dir.parent / &quot;nlcd_calc_tracts.geojson&quot;
+geojson_out.parent.mkdir(parents = True, exist_ok = True)
+tracts.to_file(geojson_out)
+print(&quot;Saved:&quot;, geojson_out)
+
+# Save as csv.
+csv_out = output_dir.parent / &quot;nlcd_calc_tracts.csv&quot;
+tracts.drop(columns = [&quot;geometry&quot;]).to_csv(csv_out, index = False)
+print(&quot;Saved CSV:&quot;, csv_out)</code></pre>
+    </details>
+    <div class="cell-outputs">
+<pre class="output-stream">Saved: data\raster\nlcd_calc_tracts.geojson
+Saved CSV: data\raster\nlcd_calc_tracts.csv
+</pre>
+</div>
+</div>
+
+    </div>
+    
+    <div class="notebook-nav-buttons notebook-nav-bottom">
+        <a href="#" data-page="04e_code_additional_features" class="notebook-prev">← 4. Additional Features</a>
+        <a href="#" data-page="04g_code_data_merging" class="notebook-next">6. Data Merging →</a>
+    </div>
+</div>
+
+<div class="content-right">
+    <div class="panel-right-content">
+        <h2>Notebooks</h2>
+        <ul class="notebook-nav-list">
+            <li class=""><a href="#" data-page="04a_code_weather_stations">1a. Weather Stations</a></li>
+<li class=""><a href="#" data-page="04b_code_heat_classification">1b. Heat Classification</a></li>
+<li class=""><a href="#" data-page="04c_code_311_processing">2. 311 Processing</a></li>
+<li class=""><a href="#" data-page="04d_code_census_acs">3. Census ACS</a></li>
+<li class=""><a href="#" data-page="04e_code_additional_features">4. Additional Features</a></li>
+<li class="notebook-nav-current"><a href="#" data-page="04f_code_nlcd_rasters">5. NLCD Rasters</a></li>
+<li class=""><a href="#" data-page="04g_code_data_merging">6. Data Merging</a></li>
+<li class=""><a href="#" data-page="04h_code_eda">7. EDA</a></li>
+<li class=""><a href="#" data-page="04i_code_ols_ml_shap">8. OLS & ML + SHAP</a></li>
+        </ul>
+        
+        <h2>This Notebook</h2>
+        <b>Source:</b> 05_nlcd_calculations.ipynb<br><br>
+        <b>Code Cells:</b> 9<br>
+        <b>Figures:</b> 0
+    </div>
+    <div class="panel-right-footer">
+        <h3>Data Pipeline</h3>
+        <h5>Weather → 311 → Census → Features → Merge → EDA → Modeling</h5>
+    </div>
+</div>
