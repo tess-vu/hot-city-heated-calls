@@ -232,14 +232,14 @@ h4, h5, h6 {
 
 h1 { font-size: 30px; margin: 0 0 1rem 0; }
 h2 { font-size: 22px; margin: 0 0 0.7rem 0; }
-h3 { font-size: 16px; margin: 0 0 0.7rem 0; }
-h4 { font-size: 12px; margin: 0 0 0.5rem 0; }
+h3 { font-size: 18px; margin: 0 0 0.7rem 0; }
+h4 { font-size: 16px; margin: 0 0 0.5rem 0; }
 h5 { font-size: 10px; margin: 0 0 0.5rem 0; }
 h6 { font-size: 8px; margin: 0 0 0.5rem 0; }
 
 p {
     line-height: 1.3;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 /* Navigation Elements */
@@ -390,7 +390,6 @@ p {
 
 /* Report Content Styling */
 .report-content h1 {
-    font-size: 24px;
     margin-top: 2rem;
     padding-top: 1rem;
     border-top: 1px solid var(--clr-border);
@@ -403,12 +402,10 @@ p {
 }
 
 .report-content h2 {
-    font-size: 18px;
     margin-top: 1.5rem;
 }
 
 .report-content h3 {
-    font-size: 14px;
     margin-top: 1rem;
 }
 
@@ -474,6 +471,14 @@ p {
 .report-content th {
     background: rgba(242, 160, 7, 0.2);
     color: var(--clr-accent);
+}
+
+/* Custom Sizing for Report Image */
+.report-image {
+    max-width: 70% !important; 
+    display: block; 
+    margin: 1rem auto; 
+    height: auto; 
 }
 
 /* Notebook Styling */
@@ -551,16 +556,16 @@ p {
 }
 
 .code-fold-toggle::after {
-    font-size: 11px;
+    font-size: 12px;
     content: "Code";
 }
 
 .code-fold[open] .code-fold-toggle::after {
-    content: "Hide Code";
+    content: " | Hide Code";
 }
 
 .code-fold:not([open]) .code-fold-toggle::after {
-    content: "Show Code";
+    content: " | Show Code";
 }
 
 /* Notebook output cells */
@@ -575,7 +580,7 @@ p {
 
 /* Notebook images */
 .notebook-content img {
-    max-width: 100%;
+    max-width: 70%;
     height: auto;
     margin: 1rem 0;
     border-radius: 4px;
@@ -584,7 +589,8 @@ p {
 /* Notebook dataframes/tables */
 .notebook-content .dataframe,
 .notebook-content table.dataframe {
-    font-size: 10px;
+    font-size: 12px;
+    color: white;
     border-collapse: collapse;
     margin: 0.5rem 0;
 }
@@ -599,7 +605,7 @@ p {
     background: rgba(242, 160, 7, 0.15);
 }
 
-/* Syntax Highlighting (Pygments compatible) */
+/* Syntax Highlighting */
 .highlight {
     background: rgba(0, 0, 0, 0.25);
     padding: 1rem;
@@ -672,7 +678,7 @@ p {
 .content-right .toc a {
     color: var(--clr-text-primary);
     text-decoration: none;
-    font-size: 11px;
+    font-size: 12px;
     transition: color 0.2s ease;
 }
 
@@ -719,7 +725,7 @@ p {
 
 .notebook-description {
     color: rgba(255, 255, 255, 0.7);
-    font-size: 11px;
+    font-size: 14px;
     margin-bottom: 1rem;
     font-style: italic;
 }
@@ -736,7 +742,8 @@ p {
 
 .cell-markdown h4,
 .cell-markdown h5 {
-    color: var(--clr-accent);
+    color: white;
+    font-size: 14px;
     margin-top: 1rem;
 }
 
@@ -748,7 +755,7 @@ p {
     background: rgba(0, 0, 0, 0.3);
     padding: 0.1rem 0.3rem;
     border-radius: 2px;
-    font-size: 0.9em;
+    font-size: 14px;
 }
 
 /* Code cell wrapper */
@@ -763,7 +770,7 @@ p {
     margin: 0;
     overflow-x: auto;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.4;
     color: #f8f8f2;
     white-space: pre;
@@ -789,7 +796,7 @@ p {
 .output-stream,
 .output-text {
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.4;
     color: #e0e0e0;
     margin: 0;
@@ -803,7 +810,7 @@ p {
 
 .output-error {
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 10px;
+    font-size: 12px;
     color: #ff6b6b;
     background: rgba(255, 0, 0, 0.1);
     padding: 0.5rem;
@@ -813,13 +820,13 @@ p {
 
 .output-html {
     overflow-x: auto;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 /* DataFrame tables from pandas */
 .output-html table {
     border-collapse: collapse;
-    font-size: 10px;
+    font-size: 12px;
     margin: 0.5rem 0;
 }
 
@@ -842,11 +849,11 @@ p {
 
 /* Output images */
 .output-image {
-    max-width: 100%;
+    max-width: 100% !important;
     height: auto;
     margin: 0.5rem 0;
     border-radius: 4px;
-    background: white;
+    background: darkgray;
     padding: 0.5rem;
 }
 
@@ -854,7 +861,7 @@ p {
 .output-figure-placeholder,
 .output-note {
     color: rgba(255, 255, 255, 0.6);
-    font-size: 11px;
+    font-size: 12px;
     padding: 0.5rem;
     background: rgba(0, 0, 0, 0.15);
     border-radius: 3px;
@@ -875,7 +882,7 @@ p {
 .notebook-toc a {
     color: var(--clr-text-primary);
     text-decoration: none;
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.3;
     display: block;
     transition: color 0.2s ease;
@@ -895,7 +902,7 @@ p {
 .notebook-content .code-fold-toggle {
     background: rgba(0, 0, 0, 0.35);
     padding: 0.4rem 0.75rem;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 .notebook-content .code-fold[open] .code-fold-toggle {
@@ -903,20 +910,19 @@ p {
 }
 
 .notebook-content .code-fold-toggle {
-    font-size: 10px !important;
+    font-size: 12px !important;
 }
 
 .notebook-content .code-fold-toggle::after {
-    font-size: 10px;
+    font-size: 12px;
 }
 
-/* ===========================================
-   NOTEBOOK PAGE NAVIGATION
-   =========================================== */
+/* Notebook Page Naviation */
 
 /* Prev/Next navigation buttons */
 .notebook-nav-buttons {
     display: flex;
+    font-weight: 600;
     justify-content: space-between;
     align-items: center;
     margin: 1.5rem 0;
@@ -933,8 +939,8 @@ p {
 .notebook-next {
     color: var(--clr-accent);
     text-decoration: none;
-    font-size: 11px;
-    font-family: var(--font-headers-secondary);
+    font-size: 12px;
+    font-family: var(--font-headers-main);
     padding: 0.5rem 0.75rem;
     border: 1px solid var(--clr-accent);
     border-radius: 3px;
@@ -969,7 +975,7 @@ p {
 .notebook-nav-list a {
     color: var(--clr-text-primary);
     text-decoration: none;
-    font-size: 10px;
+    font-size: 12px;
     display: block;
     padding: 0.25rem 0.5rem;
     border-radius: 3px;
@@ -995,15 +1001,6 @@ p {
     text-align: center;
 }
 
-.output-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    background: #ffffff;
-    padding: 0.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
 .output-svg {
     background: #ffffff;
     padding: 1rem;
@@ -1011,6 +1008,6 @@ p {
 }
 
 .output-svg svg {
-    max-width: 100%;
+    max-width: 75%;
     height: auto;
 }
