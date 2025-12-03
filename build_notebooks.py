@@ -5,7 +5,7 @@ build_notebooks.py - Convert Jupyter notebooks to HTML pages for the website.
 USAGE:
     python build_notebooks.py
 
-Run this script from your project root (where docs/ and notebooks/ folders are).
+Run this script from project root (where docs/ and notebooks/ folders are).
 It will read notebooks from notebooks/ and output HTML pages to docs/pages/.
 
 After updating any .ipynb file, just run this script to regenerate the pages.
@@ -21,9 +21,7 @@ from pathlib import Path
 import re
 import sys
 
-# =============================================================================
-# CONFIGURATION - Edit this section to match your notebooks
-# =============================================================================
+# CONFIGURATION - Edit this section to match notebooks
 
 NOTEBOOKS = [
     {
@@ -91,9 +89,7 @@ NOTEBOOKS = [
     },
 ]
 
-# =============================================================================
 # CONVERSION FUNCTIONS
-# =============================================================================
 
 def escape_html(text):
     """Escape HTML special characters."""
@@ -314,10 +310,7 @@ def convert_notebook_to_page(nb_path, notebook_info, all_notebooks):
     
     return page_html
 
-
-# =============================================================================
 # MAIN
-# =============================================================================
 
 def main():
     # Determine paths
