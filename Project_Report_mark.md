@@ -48,7 +48,7 @@ Socioeconomic data was derived from the United States Census, specifically the m
 -   Percent Non-White (1 - B02001_002E / B01003_001E)
     -   (1 - White Count / Total Population)
 
-Justifications for these variables highlight socioeconomic issues and how heat-related issues disproportionately affect different communities as well as how different communities interact with public services like New York City's 311. Educated and higher-income individuals may know how to navigate what their cities offer, limited English speakers may have more barriers accessing 311 services, renters may face more infrastructural issues compared to owners,
+Justifications for these variables highlight socioeconomic issues and how heat-related issues disproportionately affect different communities as well as how different communities interact with public services like New York City's 311. Educated and higher-income individuals may know how to navigate what their cities offer, limited English speakers may have more barriers accessing 311 services, renters may face more infrastructural issues compared to owners.
 
 ### Urban Environmental Data
 
