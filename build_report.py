@@ -106,7 +106,7 @@ SECTION_MAPPING = {
     }
 }
 
-IMAGE_PATH_PREFIX = "../../"
+IMAGE_PATH_PREFIX = "../images/"
 
 # Conversion functions.
 def convert_markdown_to_html(md_text):
