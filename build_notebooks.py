@@ -74,7 +74,7 @@ NOTEBOOKS = [
         "file": "07_ols_ml.ipynb",
         "page_id": "04i_code_ols_ml_shap",
         "nav_name": "8. OLS & ML + SHAP",
-        "title": "OLS & ML Modeling with SHAP",
+        "title": "OLS and ML Modeling with SHAP",
         "description": "OLS regression, Random Forest modeling, and SHAP interpretability analysis."
     }
 ]
