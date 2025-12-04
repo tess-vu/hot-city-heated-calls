@@ -29,7 +29,7 @@ button:hover,
 }
 
 /* 
- * 2. 3-Panel Grid Container
+ * 2. 3-Panel Grid Container (on <body>)
  */
 body {
     display: grid;
@@ -349,7 +349,7 @@ p {
     color: var(--clr-bg);
 }
 
-/* Submenu Styles with Animated Expandable Menu */
+/* Submenu Styles - Animated Expandable Menu */
 
 .has-submenu {
     position: relative;
@@ -384,7 +384,7 @@ p {
 
 /* Expand submenu on hover */
 .has-submenu:hover .nav-submenu {
-    max-height: 400px;
+    max-height: 400px; /* Enough for all items */
     opacity: 1;
 }
 
@@ -402,7 +402,7 @@ p {
 }
 
 .nav-submenu a::before {
-    display: none;
+    display: none; /* Remove the fill animation for submenu items */
 }
 
 .nav-submenu a:hover {
@@ -1055,3 +1055,90 @@ p {
     max-width: 75%;
     height: auto;
 }
+/* Collapsable left panel */
+
+/* Panel Toggle Button */
+.panel-toggle {
+    position: fixed;
+    top: 50%;
+    left: 300px;
+    transform: translateY(-50%);
+    z-index: 1000;
+    background: var(--clr-accent);
+    color: var(--clr-bg);
+    border: none;
+    width: 20px;
+    height: 60px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.panel-toggle:hover {
+    background: #d99006;
+    width: 30px;
+}
+
+.toggle-icon {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+/* Collapsed state */
+body.panel-collapsed .panel-left {
+    transform: translateX(-100%);
+}
+
+body.panel-collapsed .panel-toggle {
+    left: 0;
+}
+
+body.panel-collapsed .toggle-icon {
+    transform: rotate(180deg);
+}
+
+body.panel-collapsed {
+    grid-template-columns: 0px 1fr 300px;
+}
+
+body.panel-collapsed #grain-middle {
+    left: 0;
+}
+
+/* Smooth transitions */
+.panel-left {
+    transition: transform 0.3s ease;
+}
+
+body {
+    transition: grid-template-columns 0.3s ease;
+}
+
+#grain-middle {
+    transition: left 0.3s ease, right 0.3s ease;
+}
+
+/* Responsive adjustments for toggle button */
+@media (max-width: 1400px) {
+    .panel-toggle {
+        left: 280px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .panel-toggle {
+        left: 260px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .panel-toggle {
+        left: 240px;
+    }
+}
+

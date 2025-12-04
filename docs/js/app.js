@@ -4,11 +4,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const navPanel = document.querySelector(".panel-left-nav");
     const contentMiddle = document.getElementById("content-middle");
     const contentRight = document.getElementById("content-right");
+    const panelToggle = document.getElementById("panel-toggle");
 
     // Store currently active link
     let activeLink = null;
     // Track if we're on a code page
     let currentPage = null;
+    
+    // Panel Collapse Toggle
+    if (panelToggle) {
+        // Check localStorage for saved state
+        const isPanelCollapsed = localStorage.getItem("panelCollapsed") === "true";
+        if (isPanelCollapsed) {
+            document.body.classList.add("panel-collapsed");
+        }
+        
+        panelToggle.addEventListener("click", () => {
+            document.body.classList.toggle("panel-collapsed");
+            
+            // Save state to localStorage
+            const isCollapsed = document.body.classList.contains("panel-collapsed");
+            localStorage.setItem("panelCollapsed", isCollapsed);
+        });
+    }
     
     // Grain Texture
     function initGrainTexture() {
