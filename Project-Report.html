@@ -423,7 +423,7 @@ complaints in New York City.</p>
 <p>The study area is based in New York City with spatial resolution at
 the census tract level, with these observations during summer 2025,
 defined as the beginning of June through August 23rd at a weekly
-temporal resolution. The full month of August was not used due to recent
+temporal resolution. The last week of August was not used due to recent
 weather data only recorded up to the 24th, therefore not providing a
 whole week, so it was removed from the study.</p>
 </div>
@@ -483,39 +483,41 @@ infrastructural issues compared to owners,</p>
 </div>
 <div id="urban-environmental-data" class="section level3">
 <h3>Urban Environmental Data</h3>
-<p>Environmental urban data were all derived from Landsat raster
-calculations, specifically scenes within the same study timeline, with
-the computation done through ArcGIS Pro. However, land-cover land-use
-(LULC) data was a static raster from 2024.</p>
+<p>Environmental urban data were derived from Landsat &amp; LULC raster
+calculations and OSM water data, specifically scenes within the same
+study timeline, with the manipulation and computation done through
+ArcGIS Pro and Python. However, land-cover land-use (LULC) data was a
+static raster from 2024.</p>
 <ul>
 <li>LULC Raster
 <ul>
 <li>Percent Tree Canopy</li>
 <li>Percent Impervious Surface</li>
 </ul></li>
-<li>Surface Temperature / Reflectance Raster
+<li>Landsat Raster
 <ul>
-<li>Average Height of Buildings (AH)</li>
-<li>Building Density (BD)</li>
 <li>Normalized Difference Vegetation Index (NDVI)</li>
-<li>Water Coverage Ratio (WCR)</li>
+</ul></li>
+<li>NYC Open Data: water shp
+<ul>
+<li>Water Cover Ratio</li>
 </ul></li>
 </ul>
-<p>Other data included deriving spatial features from Python’s
-<code>osmnx</code> module to calculate points-of-interest (POI) density
-utilizing a 500-meter buffer and mean Euclidean distance to the nearest
-subway of census tract centroids.</p>
-<p>Justification for these variables are that quantifiable metrics of
-greenery such as tree canopy and NDVI, as well as water coverage, could
-help explore the relationship between their roles in heat mitigation and
-alleviating air pollution within cities, and how they could potentially
-affect QoL requests as a byproduct. In addition, the impervious surface
-can suggest high heat absorption throughout the city at high
-percentages, and this is the same case with the building heights and
-densities. While many of these environmental and urban forms may be
-multicollinear, the goal is striving for interpretation rather than
-maximizing prediction, and this helps to explore the different
-properties of a city.</p>
+</div>
+<div id="urban-built-and-spatial-data" class="section level3">
+<h3>Urban Built and Spatial Data</h3>
+<p>Building data came from NYC open data of building footprint shp file
+with height field. Spatial data included deriving spatial features from
+Python’s <code>osmnx</code> module to calculate points-of-interest (POI)
+density utilizing a 500-meter buffer and mean Euclidean distance to the
+nearest subway of census tract centroids.</p>
+<ul>
+<li>NYC Open Data: buildings shp
+<ul>
+<li>Weighted Average Height of Buildings (AH)</li>
+<li>Building Density (BD)</li>
+</ul></li>
+</ul>
 <p>POIs were determined as everyday main amenities, shops, leisure, and
 public transport categories in OpenStreet Maps (OSM) yielding 21,309
 points, and are as follows:</p>
@@ -550,15 +552,23 @@ points, and are as follows:</p>
 <li>station</li>
 </ul></li>
 </ul>
-</div>
-<div id="urban-built-and-spatial-data" class="section level3">
-<h3>Urban Built and Spatial Data</h3>
+<p>Justification for these variables are that quantifiable metrics of
+greenery such as tree canopy and NDVI, as well as water coverage, could
+help explore the relationship between their roles in heat mitigation and
+alleviating air pollution within cities, and how they could potentially
+affect QoL requests as a byproduct. In addition, the impervious surface
+can suggest high heat absorption throughout the city at high
+percentages, and this is the same case with the building heights and
+densities. While many of these environmental and urban forms may be
+multicollinear, the goal is striving for interpretation rather than
+maximizing prediction, and this helps to explore the different
+properties of a city.</p>
 </div>
 </div>
 <div id="ols-regression-model" class="section level2">
 <h2>2.3. OLS Regression Model</h2>
 <p>OLS regression was used as the foundational statistical model in this
-study because it provides an interperatable, baseline framework for
+study because it provides an interpretable, baseline framework for
 understanding the linear associations between environmental,
 socioeconomic, urban morphology, and spatial accessibility
 characteristics and the dependent variable of heat-related QoL 311
@@ -566,11 +576,11 @@ complaints per capita.</p>
 <p>Separate cross-sectional OLS models were estimated for extreme heat
 weeks defined as those with at least two extreme heat days, and normal
 heat weeks defined as those with less than two extreme heat days, with
-each of the 2,225 observations representing a census tract by week.</p>
-<p>Predictors were structured into three conceptual categories, which
-were added incrementally to assess the added explanatory value of each
-predictor block: Environmental Predictors, Socioeconomic Predictors, and
-Urban Morphology Predictors.</p>
+each of the 2225 observations representing a census tract by week.</p>
+<p>Features were structured into three conceptual categories, which were
+added incrementally to assess the added explanatory value of each
+predictor block: Urban Environmental Features, Urban Socioeconomic
+Features, and Urban Built and Spatial Features.</p>
 <p><strong>Urban Environmental Features:</strong> NDVI, percent tree
 canopy, percent impervious surface, and water cover ratio (WCR).</p>
 <p><strong>Urban Socioeconomic Features:</strong> Median income, poverty
@@ -605,35 +615,28 @@ is a popular ML model used in the environmental exposure, health, and
 urban prediction literature.</p>
 <p>Like the OLS model, the RF models were trained in the extreme heat
 weeks and normal heat weeks with the same predictor groups for direct
-comparison. Then, to prevent overfitting and ensure generalizability, a
-3-fold cross-validation was implemented, partitioning the tracts into an
-80% train set and 20% test set, with the RF hyperparameters as
-follows:</p>
-<ul>
-<li>n_estimators: <code>[200, 400, 600]</code></li>
-<li>max_depth: <code>[10, 20, 30]</code></li>
-<li>min_samples_split: <code>[2, 5, 10]</code></li>
-<li>max_samples_leaf: <code>[1, 2, 4]</code></li>
-<li>max_features: <code>[&quot;auto&quot;, &quot;sqrt&quot;, 0.5]</code></li>
-</ul>
+comparison. Partitioning the tracts into an 80% train set and 20% test
+set, then a 3-fold Grid Search cross-validation was implemented to
+optimize the hyperparameters. The final performance metrics are based on
+test set.</p>
 <p>While OLS is useful for interpretation, extreme heat effects on QoL
 likely possess nonlinearity, interactions between the built environment
 and socioeconomic vulnerability, among others, and RF accommodates to
 these unique idiosyncracies, capturing behavioral and nonlinear dynamics
 that OLS falls short on.</p>
-<p>Finally, SHAP was used to interpret the Random Forest predictions and
-quantify the contribution of each predictor to the predicted QoL
+<p>Finally, SHAP method was used to interpret the Random Forest results
+and quantify the contribution of each predictor to the predicted QoL
 complaint rate per capita. This particular methodology is well-suited
-for urban and environmental modeling because it, like Random Forest, can
-handle nonlinear, interactive relationships, but it can especially
-decomposes predictions into additive contributions from each predictor,
-providing a measure of global importance and local explanations, so this
-makes the two regimes of extreme heat weeks versus normal heat weeks
+for urban and environmental modeling because it can especially decompose
+predictions into additive contributions from each predictor, providing a
+measure of global importance and local explanations, so this makes the
+two regimes of extreme heat weeks versus normal heat weeks
 comparable.</p>
 <p>With this, SHAP allows identification of which environmental,
 socioeconomic, or urban factors become more influential during extreme
 heat, and whether predictors behave differently under high heat versus
-normal heat conditions.</p>
+normal heat conditions. And further use SHAP plots, we can discover the
+non-linear relationship between features and targets.</p>
 </div>
 </div>
 <div id="results" class="section level1">
