@@ -1,6 +1,5 @@
-#!/usr/bin/env python3
 """
-Convert Jupyter notebooks to HTML pages for the website.
+Convert Jupyter notebooks to HTML pages for website.
 
 From nbconvert repository.
 
@@ -13,8 +12,7 @@ from pathlib import Path
 import re
 import sys
 
-# CONFIGURATION - Edit this section to match notebooks
-
+# Configuration.
 NOTEBOOKS = [
     {
         "file": "01a_weather_station_data_filtering.ipynb",
@@ -82,7 +80,6 @@ NOTEBOOKS = [
 ]
 
 # Conversion functions.
-
 def escape_html(text):
     """Escape HTML special characters."""
     return html.escape(str(text))
@@ -290,9 +287,9 @@ def convert_notebook_to_page(nb_path, notebook_info, all_notebooks):
         </ul>
         
         <h2>This Notebook</h2>
-        <p><strong>Source:</strong> {escape_html(notebook_info['file'])}</p>
-        <p><strong>Code cells:</strong> {cell_count}</p>
-        <p><strong>Figures:</strong> {figure_count}</p>
+        <p><b>Source:</b> {escape_html(notebook_info['file'])}</p>
+        <p><b>Code Cells:</b> {cell_count}</p>
+        <p><b>Figures:</b> {figure_count}</p>
     </div>
     <div class="panel-right-footer">
         <h3>Data Pipeline</h3>
@@ -302,13 +299,12 @@ def convert_notebook_to_page(nb_path, notebook_info, all_notebooks):
     
     return page_html
 
-# MAIN
-
+# Main.
 def main():
     # Determine paths.
     script_dir = Path(__file__).parent.resolve()
     
-    # Look for notebooks/ directory.
+    # Look for notebooks/directory.
     notebooks_dir = script_dir / 'notebooks'
     if not notebooks_dir.exists():
         notebooks_dir = script_dir.parent / 'notebooks'
@@ -318,7 +314,7 @@ def main():
         print(f"       and: {script_dir.parent / 'notebooks'}")
         sys.exit(1)
     
-    # Look for docs / pages/ directory.
+    # Look for docs/pages/directory.
     pages_dir = script_dir / 'docs' / 'pages'
     if not pages_dir.exists():
         pages_dir = script_dir.parent / 'docs' / 'pages'
@@ -327,11 +323,9 @@ def main():
     
     pages_dir.mkdir(parents=True, exist_ok=True)
     
-    print("=" * 60)
-    print("Building notebook pages")
-    print("=" * 60)
-    print(f"Notebooks dir: {notebooks_dir}")
-    print(f"Output dir:    {pages_dir}")
+    print("Building notebook pages.")
+    print(f"Notebooks Directory: {notebooks_dir}.")
+    print(f"Output Directory: {pages_dir}.")
     print()
     
     success_count = 0

@@ -37,9 +37,9 @@ body {
     grid-template-rows: 100vh;
     background: linear-gradient(
         180deg,
-        #400e09 0%,
-        #b60101 50%,
-        #97d7dd 100%
+        #b90503 0%,
+        #438da5 60%,
+        #c7d6bc 100%
     );
 }
 
@@ -475,7 +475,7 @@ p {
 
 /* Custom Sizing for Report Image */
 .report-image {
-    max-width: 70% !important; 
+    max-width: 100% !important; 
     display: block; 
     margin: 1rem auto; 
     height: auto; 
@@ -580,7 +580,7 @@ p {
 
 /* Notebook images */
 .notebook-content img {
-    max-width: 70%;
+    max-width: 100%;
     height: auto;
     margin: 1rem 0;
     border-radius: 4px;
