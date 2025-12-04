@@ -282,7 +282,7 @@ Low VIF for WCR, PCT_LIMITED_ENGLISH, POI_DENSITY, AH, and PCT_TREE_CANOPY indic
 
 With this, it seems the variables cluster strongly and reveal that socioeconomic and environmental inequality is not composed of independent factors, but rather tightly bundled mechanisms that drive 311 reporting behavior. This means that OLS, while providing an interpretable baseline, is not ideal for capturing all these variables, reinforcing the need for models robust against multicollinearity like Random Forest.
 
-![*Target Variable Map*](notebooks/images/EDA/target_variable_map.png)
+![*Target Variable Map*](notebooks/images/target_comparison_heat_map.png)
 
 ![*Environmental Predictors Map*](notebooks/images/EDA/environment_map.png)
 
