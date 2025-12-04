@@ -149,6 +149,12 @@ body {
     display: none;
 }
 
+.panel-right-content a:hover,
+.panel-right-content a:active,
+.panel-right-content a:focus {
+    color: #b60101 !important;
+}
+
 .panel-right-footer {
     margin-top: auto;
     padding-top: 1rem;
@@ -157,7 +163,7 @@ body {
 }
 
 .panel-right-footer h3 {
-    color: #000000;
+    color: #b60101;
 }
 
 .panel-right-footer p {
@@ -174,12 +180,6 @@ body {
     font-weight: 300;
     transition: color 0.2s ease;
     text-decoration: underline;
-}
-
-.panel-right-footer h5 a:hover,
-.panel-right-footer h5 a:active,
-.panel-right-footer h5 a:focus {
-    color: #97d7dd !important;
 }
 
 /* Grain Texture Overlay */
