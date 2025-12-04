@@ -2,7 +2,7 @@
 """
 Convert Project_Report.md to website HTML page fragments.
 
-Adjusted from nbconvert repository.
+Modified from nbconvert repository.
 
 https://github.com/jupyter/nbconvert
 """
@@ -12,7 +12,6 @@ from pathlib import Path
 
 # Configuration.
 
-# Define how markdown sections map to HTML pages.
 SECTION_MAPPING = {
     "1. INTRODUCTION": {
         "page_file": "01_introduction.html",
@@ -102,93 +101,161 @@ SECTION_MAPPING = {
     }
 }
 
-# Conversion.
+IMAGE_PATH_PREFIX = "../../"
 
+# Conversion functions.
 def convert_markdown_to_html(md_text):
-    """Convert markdown text to HTML."""
-    html = md_text
+    """Convert markdown to HTML with proper nested list support."""
     
-    # Remove YAML frontmatter.
-    html = re.sub(r'^---\n.*?---\n', '', html, flags=re.DOTALL)
+    inline_codes = []
+    def save_inline_code(match):
+        inline_codes.append(match.group(1))
+        return f'__INLINE_CODE_{len(inline_codes)-1}__'
     
-    # Headers (process in order from h4 to h2 to avoid conflicts).
-    html = re.sub(r'^#### (.+)$', r'<h5>\1</h5>', html, flags=re.MULTILINE)
-    html = re.sub(r'^### (.+)$', r'<h4>\1</h4>', html, flags=re.MULTILINE)
-    html = re.sub(r'^## (.+)$', r'<h3>\1</h3>', html, flags=re.MULTILINE)
-    # Don't convert h1 - we'll use those for section splitting.
+    md_text = re.sub(r'`([^`]+)`', save_inline_code, md_text)
     
-    # Bold and italic.
-    html = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', html)
-    html = re.sub(r'\*(.+?)\*', r'<em>\1</em>', html)
-    html = re.sub(r'__(.+?)__', r'<strong>\1</strong>', html)
-    html = re.sub(r'_([^_]+)_', r'<em>\1</em>', html)
+    # Process markdown line by line.
+    lines = md_text.split('\n')
+    html_lines = []
     
-    # Inline code.
-    html = re.sub(r'`([^`]+)`', r'<code>\1</code>', html)
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        
+        # Check for headers.
+        if line.startswith('#### '):
+            html_lines.append(f'<h5>{line[5:]}</h5>')
+            i += 1
+            continue
+        elif line.startswith('### '):
+            html_lines.append(f'<h4>{line[4:]}</h4>')
+            i += 1
+            continue
+        elif line.startswith('## '):
+            html_lines.append(f'<h3>{line[3:]}</h3>')
+            i += 1
+            continue
+        elif line.startswith('# '):
+            # Skip h1 headers.
+            i += 1
+            continue
+        
+        # Check for image.
+        img_match = re.match(r'!\[([^\]]*)\]\(([^)]+)\)', line)
+        if img_match:
+            alt_text = img_match.group(1)
+            img_path = img_match.group(2)
+            # Adjust path for website structure.
+            if img_path.startswith('notebooks/'):
+                img_path = IMAGE_PATH_PREFIX + img_path
+            # Process caption for italics.
+            caption = process_inline_formatting(alt_text)
+            # Clean alt text.
+            clean_alt = re.sub(r'\*([^*]+)\*', r'\1', alt_text)
+            html_lines.append(f'<figure><img class="report-image" src="{img_path}" alt="{clean_alt}"><figcaption>{caption}</figcaption></figure>')
+            i += 1
+            continue
+        
+        # Check for list start.
+        list_match = re.match(r'^-\s+(.+)$', line)
+        if list_match:
+            # Collect list items.
+            list_html, new_i = process_list(lines, i)
+            html_lines.append(list_html)
+            i = new_i
+            continue
+        
+        # Regular paragraph or empty line.
+        stripped = line.strip()
+        if stripped:
+            # Process inline formatting.
+            processed = process_inline_formatting(stripped)
+            html_lines.append(f'<p>{processed}</p>')
+        
+        i += 1
+    
+    # Join and restore inline codes.
+    html = '\n'.join(html_lines)
+    
+    for idx, code in enumerate(inline_codes):
+        html = html.replace(f'__INLINE_CODE_{idx}__', f'<code>{code}</code>')
+    
+    return html
+
+def process_list(lines, start_idx):
+    """Process a list starting at start_idx, handling nested lists properly."""
+    html_parts = ['<ul>']
+    i = start_idx
+    
+    while i < len(lines):
+        line = lines[i]
+        
+        # Check for top-level list item.
+        top_match = re.match(r'^-\s+(.+)$', line)
+        if top_match:
+            content = process_inline_formatting(top_match.group(1))
+            
+            # Look ahead for nested items.
+            nested_items = []
+            j = i + 1
+            while j < len(lines):
+                nested_match = re.match(r'^    -\s+(.+)$', lines[j])
+                if nested_match:
+                    nested_items.append(process_inline_formatting(nested_match.group(1)))
+                    j += 1
+                else:
+                    break
+            
+            if nested_items:
+                # Item with nested list.
+                html_parts.append(f'<li>{content}')
+                html_parts.append('<ul>')
+                for nested in nested_items:
+                    html_parts.append(f'<li>{nested}</li>')
+                html_parts.append('</ul>')
+                html_parts.append('</li>')
+                i = j
+            else:
+                # Simple item.
+                html_parts.append(f'<li>{content}</li>')
+                i += 1
+            continue
+        
+        # Check if still in list.
+        if line.strip() == '':
+            # Check if next line continues the list.
+            if i + 1 < len(lines) and re.match(r'^-\s+', lines[i + 1]):
+                i += 1
+                continue
+            else:
+                # End of list.
+                break
+        elif re.match(r'^    -\s+', line):
+            # Orphan nested item.
+            i += 1
+            continue
+        else:
+            # End list.
+            break
+    
+    html_parts.append('</ul>')
+    return '\n'.join(html_parts), i
+
+def process_inline_formatting(text):
+    """Process inline formatting: bold, italic, links."""
+    # Bold.
+    text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+    
+    # Italic.
+    text = re.sub(r'\*([^*]+)\*', r'<em>\1</em>', text)
     
     # Links.
-    html = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2" target="_blank">\1</a>', html)
+    text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2" target="_blank">\1</a>', text)
     
-    # Images.
-    html = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', r'<img class="report-image" src="\2" alt="\1">', html)
-    
-    # Unordered lists.
-    def convert_ul(match):
-        items = match.group(0)
-        # Split by lines starting with -
-        lines = items.strip().split('\n')
-        result = ['<ul>']
-        current_item = []
-        indent_level = 0
-        
-        for line in lines:
-            if line.strip().startswith('- '):
-                if current_item:
-                    result.append('<li>' + ' '.join(current_item) + '</li>')
-                current_item = [line.strip()[2:]]
-            elif line.strip().startswith('  - '):
-                # Nested item
-                if current_item:
-                    result.append('<li>' + ' '.join(current_item))
-                    result.append('<ul><li>' + line.strip()[4:] + '</li></ul></li>')
-                    current_item = []
-            elif line.strip():
-                current_item.append(line.strip())
-        
-        if current_item:
-            result.append('<li>' + ' '.join(current_item) + '</li>')
-        
-        result.append('</ul>')
-        return '\n'.join(result)
-    
-    # Simple list conversion.
-    html = re.sub(r'((?:^- .+\n?)+)', convert_ul, html, flags=re.MULTILINE)
-    
-    # Convert remaining lines to paragraphs.
-    lines = html.split('\n\n')
-    processed = []
-    for block in lines:
-        block = block.strip()
-        if not block:
-            continue
-        # Don't wrap if already has HTML tags.
-        if block.startswith('<') or block.startswith('#'):
-            processed.append(block)
-        else:
-            # Wrap in paragraph.
-            processed.append(f'<p>{block}</p>')
-    
-    html = '\n'.join(processed)
-    
-    # Clean up any remaining # headers.
-    html = re.sub(r'^# .+$', '', html, flags=re.MULTILINE)
-    
-    return html.strip()
-
+    return text
 
 def split_markdown_by_sections(md_content):
     """Split markdown content by h1 headers."""
-    # Pattern to match h1 headers.
     pattern = r'^# (\d+\. .+)$'
     
     sections = {}
@@ -198,7 +265,6 @@ def split_markdown_by_sections(md_content):
     for line in md_content.split('\n'):
         match = re.match(pattern, line)
         if match:
-            # Save previous section.
             if current_section:
                 sections[current_section] = '\n'.join(current_content)
             current_section = match.group(1)
@@ -206,12 +272,10 @@ def split_markdown_by_sections(md_content):
         else:
             current_content.append(line)
     
-    # Save last section.
     if current_section:
         sections[current_section] = '\n'.join(current_content)
     
     return sections
-
 
 def generate_page_html(title, content_html, right_panel_html):
     """Generate full page HTML fragment."""
@@ -228,11 +292,9 @@ def generate_page_html(title, content_html, right_panel_html):
 {right_panel_html}
 </div>'''
 
-
 # Main.
 
 def main():
-    # Find paths.
     script_dir = Path(__file__).parent.resolve()
     
     # Look for Project_Report.md.
@@ -241,8 +303,6 @@ def main():
         report_path = script_dir.parent / 'Project_Report.md'
     if not report_path.exists():
         print(f"ERROR: Cannot find Project_Report.md")
-        print(f"Looked in: {script_dir}")
-        print(f"       and: {script_dir.parent}")
         return
     
     # Look for docs/pages/.
@@ -254,15 +314,16 @@ def main():
     
     pages_dir.mkdir(parents=True, exist_ok=True)
     
-    print("=" * 60)
-    print("Building report pages from Project_Report.md")
-    print("=" * 60)
+    print("Building report pages from Project_Report.md.")
     print(f"Source: {report_path}")
     print(f"Output: {pages_dir}")
     print()
     
     # Read markdown.
     md_content = report_path.read_text(encoding='utf-8')
+    
+    # Remove YAML frontmatter.
+    md_content = re.sub(r'^---\n.*?---\n', '', md_content, flags=re.DOTALL)
     
     # Split into sections.
     sections = split_markdown_by_sections(md_content)
@@ -276,18 +337,13 @@ def main():
     for section_name, section_content in sections.items():
         if section_name in SECTION_MAPPING:
             config = SECTION_MAPPING[section_name]
-            
-            # Convert markdown to HTML.
             content_html = convert_markdown_to_html(section_content)
-            
-            # Generate page.
             page_html = generate_page_html(
                 config['page_title'],
                 content_html,
                 config['right_panel']
             )
             
-            # Write file.
             output_path = pages_dir / config['page_file']
             output_path.write_text(page_html, encoding='utf-8')
             
@@ -297,7 +353,7 @@ def main():
             print(f"Skipping unmapped section: {section_name}.")
     
     print()
-    print("Pages updated.")
+    print("Updated report.")
 
 if __name__ == '__main__':
     main()

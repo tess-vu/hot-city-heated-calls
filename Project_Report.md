@@ -1,6 +1,6 @@
 ---
 title: "Hot City, Heated Calls"
-subtitle: "Understanding Extreme Heat and Quality of Life Using NYC's 311 and SHAP"
+subtitle: "Understanding How Urban Features Affect Quality of Life Under Different Heat Conditions Using New York City's 311 and SHAP"
 date: today
 author:
   - name: Mark Deng
@@ -12,7 +12,7 @@ format: html
 
 ## 1.1. Research Background
 
-Extreme heat weather is one of the deadliest environmental hazards in the United States, the heat extreme heat events have significant negative impacts on urban public health and urban sustainable development. In dense, urban metropolitan cities like New York, extreme heat interacts with not just the built environment and local infrastructure conditions, but also the socioeconomic climate—extreme heat acts as one of the many architects shaping where service disruptions, complaints, and other surrounding stressors occur, degrading quality-of-life (QoL) for urban residents.
+Extreme heat weather is one of the deadliest environmental hazards in the United States, which have significant negative impacts on urban public health and urban sustainable development. In dense, urban metropolitan cities like New York, extreme heat interacts with not just the built environment and local infrastructure conditions, but also the socioeconomic climate—extreme heat acts as one of the many architects shaping where service disruptions, complaints, and other surrounding stressors occur, degrading quality-of-life (QoL) for urban residents.
 
 Within the context of this degradation is New York City’s 311 service, a complaint system that accepts reports via calls, emails, and website submissions that can reflect heat induced QoL behavior; it is a granular, real-time lens that provides understanding of how heat-related aggravation and other aspects can translate into observable, negative resident sentiment. This project in particular seeks to connect extreme heat versus normal heat weeks with environmental factors, socioeconomic conditions, and urban morphology to potentially explain QoL issues by different factors and their different performance during hotter periods.
 
@@ -38,11 +38,11 @@ The study area is based in New York City with spatial resolution at the census t
 
 ## 2.2. Data Preparation
 
-### Heat Data
+### **Heat Data**
 
 The subsequent removal of August's last week provided a total of 12 weeks in summer 2025, where extreme heat weeks were defined as at least two extreme heat days within a week with a temperature cutoff threshold at 93°F using the John F. Kennedy (JFK) weather station located at Philadelphia's international airport. This threshold was determined according to a climatological baseline from 1981 through 2010 daily max temperature with a 95th percentile, and this split the observations into two needed regimes: 17 extreme heat days and 71 normal heat days, providing 5 extreme heat weeks and 7 normal heat weeks. Data was directly downloaded from the National Oceanic and Atmospheric Administration (NOAA).
 
-### Socioeconomic Data
+### **Socioeconomic Data**
 
 Socioeconomic data was derived from the United States Census, specifically the most recent 5-year American Community Survey (ACS) in 2023. Python's `pyCensus` module provided easy access to filter the data down to main investigative, derived variables in the final table:
 
@@ -60,7 +60,7 @@ Socioeconomic data was derived from the United States Census, specifically the m
 
 Justifications for these variables highlight socioeconomic issues and how heat-related issues disproportionately affect different communities as well as how different communities interact with public services like New York City's 311. Educated and higher-income individuals may know how to navigate what their cities offer, limited English speakers may have more barriers accessing 311 services, renters may face more infrastructural issues compared to owners,
 
-### Urban Environmental Data
+### **Urban Environmental Data**
 
 Environmental urban data were all derived from Landsat raster calculations, specifically scenes within the same study timeline, with the computation done through ArcGIS Pro. However, land-cover land-use (LULC) data was a static raster from 2024.
 
@@ -100,8 +100,6 @@ POIs were determined as everyday main amenities, shops, leisure, and public tran
     -   park
 -   Public Transport
     -   station
-
-### Urban Built and Spatial Data
 
 ## 2.3. OLS Regression Model
 
@@ -211,7 +209,7 @@ The great overlap between distributions suggests most tracts maintain relatively
 
 ![*VIF Horizontal Bar Plot*](notebooks/images/EDA/vif_horizontal_bar.png)
 
-**Critical VIF Violations (10 \< VIF\>)**
+**Critical VIF Violations (10 < VIF)**
 
 `PCT_RENTERS`, `BD`, and `PCT_IMPERVIOUS` are likely very correlated with one another as imperviousness and building density have overlapping measures of the physical city, whereas renters as opposed to owners will be concentrated in denser areas.
 
@@ -221,11 +219,11 @@ The great overlap between distributions suggests most tracts maintain relatively
 
 `PCT_NON_WHITE` is likely associated with `POVERTY_RATE`, but the former may capture more broad sociodemographics, hence the higher VIF.
 
-**Moderate Multicollinearity Concerns (5 \< VIF \< 10)**
+**Moderate Multicollinearity Concerns (5 < VIF < 10)**
 
 `POVERTY_RATE` and `KNN_SUBWAY_dist_mean` are moderately multicollinear, the former with `MEDIAN_INCOME` and `PCT_NON_WHITE` and the latter with the urban form variables. However, these metrics do not have as drastic of VIF values as their related counterparts.
 
-**Acceptable VIF Range (VIF \< 5)**
+**Acceptable VIF Range (VIF < 5)**
 
 Low VIF for `WCR`, `PCT_LIMITED_ENGLISH`, `POI_DENSITY`, `AH`, and `PCT_TREE_CANOPY` indicate that these are the most distinct and independent variables from 311 QoL reports in heat.
 
@@ -255,6 +253,10 @@ In the OLS model for normal heat week QoL 311 report density, the overall F-stat
 
 Regarding individual predictors, under the 0.05 significance threshold and within the linear OLS framework, seven features show statistically significant associations with QoL 311 report density during normal heat weeks: `PCT_TREE_CANOPY`, `PCT_IMPERVIOUS`, `NDVI`, `POVERTY_RATE`, `PCT_NON_WHITE`, `BD`, and `AH`. All remaining variables exhibit no significant linear effect.
 
+![*Extreme Heat Week OLS Results*](notebooks/images/OLS_extreme_heat_table.png)
+
+![*Normal Heat Week OLS Results*](notebooks/images/OLS_regular_heat_table.png)
+
 ### 3.2.2 Extreme Heat Model
 
 In the OLS model for extreme heat–week QoL 311 report density, the overall F-statistic is highly significant, indicating that the set of urban features jointly provides meaningful explanatory power. The model’s R² of 0.088 shows that these variables account for roughly 8–9% of the spatial variation, which also shows a limited explanatory power. The relatively low R² also suggests the non-linear relationships might exist between urban features and 311 reporting behavior in extreme heat weeks.
@@ -272,6 +274,10 @@ Across both the extreme-heat-week and normal-heat-week OLS models, only about ha
 Across both models, Random Forest substantially outperforms the OLS baseline, demonstrating the importance of non-linear and complex effects in explaining QoL 311 report density. For the regular heat week model, the test R² reaches 0.274, over three times higher than the OLS R² of approximately 0.08. Similarly, the extreme heat week model attains a test R² of 0.246, again far exceeding the linear model but slightly lower than the regular heat scenario. This gap suggests that reporting behaviors during extreme heat is more variable and influenced by additional unobserved or volatile mechanisms. The clear improvements in model performance in both cases further confirm that machine-learning approaches capture substantial structure in the data that linear models fail to represent.
 
 SHAP results reveal a consistent set of dominant predictors across both heat conditions. In each model, `AH`, `PCT_NON_WHITE`, and `NDVI` emerge as the three strongest contributors, reinforcing the central role of high-density residential morphology, socio-demographic composition, and environmental greenness in shaping QoL 311 reporting patterns. Several other predictors, such as `KNN_SUBWAY_dist_mean`, `MEDIAN_INCOME`, `WCR`, `POVERTY_RATE`, and `PCT_RENTERS`, also exhibit meaningful non-linear contributions that were not visible in OLS, underscoring the value of ML models for uncovering complex behavioral responses.
+
+![*SHAP Importance Beeswarm Plots*](notebooks/images/SHAP2/SHAP_beeswarm_facet.png)
+
+![*SHAP Importance Bar Charts*](notebooks/images/SHAP2/SHAP_bar_facet.png)
 
 ### 3.3.2 Extreme Heat vs Normal Heat
 
