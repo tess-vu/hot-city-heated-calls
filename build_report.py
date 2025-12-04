@@ -106,14 +106,16 @@ SECTION_MAPPING = {
     }
 }
 
-# Image path configuration for GitHub Pages
-# Images should be copied to docs/images/ folder
-# From docs/pages/*.html, ../images/ resolves to docs/images/
-IMAGE_PATH_PREFIX = "../images/"
+# Image path configuration for GitHub Pages with SPA-style loading
+# Since app.js loads page fragments into index.html at the site root,
+# image paths must be relative to the ROOT, not to pages/
+# The browser URL stays at / when viewing pages, so ../images/ would fail
+IMAGE_PATH_PREFIX = "images/"
 
-# Note: You must copy your images to docs/images/:
-#   cp -r notebooks/images/* docs/images/
-# This makes images accessible from GitHub Pages which only serves docs/
+# Structure:
+#   docs/index.html (browser is HERE when viewing any page)
+#   docs/images/EDA/...
+#   docs/pages/03_results.html (loaded via fetch into index.html)
 
 # Conversion functions.
 def convert_markdown_to_html(md_text):
