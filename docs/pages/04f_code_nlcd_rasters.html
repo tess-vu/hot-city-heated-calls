@@ -15,7 +15,8 @@
     </div>
     
     <div class="report-content notebook-content">
-<div class="cell-markdown"><h5>NLCD RASTERS (SUMMER, 2025)</h5></div>
+<div class="cell-markdown"><h2>NLCD RASTERS</h2>
+Extract tree canopy and impervious percentages.</div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -47,9 +48,7 @@ tracts_path = Path(&quot;data/nyc_tracts_2020/nyc_tracts_2020.shp&quot;)
 output_dir = Path(&quot;data/raster/processed&quot;)
 output_dir.mkdir(parents = True, exist_ok = True)
 
-tracts = gpd.read_file(tracts_path).to_crs(32118)
-
-</code></pre>
+tracts = gpd.read_file(tracts_path).to_crs(32118)</code></pre>
     </details>
     
 </div>
@@ -81,17 +80,18 @@ def zonal_mean(rpath, gdf_or_geom):
         <pre class="cell-code"><code># Print checks for the calculations.
 print(&quot;Tree canopy zonal stats:&quot;)
 tree = zonal_mean(nlcd_tree_path, tracts)
+print(tree)
 print(&quot;Impervious zonal stats:&quot;)
 impervious = zonal_mean(nlcd_impervious_path, tracts)
+print(impervious)
 
 tracts[&quot;pct_tree_canopy&quot;] = [t[&quot;mean&quot;] for t in tree]
-tracts[&quot;pct_impervious&quot;] = [i[&quot;mean&quot;] for i in impervious]
-</code></pre>
+tracts[&quot;pct_impervious&quot;] = [i[&quot;mean&quot;] for i in impervious]</code></pre>
     </details>
     <div class="cell-outputs">
 <pre class="output-stream">Tree canopy zonal stats:
-Impervious zonal stats:
-</pre>
+[{&#x27;mean&#x27;: 10.126984126984127}, {&#x27;mean&#x27;: 13.314285714285715}, {&#x27;mean&#x27;: 0.592}, {&#x27;mean&#x27;: 3.076305220883534}, {&#x27;mean&#x27;: 6.089887640449438}, {&#x27;mean&#x27;: 2.736842105263158}, {&#x27;mean&#x27;: 1.7009803921568627}, {&#x27;mean&#x27;: 1.2598870056497176}, {&#x27;mean&#x27;: 6.25}, {&#x27;mean&#x27;: 2.8217821782178216}, {&#x27;mean&#x27;: 0.4077669902912621}, {&#x27;mean&#x27;: 1.0520833333333333}, {&#x27;mean&#x27;: 0.047619047619047616}, {&#x27;mean&#x27;: 1.2023809523809523}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 7.0647482014388485}, {&#x27;mean&#x27;: 0.07936507936507936}, {&#x27;mean&#x27;: 0.05154639175257732}, {&#x27;mean&#x27;: 1.3650793650793651}, {&#x27;mean&#x27;: 0.15025906735751296}, {&#x27;mean&#x27;: 6.22}, {&#x27;mean&#x27;: 0.6020408163265306}, {&#x27;mean&#x27;: 0.39896373056994816}, {&#x27;mean&#x27;: 0.6956521739130435}, {&#x27;mean&#x27;: 0.19270833333333334}, {&#x27;mean&#x27;: 1.517766497461929}, {&#x27;mean&#x27;: 4.198979591836735}, {&#x27;mean&#x27;: 0.387434554973822}, {&#x27;mean&#x27;: 0.10256410256410256}, {&#x27;mean&#x27;: 0.05235602094240838}, {&#x27;mean&#x27;: 0.8134715025906736}, {&#x27;mean&#x27;: 4.455958549222798}, {&#x27;mean&#x27;: 3.572972972972973}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 4.678391959798995}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 1.3679245283018868}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 0.16580310880829016}, {&#x27;mean&#x27;: 0.6375}, {&#x27;mean&#x27;: 0.15625}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 0.07142857142857142}, {&#x27;mean&#x27;: 0.32954545454545453}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 0.6306306306306306}, {&#x27;mean&#x27;: 2.5786802030456855}, {&#x27;mean&#x27;: 0.0}, {&#x27;mean&#x27;: 1.1614583333333333}, {&#x27;mean&#x27;: 0.10204081632653061}, {&#x27;mean&#x27;: 0.59}, {&#x27;mean&#x27;: 0.953125}, {&#x27;mean&#x27;: 0.05154639175257732}, {&#x27;mean&#x27;: 1.5339805825242718}, {&#x27;mean&#x27;: 1.606060606060606}, {&#x27;mean&#x27;: 0.7680412371134021}, {&#x27;mean&#x27;: 1.7868020304568528}, {&#x27;mean&#x27;: 0.05699481865284974}, {&#x27;mean&#x27;: 0.15294117647058825}, {&#x27;mean&#x27;: 5.6}, {&#x27;mean&#x27;: 0.7525773195876289}, {&#x27;mean&#x27;: 0.65}, {&#x27;mean&#x27;: 0.8571428571428571}, {&#x27;mean&#x27;: 0.4482758620689655}, {&#x27;mean&#x27;: 1.1649484536082475}, {&#x27;mean&#x27;: 1.6551724137931034}, {&#x27;mean&#x27;: 1.6}, {&#x27;mean&#x27;: 8.90983606557377}, {&#x27;mean&#x27;: 0.9375}, {&#x27;mean&#x27;: 0.6632653061224489}, {&#x27;mean&#x27;: 5.6875}, {&#x27;mean&#x27;: 0.3442622950819672}, {&#x27;mean&#x27;: 7.12280701754386}, {&#x27;mean&#x27;: 11.072916666666666}, {&#x27;mean&#x27;: 0.26732673267326734}, {&#x27;mean&#x27;: 1.5602836879432624}, {&#x27;mean&#x27;: 0.8392857142857143}, {&#x27;mean&#x27;: 1.6906474820143884}, {&#x27;mean&#x27;: 1.36}, {&#x27;mean&#x27;: 9.269035532994923}, {&#x27;mean&#x27;: 10.030837004405287}, {&#x27;mean&#x27;: 2.9076923076923076}, {&#x27;mean&#x27;: 0.465}, {&#x27;mean&#x27;: 14.548936170212766}, {&#x27;mean&#x27;: 1.8172588832487309}, {&#x27;mean&#x27;: 1.803030303030303}, {&#x27;mean&#x27;: 4.918918918918919}, {&#x27;mean&#x27;: 1.9824561403508771}, {&#x27;mean&#x27;: 13.605042016806722}, {&#x27;mean&#x27;: 3.8969072164948453}, {&#x27;mean&#x27;: 6.851694915254237}, {&#x27;mean&#x27;: 1.367741935483871}, {&#x27;mean&#x27;: 6.197969543147208}, {&#x27;mean&#x27;: 12.355555555555556}, {&#x27;mean&#x27;: 20.541666666666668}, {&#x27;mean&#x27;: 1.6717948717948719}, {&#x27;mean&#x27;: 1.8934010152284264}, {&#x27;mean&#x27;: 1.537037037037037}, {&#x27;mean&#x27;: 22.463414634146343}, {&#x27;mean&#x27;: 1.8363636363636364}, {&#x27;mean&#x27;: 0.46153846153846156}, {&#x27;mean&#x27;: 0.8493975903614458}, {&#x27;mean&#x27;: 1.4311377245508983}, {&#x27;mean&#x27;: 1.1818181818181819}, {&#x27;mean&#x27;: 22.27220630372493}, {&#x27;mean&#x27;: 1.349753694581280
+... [output truncated]</pre>
 </div>
 </div>
 
@@ -157,7 +157,7 @@ tracts.head()</code></pre>
       <td>36061000100</td>
       <td>10833.043929</td>
       <td>1.843005e+06</td>
-      <td>MULTIPOLYGON (((296291.109 58135.715, 296322.4...</td>
+      <td>MULTIPOLYGON (((296291.11 58135.714, 296322.49...</td>
       <td>10.126984</td>
       <td>46.973545</td>
     </tr>
@@ -176,7 +176,7 @@ tracts.head()</code></pre>
       <td>36061001401</td>
       <td>5075.332000</td>
       <td>1.006117e+06</td>
-      <td>POLYGON ((300982.972 61050.770, 301053.206 610...</td>
+      <td>POLYGON ((300982.972 61050.77, 301053.207 6102...</td>
       <td>13.314286</td>
       <td>69.590476</td>
     </tr>
@@ -195,7 +195,7 @@ tracts.head()</code></pre>
       <td>36061001402</td>
       <td>4459.156019</td>
       <td>1.226206e+06</td>
-      <td>POLYGON ((301261.149 61343.713, 301332.269 613...</td>
+      <td>POLYGON ((301261.149 61343.714, 301332.269 613...</td>
       <td>0.592000</td>
       <td>83.656000</td>
     </tr>
@@ -233,7 +233,7 @@ tracts.head()</code></pre>
       <td>36061002201</td>
       <td>5779.062607</td>
       <td>1.740174e+06</td>
-      <td>POLYGON ((301795.202 61438.261, 301792.173 614...</td>
+      <td>POLYGON ((301795.202 61438.262, 301792.173 614...</td>
       <td>6.089888</td>
       <td>78.735955</td>
     </tr>
@@ -325,9 +325,9 @@ Saved CSV: data\raster\nlcd_calc_tracts.csv
         </ul>
         
         <h2>This Notebook</h2>
-        <b>Source:</b> 05_nlcd_calculations.ipynb<br><br>
-        <b>Code Cells:</b> 9<br>
-        <b>Figures:</b> 0
+        <p><b>Source:</b> 05_nlcd_calculations.ipynb</p>
+        <p><b>Code Cells:</b> 9</p>
+        <p><b>Figures:</b> 0</p>
     </div>
     <div class="panel-right-footer">
         <h3>Data Pipeline</h3>
