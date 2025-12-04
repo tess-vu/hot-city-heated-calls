@@ -299,7 +299,7 @@ def generate_page_html(title, content_html, right_panel_html):
     """Generate full page HTML fragment."""
     return f'''<div class="content-middle">
     <h1>{title}</h1>
-    <h2>Hot City, Heated Calls:<br>Understanding Extreme Heat and Quality of Life<br>Using New York City's 311 and SHAP</h2>
+    <h2>Hot City, Heated Calls:<br>Understanding How Urban Features Affect Quality of Life Under Different Heat Conditions Using New York City's 311 and SHAP</h2>
     
     <div class="report-content">
 {content_html}
