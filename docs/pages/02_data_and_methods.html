@@ -3,50 +3,57 @@
     <h2>Hot City, Heated Calls:<br>Understanding Extreme Heat and Quality of Life<br>Using New York City's 311 and SHAP</h2>
     
     <div class="report-content">
-<h2>2.1. Study Area and Period</h2>
+<h1>2.1. Study Area and Period</h1>
 <p>The study area is based in New York City with spatial resolution at the census tract level, with these observations during summer 2025, defined as the beginning of June through August 23rd at a weekly temporal resolution. The full month of August was not used due to recent weather data only recorded up to the 24th, therefore not providing a whole week, so it was removed from the study.</p>
-<h2>2.2. Data Preparation</h2>
-<h3>Heat Data</h3>
+<h1>2.2. Data Preparation</h1>
+<h2>Heat Data</h2>
 <p>The subsequent removal of August's last week provided a total of 12 weeks in summer 2025, where extreme heat weeks were defined as at least two extreme heat days within a week with a temperature cutoff threshold at 93°F using the John F. Kennedy (JFK) weather station located at Philadelphia's international airport. This threshold was determined according to a climatological baseline from 1981 through 2010 daily max temperature with a 95th percentile, and this split the observations into two needed regimes: 17 extreme heat days and 71 normal heat days, providing 5 extreme heat weeks and 7 normal heat weeks. Data was directly downloaded from the National Oceanic and Atmospheric Administration (NOAA).</p>
-<h3>Socioeconomic Data</h3>
+<h2>Socioeconomic Data</h2>
 <p>Socioeconomic data was derived from the United States Census, specifically the most recent 5-year American Community Survey (ACS) in 2023. Python's <code>pyCensus</code> module provided easy access to filter the data down to main investigative, derived variables in the final table:</p>
 <ul>
-<li>Percent Bachelor's or More (B15003_022E / B15003_001E)<ul>
+<li>Percent Bachelor's or More (B15003_022E / B15003_001E)
+<ul>
 <li>Bachelor's or More / Education Total</li>
 </ul>
 </li>
-<li>Percent Renters (B25003_003E / B25003_001E)<ul>
+<li>Percent Renters (B25003_003E / B25003_001E)
+<ul>
 <li>Renter Count / Household Total</li>
 </ul>
 </li>
-<li>Percent Limited English Speakers (B16005_007E / B16005_001E)<ul>
+<li>Percent Limited English Speakers (B16005_007E / B16005_001E)
+<ul>
 <li>Limited English Speaker Count / Household Total</li>
 </ul>
 </li>
 <li>Median Household Income (B19013_001E)</li>
-<li>Poverty Rate (B17001_002E / B17001_001E)<ul>
+<li>Poverty Rate (B17001_002E / B17001_001E)
+<ul>
 <li>Poverty Count / Total Whom Poverty Status is Recorded</li>
 </ul>
 </li>
-<li>Percent Non-White (1 - B02001_002E / B01003_001E)<ul>
+<li>Percent Non-White (1 - B02001_002E / B01003_001E)
+<ul>
 <li>(1 - White Count / Total Population)</li>
 </ul>
 </li>
 </ul>
-<p>Justifications for these variables highlight socioeconomic issues and how heat-related issues disproportionately affect different communities as well as how different communities interact with public services like New York City's 311. Educated and higher-income individuals may know how to navigate what their cities offer, limited English speakers may have more barriers accessing 311 services, renters may face more infrastructural issues compared to owners.</p>
-<h3>Urban Environmental Data</h3>
+<p>Justifications for these variables highlight socioeconomic issues and how heat-related issues disproportionately affect different communities as well as how different communities interact with public services like New York City's 311. Educated and higher-income individuals may know how to navigate what their cities offer, limited English speakers may have more barriers accessing 311 services, renters may face more infrastructural issues compared to owners,</p>
+<h2>Urban Environmental Data</h2>
 <p>Environmental urban data were all derived from Landsat raster calculations, specifically scenes within the same study timeline, with the computation done through ArcGIS Pro. However, land-cover land-use (LULC) data was a static raster from 2024.</p>
 <ul>
-<li>LULC Raster<ul>
-<li>Percent Tree Canopy</li>
-<li>Percent Impervious Surface</li>
+<li>LULC Raster
+<ul>
+<li>Percent Tree Canopy (<code>PCT_TREE_CANOPY</code>)</li>
+<li>Percent Impervious Surface (<code>PCT_IMPERVIOUS</code>)</li>
 </ul>
 </li>
-<li>Surface Temperature / Reflectance Raster<ul>
-<li>Average Height of Buildings (AH)</li>
-<li>Building Density (BD)</li>
-<li>Normalized Difference Vegetation Index (NDVI)</li>
-<li>Water Coverage Ratio (WCR)</li>
+<li>Surface Temperature / Reflectance Raster
+<ul>
+<li>Average Height of Buildings (<code>AH</code>)</li>
+<li>Building Density (<code>BD</code>)</li>
+<li>Normalized Difference Vegetation Index (<code>NDVI</code>)</li>
+<li>Water Coverage Ratio (<code>WCR</code>)</li>
 </ul>
 </li>
 </ul>
@@ -54,7 +61,8 @@
 <p>Justification for these variables are that quantifiable metrics of greenery such as tree canopy and NDVI, as well as water coverage, could help explore the relationship between their roles in heat mitigation and alleviating air pollution within cities, and how they could potentially affect QoL requests as a byproduct. In addition, the impervious surface can suggest high heat absorption throughout the city at high percentages, and this is the same case with the building heights and densities. While many of these environmental and urban forms may be multicollinear, the goal is striving for interpretation rather than maximizing prediction, and this helps to explore the different properties of a city.</p>
 <p>POIs were determined as everyday main amenities, shops, leisure, and public transport categories in OpenStreet Maps (OSM) yielding 21,309 points, and are as follows:</p>
 <ul>
-<li>Amenity<ul>
+<li>Amenity
+<ul>
 <li>library</li>
 <li>community_centre</li>
 <li>social_facility</li>
@@ -68,33 +76,35 @@
 <li>pharmacy</li>
 </ul>
 </li>
-<li>Shop<ul>
+<li>Shop
+<ul>
 <li>convenience</li>
 <li>supermarket</li>
 <li>alcohol</li>
 <li>deli</li>
 </ul>
 </li>
-<li>Leisure<ul>
+<li>Leisure
+<ul>
 <li>park</li>
 </ul>
 </li>
-<li>Public Transport<ul>
+<li>Public Transport
+<ul>
 <li>station</li>
 </ul>
 </li>
 </ul>
-<h3>Urban Built and Spatial Data</h3>
-<h2>2.3. OLS Regression Model</h2>
-<p>OLS regression was used as the foundational statistical model in this study because it provides an interperatable, baseline framework for understanding the linear associations between environmental, socioeconomic, urban morphology, and spatial accessibility characteristics and the dependent variable of heat-related QoL 311 complaints per capita.</p>
+<h1>2.3. OLS Regression Model</h1>
+<p>OLS regression was used as the foundational statistical model in this study because it provides an interpretable, baseline framework for understanding the linear associations between environmental, socioeconomic, urban morphology, and spatial accessibility characteristics and the dependent variable of heat-related QoL 311 complaints per capita.</p>
 <p>Separate cross-sectional OLS models were estimated for extreme heat weeks defined as those with at least two extreme heat days, and normal heat weeks defined as those with less than two extreme heat days, with each of the 2,225 observations representing a census tract by week.</p>
 <p>Predictors were structured into three conceptual categories, which were added incrementally to assess the added explanatory value of each predictor block: Environmental Predictors, Socioeconomic Predictors, and Urban Morphology Predictors.</p>
-<p><b>Urban Environmental Features:</b> NDVI, percent tree canopy, percent impervious surface, and water cover ratio (WCR).</p>
-<p><b>Urban Socioeconomic Features:</b> Median income, poverty rate, percent renters, percent limited English, percent bachelor's or more, and percent non-white.</p>
-<p><b>Urban Built and Spatial Features:</b> AH, BD, distance to the nearest subway station, and 500-meter buffer POI density.</p>
+<p><strong>Urban Environmental Features:</strong> NDVI, percent tree canopy, percent impervious surface, and water cover ratio.</p>
+<p><strong>Urban Socioeconomic Features:</strong> Median income, poverty rate, percent renters, percent limited English, percent bachelor’s or more, and percent non-white.</p>
+<p><strong>Urban Built and Spatial Features:</strong> Average building height, building density, distance to the nearest subway station, and 500-meter buffer POI density.</p>
 <p>OLS provides a transparent estimation of how predictors correlate with QoL complaint rates, and coefficients can be directly interpreted and compared across extreme versus normal heat conditions, serving as an important reference model before introducing nonlinear ML approaches with Random Forest. So, given the behavioral nature of 311 complaint reporting and the noisy, high-frequency variability of QoL calls, relatively low R² values are expected in this domain, consistent with existing literature on 311 data, urban complaints, and human-environment interactions.</p>
-<h2>2.4. ML Model and SHAP</h2>
-<p>Stepping further to understanding the relationships between QoL and urban dynamics under different heat conditions, to complement the OLS framework, a nonlinear ML model was used to test whether environmental, socioeconomic, and urban predictors collectively produce ber predictive power for QoL rates per capita during extreme and normal heat weeks.</p>
+<h1>2.4. ML Model and SHAP</h1>
+<p>Stepping further to understanding the relationships between QoL and urban dynamics under different heat conditions, to complement the OLS framework, a nonlinear ML model was used to test whether environmental, socioeconomic, and urban predictors collectively produce stronger predictive power for QoL rates per capita during extreme and normal heat weeks.</p>
 <p>In the case of this study RF, is stable on moderate-size datasets and can handle high multicollinearity and correlated predictors like this study's without requiring regularization. In addition, it is less sensitive to hyperparameter tuning and is capable of modeling nonlinear relationships and threshold behaviors associated with heat stress, as it is a popular ML model used in the environmental exposure, health, and urban prediction literature.</p>
 <p>Like the OLS model, the RF models were trained in the extreme heat weeks and normal heat weeks with the same predictor groups for direct comparison. Then, to prevent overfitting and ensure generalizability, a 3-fold cross-validation was implemented, partitioning the tracts into an 80% train set and 20% test set, with the RF hyperparameters as follows:</p>
 <ul>
@@ -111,6 +121,7 @@
 </div>
 
 <div class="content-right">
+
     <h2>Study Parameters</h2>
     <b>Location:</b> New York City<br><br>
     <b>Spatial Resolution:</b> Census tract level<br><br>
@@ -118,13 +129,14 @@
     <b>Temporal Resolution:</b> Weekly<br><br>
     
     <h2>Heat Thresholds</h2>
-    <b>93°F</b> is the extreme heat threshold based on 95th percentile of 1981–2010 climatological baseline.<br>
-    <br>- 5 extreme heat weeks
-    <br>- 7 normal heat weeks<br><br>
+    93°F is the extreme heat threshold based on 95th percentile of 1981–2010 climatological baseline.<br><br>
+    - 5 extreme heat weeks<br>
+    - 7 normal heat weeks<br><br>
     
     <h2>Data Sources</h2>
     - NOAA (temperature)<br>
     - ACS 2023 (socioeconomic)<br>
     - Landsat (environmental / urban)<br>
     - OpenStreetMap (POIs / kNN / urban)
+
 </div>

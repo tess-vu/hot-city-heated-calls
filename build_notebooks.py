@@ -1,18 +1,9 @@
-#!/usr/bin/env python3
 """
-build_notebooks.py - Convert Jupyter notebooks to HTML pages for the website.
+Convert Jupyter notebooks to HTML pages for website.
 
-USAGE:
-    python build_notebooks.py
+From nbconvert repository.
 
-Run this script from project root (where docs/ and notebooks/ folders are).
-It will read notebooks from notebooks/ and output HTML pages to docs/pages/.
-
-After updating any .ipynb file, just run this script to regenerate the pages.
-
-REQUIREMENTS:
-    - Python 3.7+
-    - No external dependencies needed (uses only standard library)
+https://github.com/jupyter/nbconvert
 """
 
 import json
@@ -21,8 +12,7 @@ from pathlib import Path
 import re
 import sys
 
-# CONFIGURATION - Edit this section to match notebooks
-
+# Configuration.
 NOTEBOOKS = [
     {
         "file": "01a_weather_station_data_filtering.ipynb",
@@ -84,13 +74,12 @@ NOTEBOOKS = [
         "file": "07_ols_ml.ipynb",
         "page_id": "04i_code_ols_ml_shap",
         "nav_name": "8. OLS & ML + SHAP",
-        "title": "OLS & ML Modeling with SHAP",
+        "title": "OLS and ML Modeling with SHAP",
         "description": "OLS regression, Random Forest modeling, and SHAP interpretability analysis."
-    },
+    }
 ]
 
-# CONVERSION FUNCTIONS
-
+# Conversion functions.
 def escape_html(text):
     """Escape HTML special characters."""
     return html.escape(str(text))
@@ -98,31 +87,62 @@ def escape_html(text):
 
 def convert_markdown(md_text):
     """Convert markdown to HTML."""
-    # Headers
-    md_text = re.sub(r'^#### (.+)$', r'<h6>\1</h6>', md_text, flags=re.MULTILINE)
-    md_text = re.sub(r'^### (.+)$', r'<h5>\1</h5>', md_text, flags=re.MULTILINE)
-    md_text = re.sub(r'^## (.+)$', r'<h4>\1</h4>', md_text, flags=re.MULTILINE)
-    md_text = re.sub(r'^# (.+)$', r'<h3>\1</h3>', md_text, flags=re.MULTILINE)
+    inline_codes = []
+    def save_inline_code(match):
+        inline_codes.append(match.group(1))
+        return f'__INLINE_CODE_{len(inline_codes)-1}__'
     
-    # Bold and italic
-    md_text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', md_text)
+    md_text = re.sub(r'`([^`]+)`', save_inline_code, md_text)
+    
+    # Headers.
+    md_text = re.sub(r'^#### (.+)$', r'<h3>\1</h3>', md_text, flags=re.MULTILINE)
+    md_text = re.sub(r'^### (.+)$', r'<h3>\1</h3>', md_text, flags=re.MULTILINE)
+    md_text = re.sub(r'^## (.+)$', r'<h2>\1</h2>', md_text, flags=re.MULTILINE)
+    md_text = re.sub(r'^# (.+)$', r'<h1>\1</h1>', md_text, flags=re.MULTILINE)
+    
+    # Bold and italic.
+    md_text = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', md_text)
     md_text = re.sub(r'\*(.+?)\*', r'<em>\1</em>', md_text)
-    md_text = re.sub(r'__(.+?)__', r'<strong>\1</strong>', md_text)
-    md_text = re.sub(r'_(.+?)_', r'<em>\1</em>', md_text)
+    md_text = re.sub(r'__(.+?)__', r'<b>\1</b>', md_text)
     
-    # Code
-    md_text = re.sub(r'`([^`]+)`', r'<code>\1</code>', md_text)
-    
-    # Links
+    # Links.
     md_text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2" target="_blank">\1</a>', md_text)
     
-    # Paragraphs
+    # Process lists.
+    lines = md_text.split('\n')
+    result_lines = []
+    in_list = False
+    
+    for line in lines:
+        # Check for list item (starts with "- ").
+        list_match = re.match(r'^- (.+)$', line)
+        if list_match:
+            if not in_list:
+                result_lines.append('<ul>')
+                in_list = True
+            result_lines.append(f'<li>{list_match.group(1)}</li>')
+        else:
+            if in_list:
+                result_lines.append('</ul>')
+                in_list = False
+            result_lines.append(line)
+    
+    if in_list:
+        result_lines.append('</ul>')
+    
+    md_text = '\n'.join(result_lines)
+    
+    # Restore inline code.
+    for i, code in enumerate(inline_codes):
+        md_text = md_text.replace(f'__INLINE_CODE_{i}__', f'<code>{code}</code>')
+    
+    # Paragraphs.
     paragraphs = md_text.split('\n\n')
     result = []
     for p in paragraphs:
         p = p.strip()
         if p:
-            if p.startswith('<h') or p.startswith('<ul') or p.startswith('<ol'):
+            if p.startswith('<h') or p.startswith('<ul') or p.startswith('<ol') or p.startswith('<li'):
                 result.append(p)
             else:
                 result.append(f'<p>{p}</p>')
@@ -151,7 +171,7 @@ def convert_outputs_with_figures(outputs):
         elif output_type in ('execute_result', 'display_data'):
             data = output.get('data', {})
             
-            # PNG images
+            # PNG images.
             if 'image/png' in data:
                 img_data = data['image/png']
                 figure_count += 1
@@ -159,7 +179,7 @@ def convert_outputs_with_figures(outputs):
 <div class="output-figure">
     <img class="output-image" src="data:image/png;base64,{img_data}" alt="Figure {figure_count}" />
 </div>''')
-            # JPEG images
+            # JPEG images.
             elif 'image/jpeg' in data:
                 img_data = data['image/jpeg']
                 figure_count += 1
@@ -167,13 +187,13 @@ def convert_outputs_with_figures(outputs):
 <div class="output-figure">
     <img class="output-image" src="data:image/jpeg;base64,{img_data}" alt="Figure {figure_count}" />
 </div>''')
-            # SVG images
+            # SVG images.
             elif 'image/svg+xml' in data:
                 svg_data = ''.join(data['image/svg+xml'])
                 figure_count += 1
                 html_parts.append(f'<div class="output-figure output-svg">{svg_data}</div>')
                 
-            # HTML (dataframes)
+            # HTML (dataframes).
             elif 'text/html' in data:
                 html_content = ''.join(data['text/html'])
                 if len(html_content) > 50000:
@@ -181,7 +201,7 @@ def convert_outputs_with_figures(outputs):
                 else:
                     html_parts.append(f'<div class="output-html">{html_content}</div>')
                 
-            # Plain text
+            # Plain text.
             elif 'text/plain' in data:
                 text = ''.join(data['text/plain'])
                 if len(text) > 2000:
@@ -242,7 +262,7 @@ def convert_notebook_to_page(nb_path, notebook_info, all_notebooks):
     
     notebook_content = '\n'.join(html_parts)
     
-    # Build sidebar navigation
+    # Build sidebar navigation.
     nav_items = []
     current_idx = next((i for i, nb in enumerate(all_notebooks) if nb['file'] == notebook_info['file']), 0)
     
@@ -253,7 +273,7 @@ def convert_notebook_to_page(nb_path, notebook_info, all_notebooks):
     
     nav_html = '\n'.join(nav_items)
     
-    # Prev/Next navigation
+    # Prev / Next navigation.
     prev_link = ""
     next_link = ""
     if current_idx > 0:
@@ -298,9 +318,9 @@ def convert_notebook_to_page(nb_path, notebook_info, all_notebooks):
         </ul>
         
         <h2>This Notebook</h2>
-        <p><strong>Source:</strong> {escape_html(notebook_info['file'])}</p>
-        <p><strong>Code cells:</strong> {cell_count}</p>
-        <p><strong>Figures:</strong> {figure_count}</p>
+        <p><b>Source:</b> {escape_html(notebook_info['file'])}</p>
+        <p><b>Code Cells:</b> {cell_count}</p>
+        <p><b>Figures:</b> {figure_count}</p>
     </div>
     <div class="panel-right-footer">
         <h3>Data Pipeline</h3>
@@ -310,13 +330,12 @@ def convert_notebook_to_page(nb_path, notebook_info, all_notebooks):
     
     return page_html
 
-# MAIN
-
+# Main.
 def main():
-    # Determine paths
+    # Determine paths.
     script_dir = Path(__file__).parent.resolve()
     
-    # Look for notebooks/ directory
+    # Look for notebooks/directory.
     notebooks_dir = script_dir / 'notebooks'
     if not notebooks_dir.exists():
         notebooks_dir = script_dir.parent / 'notebooks'
@@ -326,7 +345,7 @@ def main():
         print(f"       and: {script_dir.parent / 'notebooks'}")
         sys.exit(1)
     
-    # Look for docs/pages/ directory
+    # Look for docs/pages/directory.
     pages_dir = script_dir / 'docs' / 'pages'
     if not pages_dir.exists():
         pages_dir = script_dir.parent / 'docs' / 'pages'
@@ -335,11 +354,9 @@ def main():
     
     pages_dir.mkdir(parents=True, exist_ok=True)
     
-    print("=" * 60)
-    print("Building notebook pages")
-    print("=" * 60)
-    print(f"Notebooks dir: {notebooks_dir}")
-    print(f"Output dir:    {pages_dir}")
+    print("Building notebook pages.")
+    print(f"Notebooks Directory: {notebooks_dir}.")
+    print(f"Output Directory: {pages_dir}.")
     print()
     
     success_count = 0
@@ -356,15 +373,13 @@ def main():
             size_kb = output_path.stat().st_size / 1024
             total_size += size_kb
             success_count += 1
-            print(f"✓ {nb_info['page_id']}.html ({size_kb:.1f} KB)")
+            print(f"{nb_info['page_id']}.html ({size_kb:.1f} KB).")
         else:
-            print(f"✗ NOT FOUND: {nb_info['file']}")
+            print(f"NOT FOUND: {nb_info['file']}.")
     
     print()
-    print("=" * 60)
-    print(f"Converted {success_count}/{len(NOTEBOOKS)} notebooks")
-    print(f"Total size: {total_size/1024:.2f} MB")
-    print("=" * 60)
+    print(f"Converted {success_count}/{len(NOTEBOOKS)} notebooks.")
+    print(f"Total Size: {total_size/1024:.2f} MB.")
 
 
 if __name__ == '__main__':

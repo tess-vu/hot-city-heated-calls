@@ -3,11 +3,28 @@
     <h2>Hot City, Heated Calls:<br>Understanding Extreme Heat and Quality of Life<br>Using New York City's 311 and SHAP</h2>
     
     <div class="report-content">
-<p>Results, and discuss about why the mechanism might be different and study limitations.</p>
+<h1>4.1 Result Interpretation & Discussion</h1>
+<p>Overall, the ML models fit the data substantially better than the OLS models and capture more complex and non-linear relationships between urban features and QoL 311 report density. The Random Forest for regular heat weeks attains a slightly higher R² than the extreme-heat model, suggesting that QoL 311 reporting during extreme heat might be more complex and harder to explain with observed features. Across both heat conditions, four features consistently emerge as the top contributors: <code>AH</code>, <code>PCT_NON_WHITE</code>, <code>NDVI</code>, and <code>KNN_SUBWAY_dist_mean</code>, highlighting the persistent importance of building height, demographic composition, urban greenery, and transit-related spatial configuration. At the same time, <code>WCR</code> becomes noticeably more important under extreme heat, indicating that proximity to water gains salience for QoL outcomes when temperatures are very high. By contrast, the relative contributions of <code>PCT_IMPERVIOUS</code>, <code>BD</code>, and <code>PCT_TREE_CANOPY</code> decline slightly in the extreme-heat model, which may suggest that beyond certain temperature thresholds the marginal QoL benefits or harms associated with these features become constrained or saturated.</p>
+<p>The SHAP scatter plots further show that non-linear effects are the rule rather than the exception. Only a small number of predictors display relatively clear linear relationships, most notably <code>NDVI</code> and <code>POVERTY_RATE</code>, both of which are approximately linear and negatively associated with predicted 311 density. For <code>NDVI</code>, this pattern indicates that higher levels of greenery are consistently linked to fewer QoL-related report density, in line with the cooling and comfort-enhancing role of vegetation. The negative slope for <code>POVERTY_RATE</code>, however, is better interpreted as an artifact of reporting bias: residents in poorer neighborhoods may face more barriers to using the 311 system, so their problems are less likely to be recorded. Other variables, such as <code>PCT_IMPERVIOUS</code> and <code>MEDIAN_INCOME</code>, are broadly monotonic positive but clearly non-linear—higher imperviousness is associated with greater predicted 311 density, and higher income with more reports, the latter again likely reflecting under-reporting in very low-income areas. In contrast, <code>KNN_SUBWAY_dist_mean</code>, <code>PCT_TREE_CANOPY</code>, and <code>POI_500M_DENSITY</code> are approximately monotonic negative, suggesting that better transit accessibility, more tree canopy, and higher local amenity density are each associated with lower predicted 311 density and thus better perceived QoL.</p>
+<p>Several key predictors exhibit explicitly non-monotonic shapes. <code>AH</code> shows a robust U-shaped relationship in both models: neighborhoods with either very low or very high average building heights have elevated predicted 311 density, whereas areas with medium <code>AH</code> show the lowest levels. A plausible interpretation is that low-rise areas are more directly exposed to heat, while very tall building environments may suffer from strong street-canyon effects and poor ventilation; intermediate heights may balance shading and airflow, leading to fewer QoL-related complaints. <code>PCT_NON_WHITE</code> and <code>PCT_RENTERS</code> both follow an inverted-U pattern: tracts with very low or very high values have relatively low predicted 311 density, while mixed or intermediate levels are associated with higher reporting. This may reflect both underlying social dynamics in mixed areas and systematic biases in who uses the 311 system. Finally, <code>BD</code> displays an inverted-U shape under regular heat, but becomes roughly monotonic negative under extreme heat. One simple reading is that, in moderate heat, medium-density environments combine sufficient population and activity to generate high reporting rates, whereas very low- and very high-density areas generate fewer calls; under extreme heat, however, higher built density may increasingly coincide with stronger adaptation measures or more indoor retreat, producing a more uniformly negative association with QoL 311 reporting. Together, these patterns underline that the relationships between urban form, social composition, and environment and QoL are highly non-linear and context dependent.</p>
+<h1>4.2 Limitation</h1>
+<p>This study has several limitations. First, the analysis focuses on a single summer season in 2025, which may restrict the temporal representativeness of the findings; extending the study period to multiple years (e.g., 2021–2024) would allow for increasing the reliability and representative of our findings. Second, although 311-based outcomes are inherently difficult to fully explain, the Random Forest R² of around 0.25 indicates that there is still substantial unexplained variance. Incorporating additional environmental, socio-economic, and spatial variables could further improve model performance and yield a more complete picture of the drivers of QoL-related 311 report density.</p>
     </div>
 </div>
 
 <div class="content-right">
-    <h2>Notes</h2>
-    <p>This section discusses the implications of the results and study limitations.</p>
+
+    <h2>Key Insights</h2>
+    <p>Non-linear relationships are the rule rather than the exception for most urban features.</p>
+    
+    <h2>Notable Patterns</h2>
+    <b>AH:</b> U-shaped relationship.<br><br>
+    <b>PCT_NON_WHITE:</b> Inverted-U pattern.<br><br>
+    <b>NDVI:</b> Linear negative (more green = fewer complaints).<br><br>
+    <b>BD:</b> Changes from inverted-U to linear under extreme heat.<br><br>
+    
+    <h2>Limitations</h2>
+    <p>- Single summer season (2025).</p>
+    <p>- Approximately 25% variance explained suggests additional factors at play.</p>
+
 </div>
