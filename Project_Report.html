@@ -109,11 +109,11 @@ ul.task-list li input[type="checkbox"] {
 <section id="data-preparation" class="level2">
 <h2 class="anchored" data-anchor-id="data-preparation">2.2. Data Preparation</h2>
 <section id="heat-data" class="level3">
-<h3 class="anchored" data-anchor-id="heat-data"><strong>Heat Data</strong></h3>
+<h3 class="anchored" data-anchor-id="heat-data">Heat Data</h3>
 <p>The subsequent removal of August’s last week provided a total of 12 weeks in summer 2025, where extreme heat weeks were defined as at least two extreme heat days within a week with a temperature cutoff threshold at 93°F using the John F. Kennedy (JFK) weather station located at Philadelphia’s international airport. This threshold was determined according to a climatological baseline from 1981 through 2010 daily max temperature with a 95th percentile, and this split the observations into two needed regimes: 17 extreme heat days and 71 normal heat days, providing 5 extreme heat weeks and 7 normal heat weeks. Data was directly downloaded from the National Oceanic and Atmospheric Administration (NOAA).</p>
 </section>
 <section id="socioeconomic-data" class="level3">
-<h3 class="anchored" data-anchor-id="socioeconomic-data"><strong>Socioeconomic Data</strong></h3>
+<h3 class="anchored" data-anchor-id="socioeconomic-data">Socioeconomic Data</h3>
 <p>Socioeconomic data was derived from the United States Census, specifically the most recent 5-year American Community Survey (ACS) in 2023. Python’s <code>pyCensus</code> module provided easy access to filter the data down to main investigative, derived variables in the final table:</p>
 <ul>
 <li>Percent Bachelor’s or More (B15003_022E / B15003_001E)
@@ -141,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Justifications for these variables highlight socioeconomic issues and how heat-related issues disproportionately affect different communities as well as how different communities interact with public services like New York City’s 311. Educated and higher-income individuals may know how to navigate what their cities offer, limited English speakers may have more barriers accessing 311 services, renters may face more infrastructural issues compared to owners,</p>
 </section>
 <section id="urban-environmental-data" class="level3">
-<h3 class="anchored" data-anchor-id="urban-environmental-data"><strong>Urban Environmental Data</strong></h3>
+<h3 class="anchored" data-anchor-id="urban-environmental-data">Urban Environmental Data</h3>
 <p>Environmental urban data were all derived from Landsat raster calculations, specifically scenes within the same study timeline, with the computation done through ArcGIS Pro. However, land-cover land-use (LULC) data was a static raster from 2024.</p>
 <ul>
 <li>LULC Raster
@@ -389,6 +389,18 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="non-linear-relationship-for-features">3.3.3 Non-Linear Relationship for Features</h3>
 <p>Across the SHAP scatter plots for both the extreme heat and normal heat models, clear non-linear relationships emerge for most features. Only <code>NDVI</code> and <code>POVERTY_RATE</code> exhibit relatively consistent linear patterns, while all other features display visibly complex, non-monotonic trends. A prominent example is AH, the most influential features in both models: although <code>AH</code> appears significant in OLS, its relationship revealed by SHAP approach is distinctly U-shaped in both heat conditions. This means that both low and high <code>AH</code> values are associated with higher predicted 311 report density, whereas medium <code>AH</code> values correspond to the lowest predicted levels.</p>
 <p>Similarly, <code>PCT_NON_WHITE</code> and <code>PCT_RENTERS</code> show a characteristic inverted-U pattern in both models, where extreme low or high values of these features correspond to lower 311 reporting density, and intermediate values correspond to higher levels. An interesting shift between the two heat conditions appears in the behavior of <code>BD</code>: in the regular heat model, <code>BD</code> follows an inverted-U shape, but in the extreme heat model, this pattern transitions into an approximately linear negative relationship.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="notebooks/images/SHAP2/shap_scatter_plots_heat/SHAP_facet_5x3_grid_heat.png" class="img-fluid figure-img"></p>
+<figcaption><em>Extreme Heat Week Scatter Plots</em></figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="notebooks/images/SHAP2/shap_scatter_plots_regular/SHAP_facet_5x3_grid_regular.png" class="img-fluid figure-img"></p>
+<figcaption><em>Normal Heat Week Scatter Plots</em></figcaption>
+</figure>
+</div>
 </section>
 </section>
 </section>

@@ -38,11 +38,11 @@ The study area is based in New York City with spatial resolution at the census t
 
 ## 2.2. Data Preparation
 
-### **Heat Data**
+### Heat Data
 
 The subsequent removal of August's last week provided a total of 12 weeks in summer 2025, where extreme heat weeks were defined as at least two extreme heat days within a week with a temperature cutoff threshold at 93°F using the John F. Kennedy (JFK) weather station located at Philadelphia's international airport. This threshold was determined according to a climatological baseline from 1981 through 2010 daily max temperature with a 95th percentile, and this split the observations into two needed regimes: 17 extreme heat days and 71 normal heat days, providing 5 extreme heat weeks and 7 normal heat weeks. Data was directly downloaded from the National Oceanic and Atmospheric Administration (NOAA).
 
-### **Socioeconomic Data**
+### Socioeconomic Data
 
 Socioeconomic data was derived from the United States Census, specifically the most recent 5-year American Community Survey (ACS) in 2023. Python's `pyCensus` module provided easy access to filter the data down to main investigative, derived variables in the final table:
 
@@ -60,7 +60,7 @@ Socioeconomic data was derived from the United States Census, specifically the m
 
 Justifications for these variables highlight socioeconomic issues and how heat-related issues disproportionately affect different communities as well as how different communities interact with public services like New York City's 311. Educated and higher-income individuals may know how to navigate what their cities offer, limited English speakers may have more barriers accessing 311 services, renters may face more infrastructural issues compared to owners,
 
-### **Urban Environmental Data**
+### Urban Environmental Data
 
 Environmental urban data were all derived from Landsat raster calculations, specifically scenes within the same study timeline, with the computation done through ArcGIS Pro. However, land-cover land-use (LULC) data was a static raster from 2024.
 
@@ -290,6 +290,10 @@ However, several features display meaningful changes in importance under extreme
 Across the SHAP scatter plots for both the extreme heat and normal heat models, clear non-linear relationships emerge for most features. Only `NDVI` and `POVERTY_RATE` exhibit relatively consistent linear patterns, while all other features display visibly complex, non-monotonic trends. A prominent example is AH, the most influential features in both models: although `AH` appears significant in OLS, its relationship revealed by SHAP approach is distinctly U-shaped in both heat conditions. This means that both low and high `AH` values are associated with higher predicted 311 report density, whereas medium `AH` values correspond to the lowest predicted levels.
 
 Similarly, `PCT_NON_WHITE` and `PCT_RENTERS` show a characteristic inverted-U pattern in both models, where extreme low or high values of these features correspond to lower 311 reporting density, and intermediate values correspond to higher levels. An interesting shift between the two heat conditions appears in the behavior of `BD`: in the regular heat model, `BD` follows an inverted-U shape, but in the extreme heat model, this pattern transitions into an approximately linear negative relationship.
+
+![*Extreme Heat Week Scatter Plots*](notebooks/images/SHAP2/shap_scatter_plots_heat/SHAP_facet_5x3_grid_heat.png)
+
+![*Normal Heat Week Scatter Plots*](notebooks/images/SHAP2/shap_scatter_plots_regular/SHAP_facet_5x3_grid_regular.png)
 
 # 4. DISCUSSION
 
