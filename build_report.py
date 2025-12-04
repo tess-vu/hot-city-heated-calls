@@ -121,6 +121,18 @@ IMAGE_PATH_PREFIX = "images/"
 def convert_markdown_to_html(md_text):
     """Convert markdown to HTML with proper nested list support."""
     
+    # First, protect and convert fenced code blocks
+    code_blocks = []
+    def save_code_block(match):
+        lang = match.group(1) or ''
+        code = match.group(2)
+        code_blocks.append((lang, code))
+        return f'__CODE_BLOCK_{len(code_blocks)-1}__'
+    
+    # Match fenced code blocks: ```language\ncode\n```
+    md_text = re.sub(r'```(\w*)\n(.*?)```', save_code_block, md_text, flags=re.DOTALL)
+    
+    # Protect inline code
     inline_codes = []
     def save_inline_code(match):
         inline_codes.append(match.group(1))
@@ -135,6 +147,19 @@ def convert_markdown_to_html(md_text):
     i = 0
     while i < len(lines):
         line = lines[i]
+        
+        # Check for code block placeholder
+        code_block_match = re.match(r'^__CODE_BLOCK_(\d+)__$', line.strip())
+        if code_block_match:
+            idx = int(code_block_match.group(1))
+            lang, code = code_blocks[idx]
+            # Escape HTML in code
+            import html
+            escaped_code = html.escape(code)
+            lang_class = f' class="language-{lang}"' if lang else ''
+            html_lines.append(f'<pre><code{lang_class}>{escaped_code}</code></pre>')
+            i += 1
+            continue
         
         # Check for headers.
         if line.startswith('#### '):
@@ -161,7 +186,7 @@ def convert_markdown_to_html(md_text):
             img_path = img_match.group(2)
             # Adjust path for website structure.
             # Original markdown: notebooks/images/EDA/file.png
-            # Target: ../images/EDA/file.png (relative to docs/pages/)
+            # Target: images/EDA/file.png (relative to site root for SPA)
             if img_path.startswith('notebooks/images/'):
                 img_path = IMAGE_PATH_PREFIX + img_path[len('notebooks/images/'):]
             elif img_path.startswith('notebooks/'):

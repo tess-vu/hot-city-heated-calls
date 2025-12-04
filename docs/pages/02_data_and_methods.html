@@ -8,6 +8,55 @@
 <h1>2.2. Data Preparation</h1>
 <h2>Heat Data</h2>
 <p>The subsequent removal of August's last week provided a total of 12 weeks in summer 2025, where extreme heat weeks were defined as at least two extreme heat days within a week with a temperature cutoff threshold at 93°F using the John F. Kennedy (JFK) weather station located at Philadelphia's international airport. This threshold was determined according to a climatological baseline from 1981 through 2010 daily max temperature with a 95th percentile, and this split the observations into two needed regimes: 17 extreme heat days and 71 normal heat days, providing 5 extreme heat weeks and 7 normal heat weeks. Data was directly downloaded from the National Oceanic and Atmospheric Administration (NOAA).</p>
+<h2>311 Data</h2>
+<p>311 data was downloaded from NYC OpenData with the categories below.</p>
+<pre><code class="language-python"># Noise and Social Activity
+QOL_NOISE = [
+    &quot;LOUD MUSIC/PARTY&quot;, &quot;BANGING/POUNDING&quot;, &quot;LOUD TALKING&quot;,
+    &quot;CAR/TRUCK MUSIC&quot;, &quot;CAR/TRUCK HORN&quot;, &quot;DOG NOISE&quot;,
+    &quot;NOISE: BOAT(ENGINE,MUSIC,ETC) (NR10)&quot;,
+    &quot;NOISE: ALARMS (NR3)&quot;,
+    &quot;NOISE: AIR CONDITION/VENTILATION EQUIPMENT (NV1)&quot;,
+    &quot;NOISE: CONSTRUCTION BEFORE/AFTER HOURS (NM1)&quot;,
+    &quot;NOISE: JACK HAMMERING (NC2)&quot;,
+    &quot;NOISE, BARKING DOG (NR5)&quot;,
+    &quot;NOISE: MANUFACTURING NOISE (NK1)&quot;,
+    &quot;NOISE: OTHER NOISE SOURCES (USE COMMENTS) (NZZ)&quot;
+]
+
+# Outdoor/Public Space
+QOL_OUTDOOR = [
+    &quot;BLOCKED HYDRANT&quot;, &quot;BLOCKED SIDEWALK&quot;, &quot;BLOCKED BIKE LANE&quot;,
+    &quot;ILLEGAL PARKING&quot;, &quot;DOUBLE PARKED BLOCKING TRAFFIC&quot;,
+    &quot;BLOCKED CROSSWALK&quot;, &quot;DERELICT VEHICLES&quot;, &quot;CONGESTION/GRIDLOCK&quot;,
+    &quot;GRAFFITI&quot;, &quot;CHRONIC DUMPING&quot;,
+    &quot;COMMERCIAL OVERNIGHT PARKING&quot;
+]
+
+# Sanitation
+QOL_SANITATION = [
+    &quot;GARBAGE OR LITTER&quot;, &quot;TRASH&quot;, &quot;OVERFLOWING&quot;,
+    &quot;RAT SIGHTING&quot;, &quot;MOUSE SIGHTING&quot;, &quot;CONDITION ATTRACTING RODENTS&quot;,
+    &quot;PESTS&quot;, &quot;UNSANITARY CONDITION&quot;, &quot;DEAD ANIMAL&quot;,
+    &quot;WASTE DISPOSAL&quot;, &quot;DOG WASTE&quot;
+]
+
+# Water Infrastructure
+QOL_WATER = [
+    &quot;WATER LEAK&quot;, &quot;WATER SUPPLY&quot;, &quot;HYDRANT LEAKING (WC1)&quot;,
+    &quot;HYDRANT RUNNING FULL (WA4)&quot;, &quot;HYDRANT RUNNING (WC3)&quot;,
+    &quot;HYDRANT DEFECTIVE (WC2)&quot;, &quot;SEWER&quot;, &quot;SEWER ODOR (SA2)&quot;,
+    &quot;SEWER BACKUP (SA)&quot;, &quot;LEAK (USE COMMENTS) (WA2)&quot;
+]
+
+# Infrastructure Heat Stress
+QOL_INFRA_HEAT = [
+    &quot;POWER OUTAGE&quot;, &quot;ELECTRICAL/GAS RANGE&quot;, &quot;VENTILATION SYSTEM&quot;,
+    &quot;TRAFFIC SIGNAL LIGHT&quot;, &quot;STREET LIGHT OUT&quot;,
+    &quot;STREET LIGHT LAMP MISSING&quot;, &quot;STREET LIGHT CYCLING&quot;
+]
+</code></pre>
+<p>Human interaction with the built environment is fundamentally non-linear, so there are thresholds where behavior changes, like when it gets too hot people might stop complaining about street noise because they are sealed indoors with AC and other insulating behavior even if heat exacerbates aggravated reactions and sensitivity to external issues.</p>
 <h2>Socioeconomic Data</h2>
 <p>Socioeconomic data was derived from the United States Census, specifically the most recent 5-year American Community Survey (ACS) in 2023. Python's pyCensus module provided easy access to filter the data down to main investigative, derived variables in the final table:</p>
 <ul>
