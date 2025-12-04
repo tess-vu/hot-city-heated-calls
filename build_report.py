@@ -25,7 +25,7 @@ SECTION_MAPPING = {
     <p>- Different factors may become more important during extreme heat.</p>
 """
     },
-    "2. DATA and METHODS": {
+    "2. DATA AND METHODS": {
         "page_file": "02_data_and_methods.html",
         "page_title": "DATA & METHODS",
         "right_panel": """
