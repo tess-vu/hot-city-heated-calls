@@ -64,19 +64,19 @@ NOTEBOOKS = [
         "description": "Combining all datasets and preparing final analysis-ready table."
     },
     {
-        "file": "07_ols_ml.ipynb",
-        "page_id": "04i_code_ols_ml_shap",
-        "nav_name": "8. OLS & ML + SHAP",
-        "title": "OLS & ML Modeling with SHAP",
-        "description": "OLS regression, Random Forest modeling, and SHAP interpretability analysis."
-    },
-    {
         "file": "eda.ipynb",
         "page_id": "04h_code_eda",
         "nav_name": "7. EDA",
         "title": "Exploratory Data Analysis",
         "description": "Visualizations and summary statistics of the merged dataset."
     },
+    {
+        "file": "07_ols_ml.ipynb",
+        "page_id": "04i_code_ols_ml_shap",
+        "nav_name": "8. OLS & ML + SHAP",
+        "title": "OLS & ML Modeling with SHAP",
+        "description": "OLS regression, Random Forest modeling, and SHAP interpretability analysis."
+    }
 ]
 
 # Conversion functions.
