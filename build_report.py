@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Convert Project_Report.md to website HTML page fragments.
 
@@ -21,9 +20,9 @@ SECTION_MAPPING = {
     <p>How do environmental, socioeconomic, and urban morphology factors influence quality of life in NYC during extreme heat weeks versus normal heat weeks?</p>
     
     <h2>Hypotheses</h2>
-    - QoL complaint rates rise with temperature.<br><br>
-    - SHAP values can reveal the key drivers of 311 complaints.<br><br>
-    - Different factors may become more important during extreme heat.
+    <p>- QoL complaint rates rise with temperature.</p>
+    <p>- SHAP values can reveal the key drivers of 311 complaints.</p>
+    <p>- Different factors may become more important during extreme heat.</p>
 """
     },
     "2. DATA and METHODS": {
@@ -37,9 +36,9 @@ SECTION_MAPPING = {
     <b>Temporal Resolution:</b> Weekly<br><br>
     
     <h2>Heat Thresholds</h2>
-    <b>93°F</b> is the extreme heat threshold based on 95th percentile of 1981–2010 climatological baseline.<br>
-    <br>- 5 extreme heat weeks
-    <br>- 7 normal heat weeks<br><br>
+    93°F is the extreme heat threshold based on 95th percentile of 1981–2010 climatological baseline.<br><br>
+    - 5 extreme heat weeks<br>
+    - 7 normal heat weeks<br><br>
     
     <h2>Data Sources</h2>
     - NOAA (temperature)<br>
@@ -55,12 +54,20 @@ SECTION_MAPPING = {
     <h2>Model Performance</h2>
     
     <h3>OLS Models</h3>
-    - Normal Heat R²: <b>0.084</b>
-    <br>- Extreme Heat R²: <b>0.088</b><br>
+    <b>Normal Heat</b>
+    R²: 0.084<br><br>
+    <b>Extreme Heat</b>
+    R²: 0.088<br><br>
     
     <h3>Random Forest</h3>
-    - Normal Heat R²: <b>0.274</b>
-    <br>- Extreme Heat R²: <b>0.246</b><br>
+    <b>Normal Heat</b>
+    R²: 0.2738<br>
+    RMSE: 0.1940<br>
+    MAE: 0.1537<br><br>
+    <b>Extreme Heat</b>
+    R²: 0.2458<br>
+    RMSE: 0.4149<br>
+    MAE: 0.3129<br><br>
     
     <h2>Top SHAP Predictors</h2>
     <ol>
@@ -69,9 +76,6 @@ SECTION_MAPPING = {
         <li>NDVI</li>
         <li>KNN_SUBWAY_dist_mean</li><br>
     </ol>
-    
-    <h2>Key Findings</h2>
-    <p>Water Coverage Ratio (WCR) increases in importance during extreme heat weeks, while physical morphology variables decrease.</p>
 """
     },
     "4. DISCUSSION": {
@@ -82,13 +86,14 @@ SECTION_MAPPING = {
     <p>Non-linear relationships are the rule rather than the exception for most urban features.</p>
     
     <h2>Notable Patterns</h2>
-    - <b>AH:</b> U-shaped relationship<br><br>
-    - <b>PCT_NON_WHITE:</b> Inverted-U pattern<br><br>
-    - <b>NDVI:</b> Linear negative (more green = fewer complaints)<br><br>
-    - <b>BD:</b> Changes from inverted-U to linear under extreme heat
+    <b>AH:</b> U-shaped relationship.<br><br>
+    <b>PCT_NON_WHITE:</b> Inverted-U pattern.<br><br>
+    <b>NDVI:</b> Linear negative (more green = fewer complaints).<br><br>
+    <b>BD:</b> Changes from inverted-U to linear under extreme heat.<br><br>
     
     <h2>Limitations</h2>
-    <p>Single summer season (2025); ~25% variance explained suggests additional factors at play.</p>
+    <p>- Single summer season (2025).</p>
+    <p>- Approximately 25% variance explained suggests additional factors at play.</p>
 """
     },
     "5. REFERENCES": {
@@ -124,15 +129,15 @@ def convert_markdown_to_html(md_text):
         
         # Check for headers.
         if line.startswith('#### '):
-            html_lines.append(f'<h5>{line[5:]}</h5>')
+            html_lines.append(f'<h3>{line[5:]}</h3>')
             i += 1
             continue
         elif line.startswith('### '):
-            html_lines.append(f'<h4>{line[4:]}</h4>')
+            html_lines.append(f'<h2>{line[4:]}</h2>')
             i += 1
             continue
         elif line.startswith('## '):
-            html_lines.append(f'<h3>{line[3:]}</h3>')
+            html_lines.append(f'<h1>{line[3:]}</h1>')
             i += 1
             continue
         elif line.startswith('# '):

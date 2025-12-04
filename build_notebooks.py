@@ -87,23 +87,54 @@ def escape_html(text):
 
 def convert_markdown(md_text):
     """Convert markdown to HTML."""
+    inline_codes = []
+    def save_inline_code(match):
+        inline_codes.append(match.group(1))
+        return f'__INLINE_CODE_{len(inline_codes)-1}__'
+    
+    md_text = re.sub(r'`([^`]+)`', save_inline_code, md_text)
+    
     # Headers.
-    md_text = re.sub(r'^#### (.+)$', r'<h6>\1</h6>', md_text, flags=re.MULTILINE)
-    md_text = re.sub(r'^### (.+)$', r'<h5>\1</h5>', md_text, flags=re.MULTILINE)
-    md_text = re.sub(r'^## (.+)$', r'<h4>\1</h4>', md_text, flags=re.MULTILINE)
-    md_text = re.sub(r'^# (.+)$', r'<h3>\1</h3>', md_text, flags=re.MULTILINE)
+    md_text = re.sub(r'^#### (.+)$', r'<h3>\1</h3>', md_text, flags=re.MULTILINE)
+    md_text = re.sub(r'^### (.+)$', r'<h3>\1</h3>', md_text, flags=re.MULTILINE)
+    md_text = re.sub(r'^## (.+)$', r'<h2>\1</h2>', md_text, flags=re.MULTILINE)
+    md_text = re.sub(r'^# (.+)$', r'<h1>\1</h1>', md_text, flags=re.MULTILINE)
     
     # Bold and italic.
     md_text = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', md_text)
     md_text = re.sub(r'\*(.+?)\*', r'<em>\1</em>', md_text)
     md_text = re.sub(r'__(.+?)__', r'<b>\1</b>', md_text)
-    md_text = re.sub(r'_(.+?)_', r'<em>\1</em>', md_text)
-    
-    # Code.
-    md_text = re.sub(r'`([^`]+)`', r'<code>\1</code>', md_text)
     
     # Links.
     md_text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2" target="_blank">\1</a>', md_text)
+    
+    # Process lists.
+    lines = md_text.split('\n')
+    result_lines = []
+    in_list = False
+    
+    for line in lines:
+        # Check for list item (starts with "- ").
+        list_match = re.match(r'^- (.+)$', line)
+        if list_match:
+            if not in_list:
+                result_lines.append('<ul>')
+                in_list = True
+            result_lines.append(f'<li>{list_match.group(1)}</li>')
+        else:
+            if in_list:
+                result_lines.append('</ul>')
+                in_list = False
+            result_lines.append(line)
+    
+    if in_list:
+        result_lines.append('</ul>')
+    
+    md_text = '\n'.join(result_lines)
+    
+    # Restore inline code.
+    for i, code in enumerate(inline_codes):
+        md_text = md_text.replace(f'__INLINE_CODE_{i}__', f'<code>{code}</code>')
     
     # Paragraphs.
     paragraphs = md_text.split('\n\n')
@@ -111,7 +142,7 @@ def convert_markdown(md_text):
     for p in paragraphs:
         p = p.strip()
         if p:
-            if p.startswith('<h') or p.startswith('<ul') or p.startswith('<ol'):
+            if p.startswith('<h') or p.startswith('<ul') or p.startswith('<ol') or p.startswith('<li'):
                 result.append(p)
             else:
                 result.append(f'<p>{p}</p>')

@@ -1,6 +1,6 @@
 <div class="content-middle">
     <h1>CODE: OLS &amp; ML Modeling with SHAP</h1>
-    <h2>Hot City, Heated Calls:<br>Understanding How Urban Features Affect Quality of Life Under Different Heat Conditions Using New York City's 311 and SHAP</h2>
+    <h2>Hot City, Heated Calls:<br>Understanding Extreme Heat and Quality of Life<br>Using New York City's 311 and SHAP</h2>
     
     <p class="notebook-description">OLS regression, Random Forest modeling, and SHAP interpretability analysis.</p>
     
@@ -15,7 +15,7 @@
     </div>
     
     <div class="report-content notebook-content">
-<div class="cell-markdown"><h4>Load the Data</h4></div>
+<div class="cell-markdown"><h2>Load the Data</h2></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -93,8 +93,8 @@ targets = [&quot;heatweek_calls_per_1k&quot;, &quot;normalweek_calls_per_1k&quot
     
 </div>
 
-<div class="cell-markdown"><h4>Data Cleaning</h4></div>
-<div class="cell-markdown"><h5>Population Distribution</h5></div>
+<div class="cell-markdown"><h2>Data Cleaning</h2></div>
+<div class="cell-markdown"><h3>Population Distribution</h3></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -112,7 +112,7 @@ plt.show()</code></pre>
 </div>
 </div>
 
-<div class="cell-markdown"><h5>Targets Distribuiton</h5></div>
+<div class="cell-markdown"><h3>Targets Distribuiton</h3></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -149,7 +149,7 @@ plt.show()</code></pre>
 </div>
 </div>
 
-<div class="cell-markdown"><h5>Log Transform</h5></div>
+<div class="cell-markdown"><h3>Log Transform</h3></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -184,7 +184,7 @@ plt.show()
 </div>
 </div>
 
-<div class="cell-markdown"><h5>Clean the data with MEDIAN_INCOME < 0, and Total Tract Population < 500.</h5></div>
+<div class="cell-markdown"><h3>Clean the data with MEDIAN_INCOME < 0, and Total Tract Population < 500.</h3></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -198,7 +198,7 @@ df.shape</code></pre>
 </div>
 </div>
 
-<div class="cell-markdown"><h4>OLS</h4></div>
+<div class="cell-markdown"><h2>OLS</h2></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -328,7 +328,7 @@ Kurtosis:                       7.652   Cond. No.                         8.67
 </div>
 </div>
 
-<div class="cell-markdown"><h4>RF Model</h4></div>
+<div class="cell-markdown"><h2>RF Model</h2></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -345,7 +345,7 @@ from tqdm.auto import tqdm
     
 </div>
 
-<div class="cell-markdown"><h6>Heatweek Model</h6></div>
+<div class="cell-markdown"><h3>Heatweek Model</h3></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -521,7 +521,7 @@ shap.summary_plot(
 </div>
 </div>
 
-<div class="cell-markdown"><h6>Percentage Feature Importance</h6></div>
+<div class="cell-markdown"><h3>Percentage Feature Importance</h3></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -577,7 +577,7 @@ plt.show()</code></pre>
 </div>
 </div>
 
-<div class="cell-markdown"><h6>SHAP Plot for Feature of interest</h6></div>
+<div class="cell-markdown"><h3>SHAP Plot for Feature of interest</h3></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -608,7 +608,7 @@ plt.show()</code></pre>
 </div>
 </div>
 
-<div class="cell-markdown"><h6>Print and Save SHAP Scatter Plots for all features</h6></div>
+<div class="cell-markdown"><h3>Print and Save SHAP Scatter Plots for all features</h3></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -653,7 +653,7 @@ print(&quot;✓ All SHAP scatter plots have been saved to:&quot;, save_dir)</cod
 </div>
 </div>
 
-<div class="cell-markdown"><h6>Regular heat week model</h6></div>
+<div class="cell-markdown"><h3>Regular heat week model</h3></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -829,7 +829,7 @@ shap.summary_plot(
 </div>
 </div>
 
-<div class="cell-markdown"><h6>Percentage Feature Importance</h6></div>
+<div class="cell-markdown"><h3>Percentage Feature Importance</h3></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
@@ -886,7 +886,7 @@ plt.show()
 </div>
 </div>
 
-<div class="cell-markdown"><h6>Print and Save SHAP Scatter Plots for all features</h6></div>
+<div class="cell-markdown"><h3>Print and Save SHAP Scatter Plots for all features</h3></div>
 
 <div class="cell-code-wrapper">
     <details class="code-fold">
