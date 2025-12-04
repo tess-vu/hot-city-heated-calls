@@ -109,7 +109,7 @@ SECTION_MAPPING = {
 # Image path configuration for GitHub Pages
 # Images should be copied to docs/images/ folder
 # From docs/pages/*.html, ../images/ resolves to docs/images/
-IMAGE_PATH_PREFIX = "images/"
+IMAGE_PATH_PREFIX = "../images/"
 
 # Note: You must copy your images to docs/images/:
 #   cp -r notebooks/images/* docs/images/
