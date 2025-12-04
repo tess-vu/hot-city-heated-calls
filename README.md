@@ -1,6 +1,6 @@
 # Hot City, Heated Calls
 
-## Understanding Extreme Heat and Quality of Life Using New York City's 311 and SHAP
+## Understanding How Urban Features Affect Quality of Life Under Different Heat Conditions Using New York City's 311 and SHAP
 
 ### [**WEBSITE LINK**](https://tess-vu.github.io/nyc-311-heat-and-ml-shap/)
 
