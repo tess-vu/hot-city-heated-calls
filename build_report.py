@@ -106,7 +106,14 @@ SECTION_MAPPING = {
     }
 }
 
-IMAGE_PATH_PREFIX = "../images/"
+# Image path configuration for GitHub Pages
+# Images should be copied to docs/images/ folder
+# From docs/pages/*.html, ../images/ resolves to docs/images/
+IMAGE_PATH_PREFIX = "images/"
+
+# Note: You must copy your images to docs/images/:
+#   cp -r notebooks/images/* docs/images/
+# This makes images accessible from GitHub Pages which only serves docs/
 
 # Conversion functions.
 def convert_markdown_to_html(md_text):
@@ -151,8 +158,12 @@ def convert_markdown_to_html(md_text):
             alt_text = img_match.group(1)
             img_path = img_match.group(2)
             # Adjust path for website structure.
-            if img_path.startswith('notebooks/'):
-                img_path = IMAGE_PATH_PREFIX + img_path
+            # Original markdown: notebooks/images/EDA/file.png
+            # Target: ../images/EDA/file.png (relative to docs/pages/)
+            if img_path.startswith('notebooks/images/'):
+                img_path = IMAGE_PATH_PREFIX + img_path[len('notebooks/images/'):]
+            elif img_path.startswith('notebooks/'):
+                img_path = IMAGE_PATH_PREFIX + img_path[len('notebooks/'):]
             # Process caption for italics.
             caption = process_inline_formatting(alt_text)
             # Clean alt text.
